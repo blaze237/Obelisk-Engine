@@ -1,11 +1,14 @@
 #pragma once
 #include <GL/glut.h>
 #include <Windows.h>
+#include<vector>
+#include "Scene.h"
+
 class SceneManager
 {
 public:
-	SceneManager();
-	virtual ~SceneManager();
+	SceneManager(std::vector<Scene*> sceneList);
+	~SceneManager();
 
 	//Init glut subsystems and register associated functions
 	static void Init(int argc, char **argv);
@@ -18,21 +21,23 @@ public:
 	//Render loop. Call render for the current scene
 	static void Render();
 	//Update loop. Call update for the current scene
-	static void Update();
+	static void Update(long tCurrent);
 
 
 private:
 	//Target time for logic updates (60fps)
 	const static long logicTimeTarget = 16; 
 	//Optional render framerate target (60fps)
-	const static long logicTimeTarget = 16; 
 	const static long renderTimeTarget = 16;
-	const static bool capFPS = false;
+	static bool capFPS;
 
 	static long lastTimeStep, timeSinceLogic, timeSinceRender;
 	static int screenW, screenH;
 	static bool fullScreen;
 	static const char* title;
 
+
+	static std::vector<Scene*> scenes;
+	static Scene* currentScene;
 };
 

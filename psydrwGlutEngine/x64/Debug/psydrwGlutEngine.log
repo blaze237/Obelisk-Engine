@@ -1,15 +1,8 @@
-﻿  Main.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\main.cpp(59): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\main.cpp(74): warning C4305: 'initializing': truncation from 'double' to 'float'
-Main.obj : error LNK2019: unresolved external symbol __imp_glutInitWindowSize referenced in function "void __cdecl setup(void)" (?setup@@YAXXZ)
-Main.obj : error LNK2019: unresolved external symbol __imp_glutInitDisplayMode referenced in function "void __cdecl setup(void)" (?setup@@YAXXZ)
-Main.obj : error LNK2019: unresolved external symbol __imp_glutMainLoop referenced in function main
-Main.obj : error LNK2019: unresolved external symbol __imp_glutPostRedisplay referenced in function "void __cdecl draw(void)" (?draw@@YAXXZ)
-Main.obj : error LNK2019: unresolved external symbol __imp_glutSwapBuffers referenced in function "void __cdecl draw(void)" (?draw@@YAXXZ)
-Main.obj : error LNK2019: unresolved external symbol __imp_glutReshapeFunc referenced in function main
-Main.obj : error LNK2019: unresolved external symbol __imp_glutDisplayFunc referenced in function main
-Main.obj : error LNK2019: unresolved external symbol __imp_glutGet referenced in function "void __cdecl draw(void)" (?draw@@YAXXZ)
-Main.obj : error LNK2019: unresolved external symbol __imp___glutInitWithExit referenced in function glutInit_ATEXIT_HACK
-Main.obj : error LNK2019: unresolved external symbol __imp___glutCreateWindowWithExit referenced in function glutCreateWindow_ATEXIT_HACK
-C:\Users\Daniel\Obelisk-Engine\freeglut\lib\freeglut.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
-C:\Users\Daniel\Obelisk-Engine\x64\Debug\psydrwGlutEngine.exe : fatal error LNK1120: 10 unresolved externals
+﻿Build started 28/02/2018 10:19:39.
+     1>Project "C:\Users\Daniel\Obelisk-Engine\psydrwGlutEngine\psydrwGlutEngine.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Cpp.Platform.targets(64,5): error MSB8020: The build tools for v141 (Platform Toolset = 'v141') cannot be found. To build using the v141 build tools, please install v141 build tools.  Alternatively, you may upgrade to the current Visual Studio tools by selecting the Project menu or right-click the solution, and then selecting "Upgrade Solution...".
+     1>Done Building Project "C:\Users\Daniel\Obelisk-Engine\psydrwGlutEngine\psydrwGlutEngine.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.04

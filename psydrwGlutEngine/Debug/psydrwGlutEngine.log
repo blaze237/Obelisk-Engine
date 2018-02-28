@@ -1,7 +1,5 @@
 ﻿  Main.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\main.cpp(59): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\main.cpp(74): warning C4305: 'initializing': truncation from 'double' to 'float'
-  InputManager.cpp
-  SceneManager.cpp
   Generating Code...
+  Skipping... (no relevant changes detected)
+  TestScene.cpp
   psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

@@ -1,10 +1,22 @@
 #include "SceneManager.h"
 #include "Colour.h"
+#include <cstdio>
+#include <iostream>
+
+std::vector<Scene*> SceneManager::scenes;
+Scene* SceneManager::currentScene = NULL;
+long SceneManager::lastTimeStep = 0;
+long SceneManager::timeSinceLogic = 0;
+long SceneManager::timeSinceRender = 0;
+int SceneManager::screenH = 700;
+int SceneManager::screenW = 700;
 
 
-
-SceneManager::SceneManager()
+SceneManager::SceneManager(std::vector<Scene*> sceneList)
 {
+	scenes = sceneList;
+	currentScene = sceneList[0];
+
 }
 
 
@@ -22,7 +34,7 @@ void SceneManager::Init(int argc, char **argv)
 	
 	//Make the window
 	glutInitWindowSize(screenW, screenH);
-	glutCreateWindow(title);
+	glutCreateWindow("INSERT TITLE");
 
 	//Set background colour
 	Colour bgCol(0.0f, 0.0f, 0.0f, 0.0f);
@@ -75,6 +87,9 @@ void SceneManager::Init(int argc, char **argv)
 
 	//Register the render function with freeglut
 	glutDisplayFunc(Render);
+
+	//Register the idle function with freeglut
+	glutIdleFunc(Idle);
 	
 	//Check and handle any errors
 	HandleGLError();
@@ -84,10 +99,31 @@ void SceneManager::Init(int argc, char **argv)
 	//Start rendering the scene
 	glutMainLoop();
 
+
+	lastTimeStep = glutGet(GLUT_ELAPSED_TIME);
+	timeSinceLogic = 0;
+	timeSinceRender = 0;
+
 }
 
 void SceneManager::Reshape(int w, int h)
 {
+	// update global dimension variables
+	screenW = w;
+	screenH = h;
+	// calculate new aspect ratio
+	GLdouble aspect = static_cast<GLdouble>(screenW) / static_cast<GLdouble>(screenH);
+
+	glMatrixMode(GL_PROJECTION);
+	// reset matrix
+	glLoadIdentity();
+
+	// Set the viewport to be the entire window
+	glViewport(0, 0, screenW, screenH);
+
+	gluPerspective(45.0, aspect, 1, 1000);
+	// return matrix mode to modelling and viewing
+	glMatrixMode(GL_MODELVIEW);
 }
 
 void SceneManager::Idle()
@@ -101,7 +137,7 @@ void SceneManager::Idle()
 	long dt = timeSinceLogic;
 	while (dt > logicTimeTarget) {
 		//Update logic
-		Update();
+		Update(lastTimeStep);
 
 		dt -= logicTimeTarget;
 	}
@@ -116,14 +152,37 @@ void SceneManager::Idle()
 
 }
 
-void SceneManager::HandleGLError()
-{
-}
-
 void SceneManager::Render()
 {
+
+	//Set up matrix
+	// Clear display buffers and get ready for rendering
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	//Render the scene
+	currentScene->Render();
+
+	//Prepare for next render
+	HandleGLError();
+	glutSwapBuffers();
 }
 
-void SceneManager::Update()
+void SceneManager::Update(long tCurrent)
 {
+	currentScene->Update(tCurrent);
 }
+
+void SceneManager::HandleGLError()
+{
+	int e = 0;                      // Error count
+	GLenum error = glGetError();    // Get first glError
+	while (GL_NO_ERROR != error)    // Loop until no errors found
+	{
+		e++;
+		std::cout << "GL Error" << e << gluErrorString(error) << std::endl;
+		error = glGetError();                                  // Get next glError
+	}
+}
+
