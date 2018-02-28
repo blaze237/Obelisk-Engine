@@ -3,26 +3,30 @@
 #include <cstdio>
 #include <iostream>
 
-std::vector<Scene*> SceneManager::scenes;
-Scene* SceneManager::currentScene = NULL;
+std::vector<std::unique_ptr<Scene>> SceneManager::scenes;
+int SceneManager::currentSceneIndex = 0;
 long SceneManager::lastTimeStep = 0;
 long SceneManager::timeSinceLogic = 0;
 long SceneManager::timeSinceRender = 0;
 int SceneManager::screenH = 700;
 int SceneManager::screenW = 700;
+bool SceneManager::capFPS = true;
 
 
-SceneManager::SceneManager(std::vector<Scene*> sceneList)
+SceneManager::SceneManager()
 {
-	scenes = sceneList;
-	currentScene = sceneList[0];
-
 }
 
 
 SceneManager::~SceneManager()
 {
 }
+
+void SceneManager::AddScene(std::unique_ptr<Scene> s)
+{
+	scenes.push_back(std::move(s));
+}
+
 
 void SceneManager::Init(int argc, char **argv)
 {
@@ -142,14 +146,19 @@ void SceneManager::Idle()
 		dt -= logicTimeTarget;
 	}
 
-	if (timeSinceRender > renderTimeTarget)
+	if (capFPS)
 	{
-		//Render a frame
-		Render();
-		//See how long it took to render
-		timeSinceRender += glutGet(GLUT_ELAPSED_TIME) - lastTimeStep;
+		if (timeSinceRender > renderTimeTarget)
+		{
+			timeSinceRender = 0;
+			//Render a frame
+			Render();
+			//See how long it took to render
+			timeSinceRender += glutGet(GLUT_ELAPSED_TIME) - lastTimeStep;
+		}
 	}
-
+	else
+		Render();
 }
 
 void SceneManager::Render()
@@ -162,7 +171,7 @@ void SceneManager::Render()
 	glLoadIdentity();
 
 	//Render the scene
-	currentScene->Render();
+	scenes[currentSceneIndex]->Render();
 
 	//Prepare for next render
 	HandleGLError();
@@ -171,7 +180,7 @@ void SceneManager::Render()
 
 void SceneManager::Update(long tCurrent)
 {
-	currentScene->Update(tCurrent);
+	scenes[currentSceneIndex]->Update(tCurrent);
 }
 
 void SceneManager::HandleGLError()

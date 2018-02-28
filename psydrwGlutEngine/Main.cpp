@@ -3,19 +3,11 @@
 #include <vector>
 #include "Scene.h"
 
+
 int main(int argc, char **argv)
 {
-	TestScene* t = new TestScene();
-
-	std::vector<Scene*> scenes;
-	scenes.push_back(t);
-
-	SceneManager sm(scenes);
-
+	SceneManager sm;
+	sm.AddScene(std::make_unique<TestScene>());
 	sm.Init(argc, argv);
-
-	delete t;
-
-
 }
 

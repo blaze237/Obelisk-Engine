@@ -7,9 +7,12 @@
 class SceneManager
 {
 public:
-	SceneManager(std::vector<Scene*> sceneList);
+	SceneManager();
 	~SceneManager();
 
+
+
+	static void AddScene(std::unique_ptr<Scene>);
 	//Init glut subsystems and register associated functions
 	static void Init(int argc, char **argv);
 	//Handle window resizing
@@ -20,7 +23,7 @@ public:
 	static void HandleGLError();
 	//Render loop. Call render for the current scene
 	static void Render();
-	//Update loop. Call update for the current scene
+	//Update loop. Call update for the current scene ADD TIME DELTA
 	static void Update(long tCurrent);
 
 
@@ -36,8 +39,7 @@ private:
 	static bool fullScreen;
 	static const char* title;
 
-
-	static std::vector<Scene*> scenes;
-	static Scene* currentScene;
+	static std::vector<std::unique_ptr<Scene>> scenes;
+	static int currentSceneIndex;
 };
 
