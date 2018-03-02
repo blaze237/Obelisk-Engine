@@ -17,7 +17,9 @@ void TestObject::Render()
 	glTranslatef(0.f, 0.f, -50.f);
 	//Slowly rotate the draw position
 	glRotatef(theta, 1, 1, 0);
+
 	drawCube(5);
+
 }
 
 void TestObject::Update(long tCurrent)
@@ -27,7 +29,7 @@ void TestObject::Update(long tCurrent)
 	if (dt > timeStep)
 	{
 		//Get the new rotation of the camera
-		theta = theta < (360) ? ++theta : 0;
+		theta = theta < (360) ? (theta + dt / timeStep) : 0;
 		lastTime = tCurrent;
 	}
 }

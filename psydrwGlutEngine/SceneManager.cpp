@@ -1,17 +1,21 @@
 #include "SceneManager.h"
-#include "Colour.h"
 #include <cstdio>
 #include <iostream>
+#include <string>    
+#include <chrono>
+#include <thread>
 
 std::vector<std::unique_ptr<Scene>> SceneManager::scenes;
 int SceneManager::currentSceneIndex = 0;
-long SceneManager::lastTimeStep = 0;
-long SceneManager::timeSinceLogic = 0;
-long SceneManager::timeSinceRender = 0;
+int SceneManager::numScenes = 0;
 int SceneManager::screenH = 700;
 int SceneManager::screenW = 700;
 bool SceneManager::capFPS = true;
-
+long SceneManager::startingTime = 0;
+long SceneManager::currentTick = 0;
+int SceneManager::frameCount = 0;
+int SceneManager::fps = 0;
+int SceneManager::frameIntervalEnd = 0;
 
 SceneManager::SceneManager()
 {
@@ -25,16 +29,20 @@ SceneManager::~SceneManager()
 void SceneManager::AddScene(std::unique_ptr<Scene> s)
 {
 	scenes.push_back(std::move(s));
+	++numScenes;
 }
 
 
 void SceneManager::Init(int argc, char **argv)
 {
-
+	if (numScenes == 0)
+	{
+		std::cout << "Error! You must add at least one scene before intialising the engine!" << std::endl;
+		return;
+	}
 	//Init glut
 	glutInit(&argc, argv);
 	//Init time counter used for rotation of cam
-	lastTimeStep = glutGet(GLUT_ELAPSED_TIME);
 	
 	//Make the window
 	glutInitWindowSize(screenW, screenH);
@@ -89,25 +97,24 @@ void SceneManager::Init(int argc, char **argv)
 	// Enable automatic normalisation of normal vectors
 	glEnable(GL_NORMALIZE);
 
-	//Register the render function with freeglut
+	//Register the render function with freeglut. We actualy manage all rendering manualy but freeglut requires us to register a render method in order to function
 	glutDisplayFunc(Render);
 
-	//Register the idle function with freeglut
-	glutIdleFunc(Idle);
-	
 	//Check and handle any errors
 	HandleGLError();
 
 	//Register reshape function to handle window size chnages
 	glutReshapeFunc(Reshape);
-	//Start rendering the scene
-	glutMainLoop();
 
 
-	lastTimeStep = glutGet(GLUT_ELAPSED_TIME);
-	timeSinceLogic = 0;
-	timeSinceRender = 0;
+	//Get start time
+	startingTime = glutGet(GLUT_ELAPSED_TIME);
 
+	//Initialise the fps couter interval to be 1 second past start time
+	frameIntervalEnd = startingTime + 1000;
+
+	//Start the engine
+	MainLoop();
 }
 
 void SceneManager::Reshape(int w, int h)
@@ -130,40 +137,47 @@ void SceneManager::Reshape(int w, int h)
 	glMatrixMode(GL_MODELVIEW);
 }
 
-void SceneManager::Idle()
+
+
+
+void SceneManager::MainLoop()
 {
-	//Get time since last idle
-	timeSinceLogic  += glutGet(GLUT_ELAPSED_TIME) - lastTimeStep;
-	timeSinceRender += timeSinceLogic;
-	lastTimeStep = glutGet(GLUT_ELAPSED_TIME);
+	//Run the game indefintely till the window is closed via glut
+	while (true) {
 
-	//If time since last update is greater than update rate, then do logic update(s) till catch up
-	long dt = timeSinceLogic;
-	while (dt > logicTimeTarget) {
-		//Update logic
-		Update(lastTimeStep);
+		//Process window and key events
+		glutMainLoopEvent();
 
-		dt -= logicTimeTarget;
-	}
+		//Get start time for this frame
+		long fStart = glutGet(GLUT_ELAPSED_TIME);
+		//Determine what click we should be at by this time
+		long targetTick = ((int)(fStart - startingTime) * TICKS_PER_SECOND) / 1000;
 
-	if (capFPS)
-	{
-		if (timeSinceRender > renderTimeTarget)
-		{
-			timeSinceRender = 0;
-			//Render a frame
-			Render();
-			//See how long it took to render
-			timeSinceRender += glutGet(GLUT_ELAPSED_TIME) - lastTimeStep;
+		//Continualy update the game untill we reach the target tick
+		while (currentTick < targetTick) {
+			Update(glutGet(GLUT_ELAPSED_TIME));
+			++currentTick;
 		}
-	}
-	else
+
+		//Draw a frame
 		Render();
+
+		//Calculate the fps
+		++frameCount;
+		if (fStart >= frameIntervalEnd) {
+			fps = frameCount;
+			frameCount = 0;
+			frameIntervalEnd = fStart + 1000;
+		}
+
+		//Max number of visualy different renderable frames is set by the tick rate, therefore we sleep untill the next sleep to avoid waisting resources rendering identical intermediate frames
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000 / TICKS_PER_SECOND + fStart - glutGet(GLUT_ELAPSED_TIME)));
+
+	}
 }
 
 void SceneManager::Render()
 {
-
 	//Set up matrix
 	// Clear display buffers and get ready for rendering
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -172,6 +186,9 @@ void SceneManager::Render()
 
 	//Render the scene
 	scenes[currentSceneIndex]->Render();
+
+	if(showFPS)
+		drawString("FPS: " + std::to_string(fps), Vec2<int>(20,screenH - 30));
 
 	//Prepare for next render
 	HandleGLError();
@@ -195,3 +212,28 @@ void SceneManager::HandleGLError()
 	}
 }
 
+void SceneManager::drawString(std::string s, Vec2<int> pos, Colour c)
+{
+	//Move drawing to origin
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	//Switch to screen cooridantes and move drawing to origin
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	//Switch to otrhonagraphic projection equal to screen szie
+	gluOrtho2D(0, screenW, 0, screenH);
+
+	glColor4f(c.r,c.g, c.b, c.a);
+	glRasterPos2i(pos.x, pos.y);  
+
+	const unsigned char* txt = (const unsigned char*)s.c_str();
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, txt);
+
+	//Undo changes to the matricies and switch back to modelview mode
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+}
