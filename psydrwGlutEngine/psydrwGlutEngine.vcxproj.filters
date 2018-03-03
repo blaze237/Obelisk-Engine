@@ -36,14 +36,14 @@
     <ClCompile Include="DisplayableObject.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="TestScene.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
     <ClCompile Include="TestObject.cpp">
       <Filter>Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,9 +59,6 @@
     <ClInclude Include="DisplayableObject.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Vec2.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -70,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="TestObject.h">
       <Filter>Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

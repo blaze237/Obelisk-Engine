@@ -6,11 +6,10 @@
 #include "Scene.h"
 #include "Vec2.h"
 #include "Colour.h"
-#include "InputManager.h"
 
 class SceneManager
 {
-	static const int TICKS_PER_SECOND = 125;
+	static const int TICKS_PER_SECOND = 120;
 	static const bool showFPS = true;
 
 public:
@@ -38,6 +37,8 @@ private:
 
 
 
+
+
 private:
 	//Target time for logic updates (60fps)
 	const static long logicTimeTarget = 16; 
@@ -53,7 +54,6 @@ private:
 	static int currentSceneIndex;
 	static int numScenes;
 
-
 	//Store reference to the time at which program starts. Used for tick calculation
 	static long startingTime;
 	//Start logic ticks at zero
@@ -62,7 +62,5 @@ private:
 	static int frameCount;
 	static int fps;
 	static int frameIntervalEnd;
-
-	static InputManager& inputManager;
 };
 

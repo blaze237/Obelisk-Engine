@@ -4,7 +4,7 @@
 #include <string>    
 #include <chrono>
 #include <thread>
-
+#include "InputManager.h"
 std::vector<std::unique_ptr<Scene>> SceneManager::scenes;
 int SceneManager::currentSceneIndex = 0;
 int SceneManager::numScenes = 0;
@@ -16,7 +16,6 @@ long SceneManager::currentTick = 0;
 int SceneManager::frameCount = 0;
 int SceneManager::fps = 0;
 int SceneManager::frameIntervalEnd = 0;
-InputManager& SceneManager::inputManager = InputManager::getInstance();
 
 SceneManager::SceneManager()
 {
@@ -113,6 +112,7 @@ void SceneManager::Init(int argc, char **argv)
 	glutSpecialFunc(InputManager::SpecialKeyDown);
 	glutSpecialUpFunc(InputManager::SpecialKeyUp);
 	glutMouseFunc(InputManager::MouseButton);
+	glutMouseWheelFunc(InputManager::MouseWheelMoved);
 	//glutMotionFunc(inputManager.MouseDrag);
 	glutPassiveMotionFunc(InputManager::MouseMoved);
 
@@ -153,6 +153,9 @@ void SceneManager::Reshape(int w, int h)
 
 void SceneManager::MainLoop()
 {
+	glutMainLoopEvent();
+
+
 	//Run the game indefintely till the window is closed via glut
 	while (true) 
 	{
@@ -161,6 +164,7 @@ void SceneManager::MainLoop()
 		//Determine what click we should be at by this time
 		long targetTick = ((int)(fStart - startingTime) * TICKS_PER_SECOND) / 1000;
 
+		
 		//Continualy update the game untill we reach the target tick
 		while (currentTick < targetTick) 
 		{
@@ -211,11 +215,12 @@ void SceneManager::Update(long tCurrent)
 	
 	scenes[currentSceneIndex]->Update(tCurrent);
 
-	if (inputManager.Pressed(InputManager::UP))
-		std::cout << "UP" << std::endl;
+	//if (InputManager::Pressed(InputManager::CTRL))
+	//	std::cout << "UP" << std::endl;
+	
 
 	//Tell the input manager to advance to polling for next tick. Must be last thing in update loop
-	inputManager.Update();
+	InputManager::Update();
 }
 
 void SceneManager::HandleGLError()

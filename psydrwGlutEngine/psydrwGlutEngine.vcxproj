@@ -123,9 +123,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DisplayableObject.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="TestScene.cpp" />
@@ -133,9 +133,9 @@
   <ItemGroup>
     <ClInclude Include="Colour.h" />
     <ClInclude Include="DisplayableObject.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="InputManager.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Vec2.h" />

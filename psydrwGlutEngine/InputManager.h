@@ -1,109 +1,69 @@
 #pragma once
-#include <utility>
-#include <memory>
 #include <unordered_map>
 #include "Vec2.h"
 #include <GL/glut.h>
 
-class InputManager
-{
-public:
-
+namespace InputManager {
+	
 	//Integer key indentifiers for special and mouse keys. 
 	//USE THESE INSTEAD OF THE ONES USED BY GLUT, AS THEY MAY COLLIDE WITH STANDARD KEY IDS
-	static const int MOUSE_LEFT= -1;
-	static const int MOUSE_MIDDLE = -2;
-	static const int MOUSE_RIGHT = -3;
-	static const int F1 = -4;
-	static const int F2 = -5; 
-	static const int F3 = -6;
-	static const int F4 = -7;
-	static const int F5 = -8;
-	static const int F6 = -9;
-	static const int F7 = -10;
-	static const int F8 = -11;
-	static const int F9 = -12;
-	static const int F10 = -13;
-	static const int F11 = -14;
-	static const int F12 = -15;
-	static const int LEFT = -16;
-	static const int UP = -17;
-	static const int RIGHT = -18;
-	static const int DOWN = -19;
-	static const int PG_UP = -20;
-	static const int PG_DWN = -21;
-	static const int HOME = -22;
-	static const int END = -23;
-	static const int INSERT = -24;
-
-private:
-	//To make things simpler, we wish to store data on special keys, standard keys and mouse keys all in one hastable. However, each is identified using different types, to get around this, we convert all identifiers to a common identifier system, integers
-	//Standard keyboard keys will map to positive integers, and so we use negative values for special keys and mouse keys.
-	static const std::unordered_map<int, int> specialKeyConversions;
-	static const std::unordered_map<int, int> mouseKeyConversions;
-
-	//Hashtable of state of all inputs 
-	static std::unordered_map<int, bool> curInputStates;
-	static std::unordered_map<int, bool> prevInputStates;
-
-	//Current mouse position
-	static Vec2<int> mousePos;
-
-	//Mouse wheel flags
-	static bool scrolledUp;
-	static bool scrolledDown;
-
-	//Disable instantiation 
-	InputManager() {}
-	//Set the corresponding value in the hashtable for the given key to be true or false
-	static void setCurState(int key, bool state);
-
-
-
-public:
-
-	static InputManager& getInstance()
-	{
-		//Static function, so input manager is only instantiated the first time
-		static InputManager instance;						  
-		return instance;
-	}
-		
-	//Disable copy constructor and assignment operator to ensure only ever one instance of the singleton
-	InputManager(InputManager const&) = delete;
-	void operator=(InputManager const&) = delete;
+	const int MOUSE_LEFT = -1;
+	const int MOUSE_MIDDLE = -2;
+	const int MOUSE_RIGHT = -3;
+	const int MOUSE_SCROLL_UP = -4;
+	const int MOUSE_SCROLL_DOWN = -5;
+	const int F1 = -6;
+	const int F2 = -7;
+	const int F3 = -8;
+	const int F4 = -9;
+	const int F5 = -10;
+	const int F6 = -11;
+	const int F7 = -12;
+	const int F8 = -13;
+	const int F9 = -14;
+	const int F10 = -15;
+	const int F11 = -16;
+	const int F12 = -17;
+	const int LEFT = -18;
+	const int UP = -19;
+	const int RIGHT = -20;
+	const int DOWN = -21;
+	const int PG_UP = -22;
+	const int PG_DWN = -23;
+	const int HOME = -24;
+	const int END = -25;
+	const int INSERT = -26;
+	const int SHIFT = -27;
+	const int CTRL = -28;
+	const int ALT = -29;
+	 
 
 	//Switch over the hashmaps. The input manager works by querying if a button has been pressed relative to the current tick
-	static void Update();
+	void Update();
 
 	//Is the current flag for this input true
-	static bool IsDown(int key);
+	bool IsDown(int key);
 	//Was the flag for this key true in the last tick
-	static bool WasDown(int key);
-	//Was the key pressed this tick (and not last tick)
-	static bool Pressed(int key);
-	static bool Released(int key);
-
-	static inline Vec2<int> GetMousePos() {
-		return mousePos;
-	}
-
-	static inline bool HasScrolledUp() {
-		return scrolledUp;
-	}
-
-	static inline bool HasScrolledDown() {
-		return scrolledDown;
-	}
+	bool WasDown(int key);
+	//Was the key pressed this tick 
+	bool Pressed(int key);
+	//Was the key released this tick
+	bool Released(int key);
+	//Return the current position of the mouse relative to top left of window
+	Vec2<int> GetMousePos();
+	//Check if an unhandled upwards scroll has occured this frame
+	bool HasScrolledUp();
+	bool HasScrolledDown();
 
 	//Input listeners
-	static void KeyDown(unsigned char key, int x, int y);
-	static void KeyUp(unsigned char key, int x, int y);
-	static void SpecialKeyDown(int key, int x, int y);
-	static void SpecialKeyUp(int key, int x, int y);
-	static void MouseButton(int key, int state, int x, int y);
-	static void MouseDrag(int x, int y);
-	static void MouseMoved(int x, int y);
-	static void MouseWheelMoved(int key, int dir, int x, int y);
-};
+	void KeyDown(unsigned char key, int x, int y);
+	void KeyUp(unsigned char key, int x, int y);
+	void SpecialKeyDown(int key, int x, int y);
+	void SpecialKeyUp(int key, int x, int y);
+	void MouseButton(int key, int val, int x, int y);
+	void MouseDrag(int x, int y);
+	void MouseMoved(int x, int y);
+	void MouseWheelMoved(int key, int dir, int x, int y);
 
+}
+using namespace InputManager;
