@@ -19,6 +19,9 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{38a4961a-7a41-48ec-82cd-7a8d10f061c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Levels">
+      <UniqueIdentifier>{9f6255a1-cac4-4649-b18d-4663db5a580a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -37,10 +40,10 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="TestScene.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Levels</Filter>
     </ClCompile>
     <ClCompile Include="TestObject.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Levels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,14 +62,14 @@
     <ClInclude Include="InputManager.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="TestScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Vec2.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObject.h">
+      <Filter>Levels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

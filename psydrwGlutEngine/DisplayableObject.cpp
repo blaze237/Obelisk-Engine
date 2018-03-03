@@ -2,15 +2,14 @@
 
 
 
-DisplayableObject::DisplayableObject()
+GameObject::GameObject()
 {
 }
 
 
-DisplayableObject::~DisplayableObject()
+GameObject::~GameObject()
 {
 }
-//Default empty update. Overide for logic/animations/phsyics etc
-void DisplayableObject::Update(long tCurrent)
+void GameObject::Update(long tCurrent)
 {
 }

@@ -7,6 +7,7 @@ public:
 	TestScene();
 	virtual ~TestScene();
 
+	virtual void Render();
 
 
 private:

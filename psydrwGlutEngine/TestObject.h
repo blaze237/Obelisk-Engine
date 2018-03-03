@@ -4,7 +4,7 @@
 
 #define timeStep  10
 class TestObject :
-	public DisplayableObject
+	public GameObject
 {
 public:
 	TestObject();

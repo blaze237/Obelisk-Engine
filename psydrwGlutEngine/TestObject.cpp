@@ -24,7 +24,7 @@ void TestObject::Render()
 
 void TestObject::Update(long tCurrent)
 {
-	//Get the ellapsed time since the last frame was drawn
+	//Get the ellapsed time since the last rotation occured
 	long dt = tCurrent - lastTime;
 	if (dt > timeStep)
 	{

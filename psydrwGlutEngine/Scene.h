@@ -5,7 +5,8 @@
 #include <Windows.h>
 #include <utility>
 #include <memory>
-
+#include "Colour.h"
+#include "Vec2.h"
 class Scene
 {
 public:
@@ -17,7 +18,10 @@ public:
 	//Update the scene. Default implementation just tells all objects in the scene to update themselves. 
 	virtual void Update(long tCurrent);
 
+	//Passthrough function for calling the scenemanagers screen draw function to avoid having to reimplement this in your scenes.
+	void DrawScreenString(std::string, Vec2<int> pos, Colour c = Colour(1,1,1,1));
+
 protected:
-	std::vector<std::unique_ptr<DisplayableObject>> objects;
+	std::vector<std::unique_ptr<GameObject>> objects;
 };
 

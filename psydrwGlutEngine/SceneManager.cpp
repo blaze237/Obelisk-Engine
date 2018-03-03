@@ -16,6 +16,7 @@ long SceneManager::currentTick = 0;
 int SceneManager::frameCount = 0;
 int SceneManager::fps = 0;
 int SceneManager::frameIntervalEnd = 0;
+InputManager& SceneManager::inputManager = InputManager::getInstance();
 
 SceneManager::SceneManager()
 {
@@ -106,6 +107,16 @@ void SceneManager::Init(int argc, char **argv)
 	//Register reshape function to handle window size chnages
 	glutReshapeFunc(Reshape);
 
+	//Register key listeners
+	glutKeyboardFunc(InputManager::KeyDown);
+	glutKeyboardUpFunc(InputManager::KeyUp);
+	glutSpecialFunc(InputManager::SpecialKeyDown);
+	glutSpecialUpFunc(InputManager::SpecialKeyUp);
+	glutMouseFunc(InputManager::MouseButton);
+	//glutMotionFunc(inputManager.MouseDrag);
+	glutPassiveMotionFunc(InputManager::MouseMoved);
+
+
 
 	//Get start time
 	startingTime = glutGet(GLUT_ELAPSED_TIME);
@@ -143,18 +154,16 @@ void SceneManager::Reshape(int w, int h)
 void SceneManager::MainLoop()
 {
 	//Run the game indefintely till the window is closed via glut
-	while (true) {
-
-		//Process window and key events
-		glutMainLoopEvent();
-
+	while (true) 
+	{
 		//Get start time for this frame
 		long fStart = glutGet(GLUT_ELAPSED_TIME);
 		//Determine what click we should be at by this time
 		long targetTick = ((int)(fStart - startingTime) * TICKS_PER_SECOND) / 1000;
 
 		//Continualy update the game untill we reach the target tick
-		while (currentTick < targetTick) {
+		while (currentTick < targetTick) 
+		{
 			Update(glutGet(GLUT_ELAPSED_TIME));
 			++currentTick;
 		}
@@ -164,15 +173,15 @@ void SceneManager::MainLoop()
 
 		//Calculate the fps
 		++frameCount;
-		if (fStart >= frameIntervalEnd) {
+		if (fStart >= frameIntervalEnd)
+		{
 			fps = frameCount;
 			frameCount = 0;
 			frameIntervalEnd = fStart + 1000;
 		}
 
-		//Max number of visualy different renderable frames is set by the tick rate, therefore we sleep untill the next sleep to avoid waisting resources rendering identical intermediate frames
+		//Max number of visualy different renderable frames is set by the tick rate, therefore we sleep untill the next tick to avoid waisting resources rendering identical intermediate frames
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000 / TICKS_PER_SECOND + fStart - glutGet(GLUT_ELAPSED_TIME)));
-
 	}
 }
 
@@ -188,7 +197,7 @@ void SceneManager::Render()
 	scenes[currentSceneIndex]->Render();
 
 	if(showFPS)
-		drawString("FPS: " + std::to_string(fps), Vec2<int>(20,screenH - 30));
+		DrawScreenString("FPS: " + std::to_string(fps), Vec2<int>(20,screenH - 30));
 
 	//Prepare for next render
 	HandleGLError();
@@ -197,7 +206,16 @@ void SceneManager::Render()
 
 void SceneManager::Update(long tCurrent)
 {
+	//Process window and key events for this tick. Must be first thing in update loop
+	glutMainLoopEvent();
+	
 	scenes[currentSceneIndex]->Update(tCurrent);
+
+	if (inputManager.Pressed(InputManager::UP))
+		std::cout << "UP" << std::endl;
+
+	//Tell the input manager to advance to polling for next tick. Must be last thing in update loop
+	inputManager.Update();
 }
 
 void SceneManager::HandleGLError()
@@ -212,7 +230,7 @@ void SceneManager::HandleGLError()
 	}
 }
 
-void SceneManager::drawString(std::string s, Vec2<int> pos, Colour c)
+void SceneManager::DrawScreenString(std::string s, Vec2<int> pos, Colour c)
 {
 	//Move drawing to origin
 	glMatrixMode(GL_MODELVIEW);

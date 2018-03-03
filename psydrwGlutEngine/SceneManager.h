@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "Vec2.h"
 #include "Colour.h"
+#include "InputManager.h"
 
 class SceneManager
 {
@@ -20,7 +21,7 @@ public:
 	//Init glut subsystems and register associated functions
 	static void Init(int argc, char **argv);
 	//Draw a string to the screen. Specify a position in screen coordinates and an optional color
-	static void drawString(std::string s, Vec2<int> pos, Colour c = Colour(1,1,1,1));
+	static void DrawScreenString(std::string s, Vec2<int> pos, Colour c = Colour(1,1,1,1));
 
 
 private:
@@ -61,5 +62,7 @@ private:
 	static int frameCount;
 	static int fps;
 	static int frameIntervalEnd;
+
+	static InputManager& inputManager;
 };
 

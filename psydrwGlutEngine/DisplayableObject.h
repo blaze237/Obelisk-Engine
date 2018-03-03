@@ -1,12 +1,13 @@
 #pragma once
 #include <GL/glut.h>
-class DisplayableObject
+class GameObject
 {
 public:
-	DisplayableObject();
-	~DisplayableObject();
+	GameObject();
+	~GameObject();
 
 	virtual void Render() = 0;
+	//Default empty update. Overide for logic/animations/phsyics etc
 	virtual void Update(long tCurrent);
 
 };
