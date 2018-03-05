@@ -22,6 +22,9 @@
     <Filter Include="Levels">
       <UniqueIdentifier>{9f6255a1-cac4-4649-b18d-4663db5a580a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Objects">
+      <UniqueIdentifier>{36f72b4f-6586-4738-bd08-9bfab65b78f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -33,17 +36,20 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="DisplayableObject.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="TestScene.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
     <ClCompile Include="TestObject.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
+    <ClCompile Include="DisplayableObject.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +62,6 @@
     <ClInclude Include="Scene.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="DisplayableObject.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Vec2.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -68,8 +71,17 @@
     <ClInclude Include="TestObject.h">
       <Filter>Levels</Filter>
     </ClInclude>
+    <ClInclude Include="DisplayableObject.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>Engine</Filter>
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

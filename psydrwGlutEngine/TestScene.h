@@ -8,6 +8,7 @@ public:
 	virtual ~TestScene();
 
 	virtual void Render();
+	virtual void Update(long tCurrent);
 
 
 private:

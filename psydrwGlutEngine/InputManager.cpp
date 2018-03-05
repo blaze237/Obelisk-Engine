@@ -1,6 +1,6 @@
 #include "InputManager.h"
 #include <iostream>
-
+#include "Vec3.h"
 namespace InputManager
 {
 	//Use an anonymous namespace to hide internal workings of conversion between glut button IDs and our ID schema

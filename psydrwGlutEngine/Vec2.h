@@ -95,6 +95,19 @@ public:
 		return acos(adj / hyp);
 	}
 
+	void Normalise()
+	{
+		double mag = getMagnitude();
+
+		x /= mag;
+		y /= mag;
+	}
+
+	//Calculate the dot product of this vector with another
+	inline T DotProd(const Vec2<T> v2) const
+	{
+		return (x * v2.x) + (y * v2.y);
+	}
 
 	/***GETTERS AND SETTERS ***/
 	inline T getX() const

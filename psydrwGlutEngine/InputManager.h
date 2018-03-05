@@ -36,6 +36,8 @@ namespace InputManager {
 	const int SHIFT = -27;
 	const int CTRL = -28;
 	const int ALT = -29;
+	//Escape isnt a special key but no simple way to check it without memorising its ascii code
+	const int ESC = 27;
 	 
 
 	//Switch over the hashmaps. The input manager works by querying if a button has been pressed relative to the current tick

@@ -7,6 +7,7 @@
 #include <memory>
 #include "Colour.h"
 #include "Vec2.h"
+#include "Camera.h"
 class Scene
 {
 public:
@@ -15,7 +16,7 @@ public:
 
 	//Render the scene. Default implementation just tells all objects in the scene to render themselves.
 	virtual void Render();
-	//Update the scene. Default implementation just tells all objects in the scene to update themselves. 
+	//Update the scene. Default implementation just tells all objects in the scene to update themselves. And calls update on the camera
 	virtual void Update(long tCurrent);
 
 	//Passthrough function for calling the scenemanagers screen draw function to avoid having to reimplement this in your scenes.
@@ -23,5 +24,6 @@ public:
 
 protected:
 	std::vector<std::unique_ptr<GameObject>> objects;
+	Camera mainCam;
 };
 

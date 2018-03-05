@@ -8,8 +8,8 @@
 std::vector<std::unique_ptr<Scene>> SceneManager::scenes;
 int SceneManager::currentSceneIndex = 0;
 int SceneManager::numScenes = 0;
-int SceneManager::screenH = 700;
-int SceneManager::screenW = 700;
+int SceneManager::screenH = 800;
+int SceneManager::screenW = 800;
 bool SceneManager::capFPS = true;
 long SceneManager::startingTime = 0;
 long SceneManager::currentTick = 0;
@@ -123,6 +123,9 @@ void SceneManager::Init(int argc, char **argv)
 
 	//Initialise the fps couter interval to be 1 second past start time
 	frameIntervalEnd = startingTime + 1000;
+
+	glutWarpPointer(400, 400);
+	glutSetCursor(GLUT_CURSOR_NONE);
 
 	//Start the engine
 	MainLoop();

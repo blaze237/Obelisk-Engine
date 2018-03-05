@@ -12,6 +12,8 @@ TestScene::TestScene()
 		std::unique_ptr<GameObject> t = std::make_unique<TestObject>();
 		objects.push_back(std::move(t));
 	}
+
+
 }
 
 
@@ -23,6 +25,14 @@ void TestScene::Render()
 {
 	Scene::Render();
 	Scene::DrawScreenString("TEST", Vec2<int>(100, 100));
+}
+
+void TestScene::Update(long tCurrent)
+{
+	Scene::Update(tCurrent);
+
+	if (InputManager::Pressed(InputManager::ESC))
+		glutDestroyWindow(1);
 }
 
 
