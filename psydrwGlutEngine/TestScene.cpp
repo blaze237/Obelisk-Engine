@@ -1,10 +1,10 @@
 #include "TestScene.h"
 #include "TestObject.h"
-
+#include "FPSCamera.h"
 
 
 TestScene::TestScene()
-	:Scene()
+	:Scene(std::make_unique<FPSCamera>(Vec3<float>(0, 0, 0), Vec3<float>(0.08208, -0.02795, -0.9962)))
 {
 	//Set up the scenes objects
 	//TestObject* t = new TestObject();
@@ -12,7 +12,6 @@ TestScene::TestScene()
 		std::unique_ptr<GameObject> t = std::make_unique<TestObject>();
 		objects.push_back(std::move(t));
 	}
-
 
 }
 

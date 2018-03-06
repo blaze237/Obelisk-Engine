@@ -48,6 +48,10 @@ void SceneManager::Init(int argc, char **argv)
 	glutInitWindowSize(screenW, screenH);
 	glutCreateWindow("INSERT TITLE");
 
+	//Place cursor in center of window
+	glutWarpPointer(screenW / 2, screenH / 2);
+
+
 	//Set background colour
 	Colour bgCol(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearColor(bgCol.r, bgCol.g, bgCol.b, bgCol.a);
@@ -113,9 +117,8 @@ void SceneManager::Init(int argc, char **argv)
 	glutSpecialUpFunc(InputManager::SpecialKeyUp);
 	glutMouseFunc(InputManager::MouseButton);
 	glutMouseWheelFunc(InputManager::MouseWheelMoved);
-	//glutMotionFunc(inputManager.MouseDrag);
+	glutMotionFunc(InputManager::MouseDrag);
 	glutPassiveMotionFunc(InputManager::MouseMoved);
-
 
 
 	//Get start time
@@ -124,7 +127,6 @@ void SceneManager::Init(int argc, char **argv)
 	//Initialise the fps couter interval to be 1 second past start time
 	frameIntervalEnd = startingTime + 1000;
 
-	glutWarpPointer(400, 400);
 	glutSetCursor(GLUT_CURSOR_NONE);
 
 	//Start the engine

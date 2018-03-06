@@ -4,6 +4,11 @@
 #include <GL/glut.h>
 
 namespace InputManager {
+
+	namespace 
+	{
+		bool dragging = false;
+	}
 	
 	//Integer key indentifiers for special and mouse keys. 
 	//USE THESE INSTEAD OF THE ONES USED BY GLUT, AS THEY MAY COLLIDE WITH STANDARD KEY IDS
@@ -56,6 +61,7 @@ namespace InputManager {
 	//Check if an unhandled upwards scroll has occured this frame
 	bool HasScrolledUp();
 	bool HasScrolledDown();
+	bool IsDragging();
 
 	//Input listeners
 	void KeyDown(unsigned char key, int x, int y);

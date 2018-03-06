@@ -1,23 +1,20 @@
-﻿  TestScene.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(51): warning C4305: 'initializing': truncation from 'double' to 'const float'
+﻿  SceneManager.cpp
+  InputManager.cpp
   Generating Code...
   Compiling...
-  SceneManager.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(51): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  TestScene.cpp
+c:\users\daniel\obelisk-engine\psydrwglutengine\testscene.cpp(7): warning C4305: 'argument': truncation from 'double' to 'float'
   Scene.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(51): warning C4305: 'initializing': truncation from 'double' to 'const float'
   Main.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(51): warning C4305: 'initializing': truncation from 'double' to 'const float'
-  InputManager.cpp
-  Camera.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(51): warning C4305: 'initializing': truncation from 'double' to 'const float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.cpp(39): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.cpp(40): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\vec3.h(114): warning C4244: '/=': conversion from 'double' to 'float', possible loss of data
-  c:\users\daniel\obelisk-engine\psydrwglutengine\vec3.h(111): note: while compiling class template member function 'void Vec3<float>::Normalise(void)'
-  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.cpp(47): note: see reference to function template instantiation 'void Vec3<float>::Normalise(void)' being compiled
-  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(57): note: see reference to class template instantiation 'Vec3<float>' being compiled
-c:\users\daniel\obelisk-engine\psydrwglutengine\vec3.h(115): warning C4244: '/=': conversion from 'double' to 'float', possible loss of data
+  FPSCamera.cpp
+c:\users\daniel\obelisk-engine\psydrwglutengine\fpscamera.cpp(59): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\fpscamera.cpp(60): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 c:\users\daniel\obelisk-engine\psydrwglutengine\vec3.h(116): warning C4244: '/=': conversion from 'double' to 'float', possible loss of data
+  c:\users\daniel\obelisk-engine\psydrwglutengine\vec3.h(113): note: while compiling class template member function 'void Vec3<float>::Normalise(void)'
+  c:\users\daniel\obelisk-engine\psydrwglutengine\fpscamera.cpp(68): note: see reference to function template instantiation 'void Vec3<float>::Normalise(void)' being compiled
+  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(52): note: see reference to class template instantiation 'Vec3<float>' being compiled
+c:\users\daniel\obelisk-engine\psydrwglutengine\vec3.h(117): warning C4244: '/=': conversion from 'double' to 'float', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\vec3.h(118): warning C4244: '/=': conversion from 'double' to 'float', possible loss of data
+  Camera.cpp
   Generating Code...
   psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

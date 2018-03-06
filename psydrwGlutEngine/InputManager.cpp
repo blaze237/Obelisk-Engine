@@ -85,6 +85,11 @@ namespace InputManager
 		return scrolledDown;
 	}
 
+	bool IsDragging()
+	{
+		return dragging;
+	}
+
 	bool IsDown(int key)
 	{
 		//If it doesnt exist, just return false. If it does exist, return the value
@@ -202,10 +207,20 @@ namespace InputManager
 		}
 	}
 
+	void MouseDrag(int x, int y)
+	{
+		mousePos.x = x;
+		mousePos.y = y;
+
+		dragging = true;
+	}
+
 	void MouseMoved(int x, int y)
 	{
 		mousePos.x = x;
 		mousePos.y = y;
+
+		dragging = false;
 	}
 
 	void MouseWheelMoved(int key, int dir, int x, int y)

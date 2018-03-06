@@ -18,6 +18,8 @@ public:
 
 	}
 
+
+
 	/***OPERATORS ***/
 	//Addition operator
 	Vec3 operator+(const Vec3 &p2) const {

@@ -6,7 +6,7 @@
 class Camera
 {
 public:
-	Camera();
+	Camera(Vec3<float> eyePos, Vec3<float> viewDir);
 	~Camera();
 
 
@@ -26,9 +26,14 @@ public:
 	{
 		return v;
 	}
-	inline const Vec3<float> GetNr() const
+	inline const Vec3<float>& GetNr() const
 	{
 		return n;
+	}
+
+
+	void setEyePos(Vec3<float> v) {
+		eyePos = v;
 	}
 
 	//Apply camera paramters to opengl matrix statck. Call after any changes to cam pos
@@ -36,22 +41,12 @@ public:
 
 	//Overload to handle input etc. Default uses FPS controll scheme
 	virtual void Update(long tCurrent);
-	//Can overload to provide easy way of resetting camera pos etc. Default sets back to origin.
+	//Can overload to provide easy way of resetting camera pos etc. 
 	virtual void Reset();
 
 
-private:
-	const float speed = 1;
-	char inputL = 'a';
-	char inputU = 'w';
-	char inputR = 'd';
-	char inputD = 's';
-
-	Vec2<int> mousePos;
-	const float sensitivity = 0.003;
-
-
 protected:
+
 
 	//Position of the camera
 	Vec3<float> eyePos;
@@ -60,9 +55,9 @@ protected:
 	Vec3<float> viewDir;
 
 	//Viewspace coordiantes
-	Vec3<float> u;
-	Vec3<float> v;
-	Vec3<float> n;
+	 Vec3<float> u;
+	 Vec3<float> v;
+	 Vec3<float> n;
 
 };
 

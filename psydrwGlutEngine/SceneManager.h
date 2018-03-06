@@ -22,6 +22,14 @@ public:
 	//Draw a string to the screen. Specify a position in screen coordinates and an optional color
 	static void DrawScreenString(std::string s, Vec2<int> pos, Colour c = Colour(1,1,1,1));
 
+	inline static const int& GetScreenW()
+	{
+		return screenW;
+	}
+	inline static const int& GetScreenH()
+	{
+		return screenH;
+	}
 
 private:
 	//Handle window resizing

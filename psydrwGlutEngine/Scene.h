@@ -11,7 +11,7 @@
 class Scene
 {
 public:
-	Scene();
+	Scene(std::unique_ptr<Camera> cam);
 	virtual ~Scene();
 
 	//Render the scene. Default implementation just tells all objects in the scene to render themselves.
@@ -24,6 +24,7 @@ public:
 
 protected:
 	std::vector<std::unique_ptr<GameObject>> objects;
-	Camera mainCam;
+	//The main view cam for the scene
+	std::unique_ptr<Camera> mainCam;
 };
 
