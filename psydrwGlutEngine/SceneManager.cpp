@@ -51,12 +51,14 @@ void SceneManager::Init(int argc, char **argv)
 	//Place cursor in center of window
 	glutWarpPointer(screenW / 2, screenH / 2);
 
+	//Disable the cursor
+	glutSetCursor(GLUT_CURSOR_NONE);
 
 	//Set background colour
 	Colour bgCol(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearColor(bgCol.r, bgCol.g, bgCol.b, bgCol.a);
 
-	//Enable correct z ordering of object faces. Without this the cube faces must be consturcted in the order we wish them to layer.
+	//Enable correct z ordering of object faces. Without this faces must be consturcted in the order we wish them to layer.
 	//With this, opengl handles layering for us by using the components x,y,z values
 	glEnable(GL_DEPTH_TEST);
 
@@ -77,23 +79,7 @@ void SceneManager::Init(int argc, char **argv)
 	// Turn off 2 sided lighting
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
 
-	// set the ambient light model
-	GLfloat global_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
-
-	// enable directional light lighting
-	// (x, y, z, 0.0) -> directional lighting
-	// (x, y, z, 1.0) -> positional lighting
 	glEnable(GL_LIGHTING);
-	GLfloat ambience[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-	GLfloat diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-	GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	GLfloat position[] = { 1.0f, 1.0f, 1.0f, 0.0f };
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambience);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
-	glLightfv(GL_LIGHT0, GL_POSITION, position);
-	glEnable(GL_LIGHT0);
 
 	// Enable smooth shading from lighting
 	glShadeModel(GL_SMOOTH);
@@ -120,14 +106,11 @@ void SceneManager::Init(int argc, char **argv)
 	glutMotionFunc(InputManager::MouseDrag);
 	glutPassiveMotionFunc(InputManager::MouseMoved);
 
-
 	//Get start time
 	startingTime = glutGet(GLUT_ELAPSED_TIME);
 
 	//Initialise the fps couter interval to be 1 second past start time
 	frameIntervalEnd = startingTime + 1000;
-
-	glutSetCursor(GLUT_CURSOR_NONE);
 
 	//Start the engine
 	MainLoop();
@@ -155,11 +138,9 @@ void SceneManager::Reshape(int w, int h)
 
 
 
-
 void SceneManager::MainLoop()
 {
 	glutMainLoopEvent();
-
 
 	//Run the game indefintely till the window is closed via glut
 	while (true) 
@@ -242,6 +223,9 @@ void SceneManager::HandleGLError()
 
 void SceneManager::DrawScreenString(std::string s, Vec2<int> pos, Colour c)
 {
+	//Temporarily disable lighting when drawing string to prevent it interfering witht the colour
+	glDisable(GL_LIGHTING);
+
 	//Move drawing to origin
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -264,4 +248,7 @@ void SceneManager::DrawScreenString(std::string s, Vec2<int> pos, Colour c)
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
+
+
+	glEnable(GL_LIGHTING);
 }

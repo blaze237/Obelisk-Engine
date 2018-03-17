@@ -126,9 +126,11 @@
     <ClCompile Include="DisplayableObject.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Spotlight.cpp" />
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="TestScene.cpp" />
   </ItemGroup>
@@ -138,8 +140,11 @@
     <ClInclude Include="DisplayableObject.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="MathHelp.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Spotlight.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Vec2.h" />

@@ -1,9 +1,11 @@
 #include "TestObject.h"
+#include <iostream>
+#include "MathHelp.h"
 
-
-
-TestObject::TestObject()
+TestObject::TestObject(Vec3<float> pos)
+	:DisplayableObject(pos)
 {
+	scale.x = scale.y = scale.z = 1.5;
 }
 
 
@@ -13,13 +15,7 @@ TestObject::~TestObject()
 
 void TestObject::Render()
 {
-	//Set draw position
-	glTranslatef(0.f, 0.f, -50.f);
-	//Slowly rotate the draw position
-	glRotatef(theta, 1, 1, 0);
-
 	drawCube(5);
-
 }
 
 void TestObject::Update(long tCurrent)
@@ -31,11 +27,16 @@ void TestObject::Update(long tCurrent)
 		//Get the new rotation of the camera
 		theta = theta < (360) ? (theta + dt / timeStep) : 0;
 		lastTime = tCurrent;
+		orientation.x = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
+		orientation.y = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
+
 	}
 }
 
 void TestObject::drawCube(float radius)
 {
+	glPushMatrix();
+
 	//Start Drawing the cube
 	glBegin(GL_TRIANGLES);
 
@@ -106,4 +107,6 @@ void TestObject::drawCube(float radius)
 	glVertex3f(radius, -radius, radius);
 
 	glEnd();
+
+	glPopMatrix();
 }

@@ -4,10 +4,10 @@
 
 #define timeStep  10
 class TestObject :
-	public GameObject
+	public DisplayableObject
 {
 public:
-	TestObject();
+	TestObject(Vec3<float> pos);
 	~TestObject();
 
 	virtual void Render();

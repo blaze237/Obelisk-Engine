@@ -54,6 +54,12 @@
     <ClCompile Include="FPSCamera.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Spotlight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Colour.h">
@@ -87,6 +93,15 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="FPSCamera.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Spotlight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathHelp.h">
       <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,6 +22,22 @@ public:
 	//Draw a string to the screen. Specify a position in screen coordinates and an optional color
 	static void DrawScreenString(std::string s, Vec2<int> pos, Colour c = Colour(1,1,1,1));
 
+	inline static void SetAmbientLight(Colour c)
+	{
+		GLfloat global_ambient[] = { c.r, c.b, c.g, c.a };
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
+	}
+
+	inline static void DisableCursor()
+	{
+		glutSetCursor(GLUT_CURSOR_NONE);
+	}
+
+	inline static void EnableCursor()
+	{
+		glutSetCursor(GLUT_CURSOR_RIGHT_ARROW);
+	}
+
 	inline static const int& GetScreenW()
 	{
 		return screenW;

@@ -8,6 +8,7 @@
 #include "Colour.h"
 #include "Vec2.h"
 #include "Camera.h"
+#include "Light.h"
 class Scene
 {
 public:
@@ -22,8 +23,14 @@ public:
 	//Passthrough function for calling the scenemanagers screen draw function to avoid having to reimplement this in your scenes.
 	void DrawScreenString(std::string, Vec2<int> pos, Colour c = Colour(1,1,1,1));
 
+
+private:
+	bool LightSortFcn(std::shared_ptr<Light> a, std::shared_ptr<Light> b);
+
 protected:
-	std::vector<std::unique_ptr<GameObject>> objects;
+	std::vector<std::unique_ptr<DisplayableObject>> objects;
+	std::vector<std::shared_ptr<Light>> lights;
+
 	//The main view cam for the scene
 	std::unique_ptr<Camera> mainCam;
 };
