@@ -6,19 +6,27 @@
 #include "Scene.h"
 #include "Vec2.h"
 #include "Colour.h"
-
+#include <iostream>
 class SceneManager
 {
 	static const int TICKS_PER_SECOND = 120;
 	static const bool showFPS = true;
 
 public:
-	SceneManager();
+	SceneManager(int argc, char **argv);
 	~SceneManager();
 
 	static void AddScene(std::unique_ptr<Scene>);
+	
+	inline static void SetScene(int index) 
+	{
+		if (index <= numScenes)
+			currentSceneIndex = index;
+		else
+			std::cout << "Error: Scene index out of bounds!" << std::endl;
+	}
 	//Init glut subsystems and register associated functions
-	static void Init(int argc, char **argv);
+	static void Start();
 	//Draw a string to the screen. Specify a position in screen coordinates and an optional color
 	static void DrawScreenString(std::string s, Vec2<int> pos, Colour c = Colour(1,1,1,1));
 

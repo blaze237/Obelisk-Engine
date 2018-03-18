@@ -4,6 +4,7 @@
 #include <string>    
 #include <chrono>
 #include <thread>
+#include <IL/il.h>
 #include "InputManager.h"
 std::vector<std::unique_ptr<Scene>> SceneManager::scenes;
 int SceneManager::currentSceneIndex = 0;
@@ -17,33 +18,14 @@ int SceneManager::frameCount = 0;
 int SceneManager::fps = 0;
 int SceneManager::frameIntervalEnd = 0;
 
-SceneManager::SceneManager()
+SceneManager::SceneManager(int argc, char **argv)
 {
-}
+	//Init DevIL library
+	ilInit();
 
-
-SceneManager::~SceneManager()
-{
-}
-
-void SceneManager::AddScene(std::unique_ptr<Scene> s)
-{
-	scenes.push_back(std::move(s));
-	++numScenes;
-}
-
-
-void SceneManager::Init(int argc, char **argv)
-{
-	if (numScenes == 0)
-	{
-		std::cout << "Error! You must add at least one scene before intialising the engine!" << std::endl;
-		return;
-	}
 	//Init glut
 	glutInit(&argc, argv);
-	//Init time counter used for rotation of cam
-	
+
 	//Make the window
 	glutInitWindowSize(screenW, screenH);
 	glutCreateWindow("INSERT TITLE");
@@ -105,8 +87,29 @@ void SceneManager::Init(int argc, char **argv)
 	glutMouseWheelFunc(InputManager::MouseWheelMoved);
 	glutMotionFunc(InputManager::MouseDrag);
 	glutPassiveMotionFunc(InputManager::MouseMoved);
+}
 
-	//Get start time
+
+SceneManager::~SceneManager()
+{
+}
+
+void SceneManager::AddScene(std::unique_ptr<Scene> s)
+{
+	scenes.push_back(std::move(s));
+	++numScenes;
+}
+
+
+void SceneManager::Start()
+{
+	if (numScenes == 0)
+	{
+		std::cout << "Error! You must add at least one scene before intialising the engine!" << std::endl;
+		return;
+	}
+
+	//Get engine start time
 	startingTime = glutGet(GLUT_ELAPSED_TIME);
 
 	//Initialise the fps couter interval to be 1 second past start time
