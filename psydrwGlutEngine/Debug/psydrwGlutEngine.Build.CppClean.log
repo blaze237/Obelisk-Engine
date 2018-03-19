@@ -1,5 +1,6 @@
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\vc141.pdb
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\vc141.idb
+c:\users\daniel\obelisk-engine\psydrwglutengine\debug\boundingbox.obj
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\camera.obj
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\displayableobject.obj
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\fpscamera.obj
@@ -8,11 +9,11 @@ c:\users\daniel\obelisk-engine\psydrwglutengine\debug\light.obj
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\scene.obj
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\scenemanager.obj
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\main.obj
+c:\users\daniel\obelisk-engine\psydrwglutengine\debug\skybox.obj
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\spotlight.obj
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\testobject.obj
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\testscene.obj
 c:\users\daniel\obelisk-engine\psydrwglutengine\debug\texture2d.obj
-c:\users\daniel\obelisk-engine\psydrwglutengine\debug\texture.obj
 c:\users\daniel\obelisk-engine\debug\psydrwglutengine.exe
 c:\users\daniel\obelisk-engine\debug\psydrwglutengine.ilk
 c:\users\daniel\obelisk-engine\debug\psydrwglutengine.pdb

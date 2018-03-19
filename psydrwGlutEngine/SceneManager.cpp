@@ -18,6 +18,7 @@ int SceneManager::frameCount = 0;
 int SceneManager::fps = 0;
 int SceneManager::frameIntervalEnd = 0;
 bool SceneManager::DevILInit = false;
+bool SceneManager::quit = false;
 
 SceneManager::SceneManager(int argc, char **argv)
 {
@@ -111,8 +112,6 @@ void SceneManager::Start()
 		std::cout << "Error! You must add at least one scene before intialising the engine!" << std::endl;
 		return;
 	}
-	//Tell scene about window dimensions by setting the skybox scale
-	scenes[currentSceneIndex]->SetSkyBoxScale(screenH);
 
 	//Get engine start time
 	startingTime = glutGet(GLUT_ELAPSED_TIME);
@@ -130,22 +129,7 @@ void SceneManager::Reshape(int w, int h)
 	screenW = w;
 	screenH = h;
 
-	//Tell scene about new window dimensions by setting the skybox scale
-	scenes[currentSceneIndex]->SetSkyBoxScale(screenH);
-
-	// calculate new aspect ratio
-	GLdouble aspect = static_cast<GLdouble>(screenW) / static_cast<GLdouble>(screenH);
-
-	glMatrixMode(GL_PROJECTION);
-	// reset matrix
-	glLoadIdentity();
-
-	// Set the viewport to be the entire window
-	glViewport(0, 0, screenW, screenH);
-
-	gluPerspective(45.0, aspect, 1, 1000);
-	// return matrix mode to modelling and viewing
-	glMatrixMode(GL_MODELVIEW);
+	scenes[currentSceneIndex]->HandleReshape(w, h);
 }
 
 
@@ -155,7 +139,7 @@ void SceneManager::MainLoop()
 	glutMainLoopEvent();
 
 	//Run the game indefintely till the window is closed via glut
-	while (true) 
+	while (!quit) 
 	{
 		//Get start time for this frame
 		long fStart = glutGet(GLUT_ELAPSED_TIME);
@@ -185,6 +169,7 @@ void SceneManager::MainLoop()
 		//Max number of visualy different renderable frames is set by the tick rate, therefore we sleep untill the next tick to avoid waisting resources rendering identical intermediate frames
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000 / TICKS_PER_SECOND + fStart - glutGet(GLUT_ELAPSED_TIME)));
 	}
+
 }
 
 void SceneManager::Render()
@@ -212,10 +197,6 @@ void SceneManager::Update(long tCurrent)
 	glutMainLoopEvent();
 	
 	scenes[currentSceneIndex]->Update(tCurrent);
-
-	//if (InputManager::Pressed(InputManager::CTRL))
-	//	std::cout << "UP" << std::endl;
-	
 
 	//Tell the input manager to advance to polling for next tick. Must be last thing in update loop
 	InputManager::Update();

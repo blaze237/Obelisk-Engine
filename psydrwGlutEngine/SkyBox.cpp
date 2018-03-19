@@ -27,7 +27,6 @@ SkyBox::~SkyBox()
 
 void SkyBox::Render()
 {
-	//std::cout << "hi" << scale.x << std::endl;
 	glPushMatrix();
 	
 	//Set drawing scale

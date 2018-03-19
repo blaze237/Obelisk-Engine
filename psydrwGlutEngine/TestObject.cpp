@@ -3,7 +3,7 @@
 #include "MathHelp.h"
 
 TestObject::TestObject(Vec3<float> pos, Texture2D texture)
-	:DisplayableObject(pos), texture(texture)
+	:DisplayableObject(pos), texture(texture), bBox(2,2,2)
 {
 	scale.x = scale.y = scale.z = 1.5;
 }
@@ -16,6 +16,7 @@ TestObject::~TestObject()
 void TestObject::Render()
 {
 	drawCube(5);
+	bBox.Render();
 }
 
 void TestObject::Update(long tCurrent)

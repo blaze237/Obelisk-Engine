@@ -43,6 +43,12 @@ public:
 		else
 			std::cout << "Error: Scene index out of bounds!" << std::endl;
 	}
+
+	inline static void Exit()
+	{
+		quit = true;
+	}
+
 	//Init glut subsystems and register associated functions
 	static void Start();
 	//Draw a string to the screen. Specify a position in screen coordinates and an optional color
@@ -115,5 +121,7 @@ private:
 
 	//Flag used to indicate that image library is intilazed and ready to use.
 	static bool DevILInit;
+
+	static bool quit;
 };
 

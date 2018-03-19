@@ -48,9 +48,6 @@
     <ClCompile Include="TestObject.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
-    <ClCompile Include="DisplayableObject.cpp">
-      <Filter>Game Objects</Filter>
-    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -70,6 +67,9 @@
       <Filter>Game Objects\Prefabs</Filter>
     </ClCompile>
     <ClCompile Include="SkyBox.cpp">
+      <Filter>Game Objects\Base Types</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayableObject.cpp">
       <Filter>Game Objects\Base Types</Filter>
     </ClCompile>
   </ItemGroup>

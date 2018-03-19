@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DisplayableObject.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colour.h" />
     <ClInclude Include="DisplayableObject.h" />

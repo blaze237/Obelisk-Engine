@@ -4,7 +4,6 @@
 #include <functional>
 
 Scene::Scene()
-
 {
 }
 
@@ -18,7 +17,7 @@ void Scene::Render()
 	//Set up camera properites
 	mainCam->SetCamMatrix();
 
-	skyBox->Render();
+	RenderSky();
 
 	//Tell each object in the scene to render itself
 	for (std::unique_ptr<DisplayableObject>& o : objects)
@@ -64,6 +63,15 @@ void Scene::Update(long tCurrent)
 	for (std::unique_ptr<DisplayableObject>& o : objects)
 		o->Update(tCurrent);
 
+}
+
+void Scene::RenderSky()
+{
+	Vec3<float> eyePos = mainCam->GetEyePos();
+	glPushMatrix();
+	glTranslatef(eyePos.x, eyePos.y - skyBox->GetScale().y / 2, eyePos.z);
+	skyBox->Render();
+	glPopMatrix();
 }
 
 void Scene::DrawScreenString(std::string s, Vec2<int> pos, Colour c)

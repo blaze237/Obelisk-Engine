@@ -6,6 +6,7 @@
 #include <vector>
 #include "Texture2D.h"
 #include "SkyBox.h"
+#include "SceneManager.h"
 TestScene::TestScene()
 {
 	//Set scene cam
@@ -23,6 +24,8 @@ TestScene::TestScene()
 	sBoxTs.push_back(Texture2D("../textures/skybox/skybox_up.png"));
 
 	skyBox = std::make_unique<SkyBox>(sBoxTs);
+	skyBox->SetScale(mainCam->GetFarClip()/2);
+
 
 	//Set up the scenes objects
 	std::unique_ptr<DisplayableObject> t = std::make_unique<TestObject>(Vec3<float>(0,0,-50),Texture2D("../textures/wall.jpg"));

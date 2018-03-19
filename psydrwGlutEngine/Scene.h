@@ -33,9 +33,16 @@ public:
 	//Update the scene. Default implementation just tells all objects in the scene to update themselves. And calls update on the camera
 	virtual void Update(long tCurrent);
 
+	//Render the skybox at main cam position
+	void RenderSky();
+
 	//Passthrough function for calling the scenemanagers screen draw function to avoid having to reimplement this in your scenes.
 	void DrawScreenString(std::string, Vec2<int> pos, Colour c = Colour(1,1,1,1));
 
+	inline void HandleReshape(int w, int h)
+	{
+		mainCam->HandleReshape(w, h);
+	}
 	//Pass rendering duties to a different camera
 	inline void SetCam(std::unique_ptr<Camera> cam)
 	{
@@ -47,22 +54,12 @@ public:
 		skyBox = std::move(sky);
 	}
 
-	inline void SetSkyBoxScale(const float& screenH)
-	{
-		skyBoxScale = (screenH / 2.f) / tan(PI / 8.f);
-		skyBox->SetScale(skyBoxScale);
-
-	}
-
 private:
 	bool LightSortFcn(std::shared_ptr<Light> a, std::shared_ptr<Light> b);
 
 protected:
 	std::vector<std::unique_ptr<DisplayableObject>> objects;
 	std::vector<std::shared_ptr<Light>> lights;
-
-	//Auto updated based on window dimensions
-	float skyBoxScale;
 
 	//The main view cam for the scene
 	std::unique_ptr<Camera> mainCam;

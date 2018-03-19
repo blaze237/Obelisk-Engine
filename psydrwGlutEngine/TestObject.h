@@ -1,7 +1,7 @@
 #pragma once
 #include "DisplayableObject.h"
 #include "Texture2D.h"
-
+#include "BoundingBox.h"
 #define timeStep  10
 class TestObject :
 	public DisplayableObject
@@ -18,5 +18,6 @@ private:
 	int theta = 0;
 	long lastTime = 0;
 	Texture2D texture;
+	BoundingBox bBox;
 };
 

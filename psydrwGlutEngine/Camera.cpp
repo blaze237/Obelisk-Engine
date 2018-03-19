@@ -21,7 +21,7 @@ void Camera::SetCamMatrix() const
 
 void Camera::Update(long tCurrent)
 {
-	
+
 }
 
 void Camera::Reset()

@@ -32,6 +32,9 @@ void FPSCamera::Update(long tCurrent)
 		//Set the view in opengl
 		SetCamMatrix();
 
+		
+	
+
 	#ifdef DEBUG
 			std::cout << "Eye" << eyePos.x << "," << eyePos.y << "," << eyePos.z << std::endl;
 			std::cout << "View" << viewDir.x << "," << viewDir.y << "," << viewDir.z << std::endl;
