@@ -7,12 +7,30 @@
 #include "Vec2.h"
 #include "Colour.h"
 #include <iostream>
+#include "Texture2D.h"
+#include <exception>
 class SceneManager
 {
 	static const int TICKS_PER_SECOND = 120;
 	static const bool showFPS = true;
 
 public:
+
+	//Returns Placeholder texture that can be used if image file cannot be found
+	//Have to do this via function as the placeholder generation has to be delayed untill DevIL has been intialised.
+	static Texture2D GetErrorTexture()
+	{
+		if (!DevILInit)
+		{
+			std::cout << "Error. DevIL image library not intialised. Scene manager must be constructed in order to get error texure!" << std::endl;
+			throw std::exception();
+		}
+
+		static Texture2D ERROR_TEXTURE = Texture2D("../textures/ERROR.png");
+
+		return ERROR_TEXTURE;
+	}
+
 	SceneManager(int argc, char **argv);
 	~SceneManager();
 
@@ -94,5 +112,8 @@ private:
 	static int frameCount;
 	static int fps;
 	static int frameIntervalEnd;
+
+	//Flag used to indicate that image library is intilazed and ready to use.
+	static bool DevILInit;
 };
 

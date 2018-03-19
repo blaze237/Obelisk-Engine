@@ -135,6 +135,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Spotlight.cpp" />
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="TestScene.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="MathHelp.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Spotlight.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="TestScene.h" />

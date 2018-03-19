@@ -17,11 +17,14 @@ long SceneManager::currentTick = 0;
 int SceneManager::frameCount = 0;
 int SceneManager::fps = 0;
 int SceneManager::frameIntervalEnd = 0;
+bool SceneManager::DevILInit = false;
 
 SceneManager::SceneManager(int argc, char **argv)
 {
 	//Init DevIL library
 	ilInit();
+	DevILInit = true;
+
 
 	//Init glut
 	glutInit(&argc, argv);
@@ -108,6 +111,8 @@ void SceneManager::Start()
 		std::cout << "Error! You must add at least one scene before intialising the engine!" << std::endl;
 		return;
 	}
+	//Tell scene about window dimensions by setting the skybox scale
+	scenes[currentSceneIndex]->SetSkyBoxScale(screenH);
 
 	//Get engine start time
 	startingTime = glutGet(GLUT_ELAPSED_TIME);
@@ -124,6 +129,10 @@ void SceneManager::Reshape(int w, int h)
 	// update global dimension variables
 	screenW = w;
 	screenH = h;
+
+	//Tell scene about new window dimensions by setting the skybox scale
+	scenes[currentSceneIndex]->SetSkyBoxScale(screenH);
+
 	// calculate new aspect ratio
 	GLdouble aspect = static_cast<GLdouble>(screenW) / static_cast<GLdouble>(screenH);
 

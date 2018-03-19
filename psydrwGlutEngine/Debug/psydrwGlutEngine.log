@@ -1,1 +1,19 @@
-﻿
+﻿  TestScene.cpp
+c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(3): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\testscene.cpp(34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\testscene.cpp(34): warning C4305: 'argument': truncation from 'double' to 'float'
+  SkyBox.cpp
+c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(3): warning C4305: 'initializing': truncation from 'double' to 'float'
+  Generating Code...
+  Compiling...
+  SceneManager.cpp
+c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(3): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\scenemanager.cpp(115): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\scenemanager.cpp(134): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Scene.cpp
+  Main.cpp
+  FPSCamera.cpp
+  Camera.cpp
+  psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

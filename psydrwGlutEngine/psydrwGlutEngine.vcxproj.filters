@@ -25,6 +25,12 @@
     <Filter Include="Game Objects">
       <UniqueIdentifier>{36f72b4f-6586-4738-bd08-9bfab65b78f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Objects\Prefabs">
+      <UniqueIdentifier>{90feb5da-5853-46a8-938f-c08407e12e39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Objects\Base Types">
+      <UniqueIdentifier>{5915ab25-bc6d-439c-83eb-45fa06dbdf7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -48,20 +54,23 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
     <ClCompile Include="FPSCamera.cpp">
-      <Filter>Util</Filter>
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Game Objects\Base Types</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
+      <Filter>Game Objects\Base Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="Spotlight.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Objects\Prefabs</Filter>
     </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Game Objects\Base Types</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,32 +92,35 @@
     <ClInclude Include="TestObject.h">
       <Filter>Levels</Filter>
     </ClInclude>
-    <ClInclude Include="DisplayableObject.h">
-      <Filter>Game Objects</Filter>
-    </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="Vec3.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSCamera.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Spotlight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MathHelp.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="FPSCamera.h">
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Game Objects\Base Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Game Objects\Base Types</Filter>
+    </ClInclude>
     <ClInclude Include="Texture2D.h">
-      <Filter>Header Files</Filter>
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Spotlight.h">
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayableObject.h">
+      <Filter>Game Objects\Base Types</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Game Objects\Base Types</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

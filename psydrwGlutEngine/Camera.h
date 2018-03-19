@@ -7,7 +7,7 @@ class Camera
 {
 public:
 	Camera(Vec3<float> eyePos, Vec3<float> viewDir);
-	~Camera();
+	virtual ~Camera();
 
 
 	inline const Vec3<float>& GetEyePos() const

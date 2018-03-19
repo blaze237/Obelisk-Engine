@@ -2,6 +2,8 @@
 #include <il/il.h>
 #include <iostream>
 
+
+
 //Load in the texture from file system and store on the gpu using opengl
 Texture2D::Texture2D(std::string fName)
 {

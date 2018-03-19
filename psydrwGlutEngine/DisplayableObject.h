@@ -5,7 +5,7 @@ class DisplayableObject
 {
 public:
 	DisplayableObject(Vec3<float> pos, Vec3<float> scale = Vec3<float>(1,1,1), Vec3<float> orientation = Vec3<float>(0,0,0));
-	~DisplayableObject();
+	virtual ~DisplayableObject();
 
 	//Calls your render function and handles matrix translations needed to draw at the correct position, scale and orientation. 
 	//Not intended to be overiden
@@ -17,9 +17,39 @@ public:
 	virtual void Update(long tCurrent);
 
 
+	//Getters
+	inline Vec3<float> GetPos() const
+	{
+		return pos;
+	}
+	inline Vec3<float> GetScale() const
+	{
+		return scale;
+	}
+	inline Vec3<float> GetOrientation() const
+	{
+		return orientation;
+	}
+
+	//Setters
+	inline void SetPos(const Vec3<float>& p)
+	{
+		pos = p;
+	}
+	inline void SetScale(float s)
+	{
+		scale.x = scale.y = scale.z = s;
+	}
+	inline void SetScale(const Vec3<float>& s)
+	{
+		scale = s;
+	}
+	inline void SetOrientation(const Vec3<float>& o)
+	{
+		orientation = o;
+	}
 
 protected:
-
 	Vec3<float> pos;
 	Vec3<float> scale;
 	Vec3<float> orientation;

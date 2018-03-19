@@ -3,10 +3,9 @@
 #include <algorithm>
 #include <functional>
 
-Scene::Scene(std::unique_ptr<Camera> cam)
+Scene::Scene()
+
 {
-	mainCam = std::move(cam);
-	
 }
 
 
@@ -19,10 +18,13 @@ void Scene::Render()
 	//Set up camera properites
 	mainCam->SetCamMatrix();
 
-	//Tell each object in the scene to handle logic updates
+	skyBox->Render();
+
+	//Tell each object in the scene to render itself
 	for (std::unique_ptr<DisplayableObject>& o : objects)
 		o->RenderObject();
 
+	//Render the lights
 	if (lights.size() > 8)
 	{
 		//Rearange the lights vector so that 8 closest cams are first
@@ -37,10 +39,16 @@ void Scene::Render()
 
 			return aDist < bDist;
 		});
-	}
 
-	for (std::shared_ptr<Light>& l : lights)
-		l->Render(GL_LIGHT0);
+		for (int i = 0; i < 8; ++i)
+			lights[i]->Render(LIGHT_IDS[i]);
+	}
+	else
+	{
+		int i = 0;
+		for (std::shared_ptr<Light>& l : lights)
+			l->Render(LIGHT_IDS[i++]);
+	}
 }
 
 void Scene::Update(long tCurrent)
@@ -48,12 +56,14 @@ void Scene::Update(long tCurrent)
 	//Tell camera to update.
 	mainCam->Update(tCurrent);
 
+	//Tell each light to to handle logic updates
+	for (std::shared_ptr<Light>& l : lights)
+		l->Update(tCurrent);
+
 	//Tell each object in the scene to handle logic updates
 	for (std::unique_ptr<DisplayableObject>& o : objects)
 		o->Update(tCurrent);
 
-	for (std::shared_ptr<Light>& l : lights)
-		l->Update(tCurrent);
 }
 
 void Scene::DrawScreenString(std::string s, Vec2<int> pos, Colour c)
