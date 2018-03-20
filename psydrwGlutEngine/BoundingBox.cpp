@@ -3,7 +3,7 @@
 
 
 
-BoundingBox::BoundingBox(int width, int height, int depth)
+BoundingBox::BoundingBox(float width, float height, float depth)
 	:width(width), height(height), depth(depth)
 {
 }
@@ -16,9 +16,7 @@ BoundingBox::~BoundingBox()
 void BoundingBox::Render()
 {
 	glPushMatrix();
-	glColor3f(0, 1, 0);
-	//glScalef(1, height / width, depth / width);
-	//glutWireCube(width);                                 
+	glColor4f(1.f, 0.f, 0.f, 1.f);
 
 	glBegin(GL_LINE_LOOP);
 	glVertex3f(-width, height, depth);

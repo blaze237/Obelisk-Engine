@@ -3,9 +3,10 @@
 #include "MathHelp.h"
 
 TestObject::TestObject(Vec3<float> pos, Texture2D texture)
-	:DisplayableObject(pos), texture(texture), bBox(2,2,2)
+	:DisplayableObject(pos, Vec3<float>(2.5, 2.5, 2.5)), texture(texture)
 {
 	scale.x = scale.y = scale.z = 1.5;
+
 }
 
 

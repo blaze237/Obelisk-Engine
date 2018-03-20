@@ -2,8 +2,8 @@
 
 
 
-DisplayableObject::DisplayableObject(Vec3<float> pos, Vec3<float> scale , Vec3<float> orientation)
-	:pos(pos), scale(scale), orientation(orientation)
+DisplayableObject::DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, Vec3<float> scale, Vec3<float> orientation )
+	:pos(pos), scale(scale), orientation(orientation), bBox(bBoxSize.x, bBoxSize.y, bBoxSize.z)
 {
 
 }

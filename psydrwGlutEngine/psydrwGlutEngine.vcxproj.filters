@@ -72,6 +72,9 @@
     <ClCompile Include="DisplayableObject.cpp">
       <Filter>Game Objects\Base Types</Filter>
     </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Colour.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="SkyBox.h">
       <Filter>Game Objects\Base Types</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,13 +3,13 @@
 class BoundingBox
 {
 public:
-	BoundingBox(int width, int height, int depth);
+	BoundingBox(float width, float height, float depth);
 	~BoundingBox();
 
 	//Use for debugging
 	void Render();
 
-private:
+public:
 	float width, height, depth;
 };
 

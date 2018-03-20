@@ -1,10 +1,11 @@
 #pragma once
 #include <GL/glut.h>
 #include "Vec3.h"
+#include "BoundingBox.h"
 class DisplayableObject
 {
 public:
-	DisplayableObject(Vec3<float> pos, Vec3<float> scale = Vec3<float>(1,1,1), Vec3<float> orientation = Vec3<float>(0,0,0));
+	DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, Vec3<float> scale = Vec3<float>(1,1,1), Vec3<float> orientation = Vec3<float>(0,0,0));
 	virtual ~DisplayableObject();
 
 	//Calls your render function and handles matrix translations needed to draw at the correct position, scale and orientation. 
@@ -53,6 +54,8 @@ protected:
 	Vec3<float> pos;
 	Vec3<float> scale;
 	Vec3<float> orientation;
+	BoundingBox bBox;
+
 
 };
 
