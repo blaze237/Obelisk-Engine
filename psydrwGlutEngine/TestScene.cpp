@@ -6,6 +6,7 @@
 #include <vector>
 #include "Texture2D.h"
 #include "SkyBox.h"
+#include "TestObject2.h"
 #include "SceneManager.h"
 TestScene::TestScene()
 {
@@ -31,6 +32,12 @@ TestScene::TestScene()
 	std::unique_ptr<DisplayableObject> t = std::make_unique<TestObject>(Vec3<float>(0,0,-50),Texture2D("../textures/wall.jpg"));
 	t->SetScale(10);
 	objects.push_back(std::move(t));
+
+
+	std::unique_ptr<DisplayableObject> t2 = std::make_unique<TestObject2>(Vec3<float>(50, 0, -50), objects[0]);
+	t2->SetScale(10);
+
+	objects.push_back(std::move(t2));
 
 	//Make the lights for scene
 	for (int i = 0; i < 10; i++) {

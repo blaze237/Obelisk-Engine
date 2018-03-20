@@ -21,8 +21,22 @@ public:
 
 
 	/***OPERATORS ***/
+
+	//Equality operator
+	bool operator==(const Vec3 &p2) const
+	{
+		return this->x == p2.x && this->y == p2.y && this->z == p2.z;
+	}
+
+	//Inequality operator
+	bool operator!=(const Vec3 &p2) const
+	{
+		return !(*this == p2);
+	}
+
 	//Addition operator
-	Vec3 operator+(const Vec3 &p2) const {
+	Vec3 operator+(const Vec3 &p2) const 
+	{
 		Vec3 tmp;
 		tmp.x = this->x + p2.x;
 		tmp.y = this->y + p2.y;
@@ -31,7 +45,8 @@ public:
 	}
 
 	//Subtraction operator
-	Vec3 operator-(const Vec3 &p2) const {
+	Vec3 operator-(const Vec3 &p2) const 
+	{
 		Vec3 tmp;
 		tmp.x = this->x - p2.x;
 		tmp.y = this->y - p2.y;
@@ -41,7 +56,8 @@ public:
 	}
 
 	//Numeric division operator
-	Vec3 operator/(const T &d) const {
+	Vec3 operator/(const T &d) const
+	{
 		Vec3 tmp;
 		tmp.x = this->x / d;
 		tmp.y = this->y / d;
@@ -51,7 +67,8 @@ public:
 	}
 
 	//Numeric multiplication operator
-	Vec3 operator*(const T &m) const {
+	Vec3 operator*(const T &m) const 
+	{
 		Vec3 tmp;
 		tmp.x = this->x * m;
 		tmp.y = this->y * m;
@@ -60,7 +77,8 @@ public:
 		return tmp;
 	}
 	//Addition assignment operator
-	Vec3& operator+=(const Vec3 &p2) {
+	Vec3& operator+=(const Vec3 &p2) 
+	{
 		this->x += p2.x;
 		this->y += p2.y;
 		this->z += p2.z;
@@ -68,7 +86,8 @@ public:
 		return *this;
 	}
 	//Subtraction assignment operator
-	Vec3& operator-=(const Vec3 &p2) {
+	Vec3& operator-=(const Vec3 &p2) 
+	{
 		this->x -= p2.x;
 		this->y -= p2.y;
 		this->z -= p2.z;
@@ -76,7 +95,8 @@ public:
 		return *this;
 	}
 	//Multiplication assignment operator
-	Vec3& operator*=(const T &m) {
+	Vec3& operator*=(const T &m) 
+	{
 		this->x *= m;
 		this->y *= m;
 		this->z *= m;
@@ -84,7 +104,8 @@ public:
 		return *this;
 	}
 	//Division assignment operator
-	Vec3& operator/=(const T &d) {
+	Vec3& operator/=(const T &d) 
+	{
 		this->x /= d;
 		this->y /= d;
 		this->z /= d;
@@ -111,7 +132,7 @@ public:
 	//Normalise the vector
 	inline void Normalise()
 	{
-		double mag = getMagnitude();
+		T mag = getMagnitude();
 
 		x /= mag;
 		y /= mag;

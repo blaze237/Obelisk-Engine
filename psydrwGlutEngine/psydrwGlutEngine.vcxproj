@@ -139,6 +139,7 @@
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Spotlight.cpp" />
     <ClCompile Include="TestObject.cpp" />
+    <ClCompile Include="TestObject2.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Spotlight.h" />
     <ClInclude Include="TestObject.h" />
+    <ClInclude Include="TestObject2.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Vec2.h" />

@@ -75,6 +75,9 @@
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestObject2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Colour.h">
@@ -126,6 +129,9 @@
       <Filter>Game Objects\Base Types</Filter>
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObject2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

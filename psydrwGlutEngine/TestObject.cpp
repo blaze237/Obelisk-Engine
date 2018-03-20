@@ -3,9 +3,8 @@
 #include "MathHelp.h"
 
 TestObject::TestObject(Vec3<float> pos, Texture2D texture)
-	:DisplayableObject(pos, Vec3<float>(2.5, 2.5, 2.5)), texture(texture)
+	:DisplayableObject(pos, Vec3<float>(5, 5, 5)), texture(texture)
 {
-	scale.x = scale.y = scale.z = 1.5;
 
 }
 
@@ -17,22 +16,21 @@ TestObject::~TestObject()
 void TestObject::Render()
 {
 	drawCube(5);
-	bBox.Render();
 }
 
 void TestObject::Update(long tCurrent)
 {
-	//Get the ellapsed time since the last rotation occured
-	long dt = tCurrent - lastTime;
-	if (dt > timeStep)
-	{
-		//Get the new rotation of the camera
-		theta = theta < (360) ? (theta + dt / timeStep) : 0;
-		lastTime = tCurrent;
-		orientation.x = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
-		orientation.y = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
+	////Get the ellapsed time since the last rotation occured
+	//long dt = tCurrent - lastTime;
+	//if (dt > timeStep)
+	//{
+	//	//Get the new rotation of the camera
+	//	theta = theta < (360) ? (theta + dt / timeStep) : 0;
+	//	lastTime = tCurrent;
+	//	orientation.x = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
+	//	orientation.y = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
 
-	}
+	//}
 }
 
 void TestObject::drawCube(float radius)
