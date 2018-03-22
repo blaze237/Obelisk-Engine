@@ -13,6 +13,9 @@ public:
 	void CheckCollision();
 
 private:
+	int theta = 0;
+
+	long lastTime = 0;
 	const std::unique_ptr<DisplayableObject>& testOb;
 };
 

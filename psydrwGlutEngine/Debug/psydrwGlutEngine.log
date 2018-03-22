@@ -1,3 +1,2 @@
 ﻿  TestObject.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(3): warning C4305: 'initializing': truncation from 'double' to 'float'
   psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

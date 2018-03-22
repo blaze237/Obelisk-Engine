@@ -3,7 +3,7 @@
 
 
 DisplayableObject::DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, Vec3<float> scale, Vec3<float> orientation )
-	:pos(pos), scale(scale), orientation(orientation), bBox(bBoxSize.x, bBoxSize.y, bBoxSize.z, this->pos)
+	:pos(pos), scale(scale), orientation(orientation), bBox(bBoxSize.x, bBoxSize.y, bBoxSize.z, this->pos, this->orientation)
 {
 
 }
@@ -14,6 +14,9 @@ DisplayableObject::~DisplayableObject()
 }
 void DisplayableObject::RenderObject()
 {
+	//Render the box before applying scaling
+	bBox.Render();
+
 	glPushMatrix();
 	//Move drawing to object location
 	glTranslatef(pos.x, pos.y, pos.z);
@@ -23,8 +26,7 @@ void DisplayableObject::RenderObject()
 	glRotatef(orientation.y, 0, 1, 0);
 	glRotatef(orientation.z, 0, 0, 1);
 
-	//Render the box before applying scaling
-	bBox.Render();
+	
 
 	//Set drawing scale
 	glScalef(scale.x, scale.y, scale.z);

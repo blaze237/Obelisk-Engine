@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
+#include "MathHelp.h"
 Vec3<float> CalcMidpoint(Vec3<float> p1, Vec3<float> p2)
 {
 	return Vec3<float>((p1.x + p2.x) / 2.0, (p1.y + p2.y) / 2.0, (p1.z + p2.z) / 2.0);
@@ -32,10 +33,22 @@ TestObject2::~TestObject2()
 
 void TestObject2::Update(long tCurrent)
 {
+	long dt = tCurrent - lastTime;
+	if (dt > timeStep && InputManager::IsDown(' '))
+	{
+		//Get the new rotation of the camera
+		theta = theta < (360) ? (theta + dt / timeStep) : 0;
+		lastTime = tCurrent;
+		orientation.x = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
+		orientation.y = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
+		orientation.z = MathHelp::Clamp((float)theta, 0.f, 360.0f);
+
+	}
+
 	CheckCollision();
 
 	float speed = 0.25;
-
+	//std::cout << pos.x << std::endl;
 	if(InputManager::IsDown(InputManager::LEFT))
 		pos.x -=  speed;
 	if (InputManager::IsDown(InputManager::RIGHT))
