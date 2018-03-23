@@ -1,6 +1,7 @@
 #pragma once
 #include "Vec3.h"
 #include <vector>
+#include "BoxFace.h"
 class BoundingBox
 {
 public:
@@ -8,10 +9,12 @@ public:
 	~BoundingBox();
 
 	//Use for debugging
-	void Render();
+	void Render() const;
 
 	//Calculate and return the position of each vertex based on parent position
-	std::vector<Vec3<float>> GetIndicies();
+	std::vector<Vec3<float>> GetIndicies() const;
+
+	std::vector<BoxFace> GetFaces() const;
 
 public:
 	float width, height, depth;

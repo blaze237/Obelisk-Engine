@@ -78,6 +78,9 @@
     <ClCompile Include="TestObject2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BoxFace.cpp">
+      <Filter>Game Objects\Base Types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Colour.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="TestObject2.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxFace.h">
+      <Filter>Game Objects\Base Types</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

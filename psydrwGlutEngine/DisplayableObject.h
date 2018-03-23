@@ -32,6 +32,11 @@ public:
 		return orientation;
 	}
 
+	inline const BoundingBox& GetBBox() const
+	{
+		return bBox;
+	}
+
 	//Setters
 	inline void SetPos(const Vec3<float>& p)
 	{
@@ -49,6 +54,7 @@ public:
 	{
 		orientation = o;
 	}
+
 
 protected:
 	Vec3<float> pos;

@@ -20,14 +20,14 @@ void Scene::Render()
 	RenderSky();
 
 	//Tell each object in the scene to render itself
-	for (std::unique_ptr<DisplayableObject>& o : objects)
+	for (std::shared_ptr<DisplayableObject>& o : objects)
 		o->RenderObject();
 
 	//Render the lights
 	if (lights.size() > 8)
 	{
 		//Rearange the lights vector so that 8 closest cams are first
-		std::nth_element(lights.begin(), lights.begin() + 8, lights.end(), [this](std::shared_ptr<Light> a, std::shared_ptr<Light> b) -> bool {
+		std::nth_element(lights.begin(), lights.begin() + 8, lights.end(), [this](std::shared_ptr<Light>& a, std::shared_ptr<Light>& b) -> bool {
 
 			const Vec3<float>& eyePos = mainCam->GetEyePos();
 
@@ -60,7 +60,7 @@ void Scene::Update(long tCurrent)
 		l->Update(tCurrent);
 
 	//Tell each object in the scene to handle logic updates
-	for (std::unique_ptr<DisplayableObject>& o : objects)
+	for (std::shared_ptr<DisplayableObject>& o : objects)
 		o->Update(tCurrent);
 
 }
@@ -79,7 +79,7 @@ void Scene::DrawScreenString(std::string s, Vec2<int> pos, Colour c)
 	SceneManager::DrawScreenString(s, pos, c);
 }
 
-bool Scene::LightSortFcn(std::shared_ptr<Light> a, std::shared_ptr<Light> b)
+bool Scene::LightSortFcn(std::shared_ptr<Light>& a, std::shared_ptr<Light>& b)
 {
 	const Vec3<float>& eyePos = mainCam->GetEyePos();
 

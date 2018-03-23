@@ -5,7 +5,7 @@ class TestObject2 :
 	public TestObject
 {
 public:
-	TestObject2(Vec3<float> pos, std::unique_ptr<DisplayableObject>& testOb,  Texture2D texture = Texture2D(""));
+	TestObject2(Vec3<float> pos, std::shared_ptr<DisplayableObject> testOb,  Texture2D texture = Texture2D(""));
 	~TestObject2();
 
 	virtual void Update(long tCurrent);
@@ -16,6 +16,6 @@ private:
 	int theta = 0;
 
 	long lastTime = 0;
-	const std::unique_ptr<DisplayableObject>& testOb;
+	std::shared_ptr<DisplayableObject> testOb;
 };
 

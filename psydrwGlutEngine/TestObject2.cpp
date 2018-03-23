@@ -4,26 +4,29 @@
 #include <iostream>
 #include <cmath>
 #include "MathHelp.h"
+#include "BoxFace.h"
 Vec3<float> CalcMidpoint(Vec3<float> p1, Vec3<float> p2)
 {
 	return Vec3<float>((p1.x + p2.x) / 2.0, (p1.y + p2.y) / 2.0, (p1.z + p2.z) / 2.0);
 }
 
-bool planeCheck(Vec3<float> normal, Vec3<float> planePoint, Vec3<float> point)
+bool BehindPlane(Vec3<float> normal, Vec3<float> planePoint, Vec3<float> point)
 {
 	Vec3<float> tmp = point - planePoint;
 
 	float dist = tmp.DotProd(normal);
 
 	if (dist > 0)
-		return true;
-	else
 		return false;
+	else
+		return true;
 }
 
-TestObject2::TestObject2(Vec3<float> pos, std::unique_ptr<DisplayableObject>& testOb, Texture2D texture)
+TestObject2::TestObject2(Vec3<float> pos, std::shared_ptr<DisplayableObject> testOb, Texture2D texture)
 	:TestObject(pos, texture), testOb(testOb)
 {
+	Vec3<float> planeNormal = (this->testOb->GetPos() - pos);
+
 }
 
 
@@ -57,37 +60,65 @@ void TestObject2::Update(long tCurrent)
 		pos.y -= speed;
 	if (InputManager::IsDown(InputManager::UP))
 		pos.y += speed;
+	if (InputManager::IsDown('['))
+		pos.z += speed;
+	if (InputManager::IsDown(']'))
+		pos.z -= speed;
+
+
 }
 
 void TestObject2::CheckCollision()
 {
-	Vec3<float> midP = CalcMidpoint(pos, Vec3<float>(0, 0, -50));
 
-	Vec3<float> planeNormal = (Vec3<float>(0, 0, -50) - pos);
-	planeNormal.Normalise();
-
-	
-	bool sideCheck;
-	int i = 0;
-
+	//Get the faces of other object
+	std::vector<BoxFace> faces = testOb->GetBBox().GetFaces();
+	//Get indicies of our bbox
 	std::vector<Vec3<float>> indicies = bBox.GetIndicies();
+	int inVol = 0;
 
-	for (Vec3<float> p : indicies)
+	bool flags[3][8];
+
+	//For each face pair, do yo thing
+	for (int i = 0; i < 6; i += 2)
 	{
-		bool side = planeCheck(planeNormal, midP, p);
+		BoxFace face1 = faces[i];
+		BoxFace face2 = faces[i + 1];
 
-		//if(side)
-		//	std::cout << side << std::endl;
+
+		bool face1Flags[8], face2Flags[8];
+		int j = 0;
 		
-		if (i != 0 && side != sideCheck)
+		//Check each indicie against face1 to see if any are behind it
+		for (Vec3<float> p : indicies)
 		{
-			std::cout << "Collision!" << std::endl;
-
-			return;
+			face1Flags[j] = BehindPlane(face1.normal, face1.A, p);
+			++j;
 		}
-		
-		sideCheck = side;
-		i = 1;
+		j = 0;
+		//Check each indicie against face1 to see if any are behind it
+		for (Vec3<float> p : indicies)
+		{
+			face2Flags[j] = BehindPlane(face2.normal, face2.A, p);
+			++j;
+		}
+		//Loop through each faceflag array, noting mathces and misses in the correspoding entry in flags array
+		for (j = 0; j < 8; ++j)
+			flags[i / 2][j] = face1Flags[j] && face2Flags[j];
+
 	}
 
+	//Loop through each flag array looking for matches between the 3
+	for (int i = 0; i < 8; ++i)
+	{
+		if (flags[0][i] && flags[1][i] && flags[2][i])
+		{
+			std::cout << "COLLISION!" << std::endl;
+			return;
+		}
+		else
+			std::cout << std::endl;
+
+	}
 }
+

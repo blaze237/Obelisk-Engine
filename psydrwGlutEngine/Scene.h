@@ -55,10 +55,10 @@ public:
 	}
 
 private:
-	bool LightSortFcn(std::shared_ptr<Light> a, std::shared_ptr<Light> b);
+	bool LightSortFcn(std::shared_ptr<Light>& a, std::shared_ptr<Light>& b);
 
 protected:
-	std::vector<std::unique_ptr<DisplayableObject>> objects;
+	std::vector<std::shared_ptr<DisplayableObject>> objects;
 	std::vector<std::shared_ptr<Light>> lights;
 
 	//The main view cam for the scene

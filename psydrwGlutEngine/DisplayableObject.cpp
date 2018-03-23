@@ -22,9 +22,9 @@ void DisplayableObject::RenderObject()
 	glTranslatef(pos.x, pos.y, pos.z);
 
 	//Orient drawing according to object orientation
-	glRotatef(orientation.x, 1, 0, 0);
 	glRotatef(orientation.y, 0, 1, 0);
 	glRotatef(orientation.z, 0, 0, 1);
+	glRotatef(orientation.x, 1, 0, 0);
 
 	
 

@@ -13,11 +13,10 @@ BoundingBox::~BoundingBox()
 {
 }
 
-void BoundingBox::Render()
+void BoundingBox::Render() const
 {
-
+	//Grab the position of each index
 	std::vector<Vec3<float>> ind = GetIndicies();
-
 
 	glPushMatrix();
 	glColor4f(1.f, 0.f, 0.f, 1.f);
@@ -25,14 +24,12 @@ void BoundingBox::Render()
 	glScalef(1, 1, 1);
 
 
-
-
 	//Front
 	glBegin(GL_LINE_LOOP);
-	glVertex3f(ind[0].x, ind[0].y, ind[0].z);
-	glVertex3f(ind[1].x, ind[1].y, ind[1].z);
-	glVertex3f(ind[2].x, ind[2].y, ind[2].z);
-	glVertex3f(ind[3].x, ind[3].y, ind[3].z);
+	glVertex3f(ind[0].x, ind[0].y, ind[0].z); // FTL
+	glVertex3f(ind[1].x, ind[1].y, ind[1].z); //FTR
+	glVertex3f(ind[2].x, ind[2].y, ind[2].z); //FBR
+	glVertex3f(ind[3].x, ind[3].y, ind[3].z); //FBL
 	glEnd();
 	// FAR SIDE
 	glBegin(GL_LINE_LOOP);
@@ -70,149 +67,68 @@ void BoundingBox::Render()
 	glVertex3f(ind[2].x, ind[2].y, ind[2].z); //fbr
 	glEnd();
 
-
-	////Front
-	//glBegin(GL_LINE_LOOP);
-	//glVertex3f(-width, height, depth);
-	//glVertex3f(width, height, depth);
-	//glVertex3f(width, -height, depth);
-	//glVertex3f(-width, -height, depth);
-	//glEnd();
-	//// FAR SIDE
-	//glBegin(GL_LINE_LOOP);
-	//glVertex3f(width, height, -depth);
-	//glVertex3f(-width, height, -depth);
-	//glVertex3f(-width, -height, -depth);
-	//glVertex3f(width, -height, -depth);
-	//glEnd();
-	//// BOTTOM SIDE
-	//glBegin(GL_LINE_LOOP);
-	//glVertex3f(-width, -height, depth);
-	//glVertex3f(width, -height, depth);
-	//glVertex3f(width,-height, -depth);
-	//glVertex3f(-width, -height, -depth);
-	//glEnd();
-	//// TOP SIDE
-	//glBegin(GL_LINE_LOOP);
-	//glVertex3f(width, height, depth);
-	//glVertex3f(-width, height, depth);
-	//glVertex3f(-width, height, -depth);
-	//glVertex3f(width, height, -depth);
-	//glEnd();
-	//// LEFT SIDE
-	//glBegin(GL_LINE_LOOP);
-	//glVertex3f(-width, width, -depth); //width = > height???
-	//glVertex3f(-width, width, depth);
-	//glVertex3f(-width, -height, depth);
-	//glVertex3f(-width, -height, -depth);
-	//glEnd();
-	//// RIGHT SIDE
-	//glBegin(GL_LINE_LOOP);
-	//glVertex3f(width, width, depth);
-	//glVertex3f(width, width, -depth);
-	//glVertex3f(width, -height, -depth);
-	//glVertex3f(width, -height, depth);
-	//glEnd();
-
-
 	glPopMatrix();
 }
 
-std::vector<Vec3<float>> BoundingBox::GetIndicies()
+std::vector<Vec3<float>> BoundingBox::GetIndicies() const
 {
-	//Need to acount for rotation
+	//Get indicies for cube centered at origin with no rotation
+	std::vector<Vec3<float>> ind;
+	ind.push_back(Vec3<float>(-width, height, depth)); //FTL
+	ind.push_back(Vec3<float>(width, height, depth)); //FTR
+	ind.push_back(Vec3<float>(width, -height, depth)); //FBR
+	ind.push_back(Vec3<float>(-width, -height, depth)); //FBL
+	ind.push_back(Vec3<float>(width, height, -depth)); //RTR
+	ind.push_back(Vec3<float>(-width, height, -depth)); //RTL
+	ind.push_back(Vec3<float>(-width, -height, -depth)); //RBL
+	ind.push_back(Vec3<float>(width, -height, -depth)); //RBR
 
 
-
-
-
-	//Format = (Front/Rear)(Top/Bot)(Left/Right)
-	/*Vec3<float> RTL = parentPos - Vec3<float>(width, -height, depth);
-	Vec3<float> RTR = parentPos - Vec3<float>(-width, -height, depth);
-	Vec3<float> RBL = parentPos - Vec3<float>(width, height, depth);
-	Vec3<float> RBR = parentPos - Vec3<float>(-width, height, depth);
-	Vec3<float> FTL = parentPos - Vec3<float>(width, -height, -depth);
-	Vec3<float> FTR = parentPos - Vec3<float>(-width, -height, -depth);
-	Vec3<float> FBL = parentPos - Vec3<float>(width, height, -depth);
-	Vec3<float> FBR = parentPos - Vec3<float>(-width, height, -depth);*/
-
-
-	Vec3<float> RTL =  Vec3<float>(width, -height, depth);
-	Vec3<float> RTR =  Vec3<float>(-width, -height, depth);
-	Vec3<float> RBL = Vec3<float>(width, height, depth);
-	Vec3<float> RBR =  Vec3<float>(-width, height, depth);
-	Vec3<float> FTL =  Vec3<float>(width, -height, -depth);
-	Vec3<float> FTR =  Vec3<float>(-width, -height, -depth);
-	Vec3<float> FBL =  Vec3<float>(width, height, -depth);
-	Vec3<float> FBR =  Vec3<float>(-width, height, -depth);
-
-
-
-	std::vector<Vec3<float>> indtmp;
-	indtmp.push_back(FTL);
-	indtmp.push_back(FTR);
-	indtmp.push_back(FBR);
-	indtmp.push_back(FBL);
-
-	indtmp.push_back(RTR);
-	indtmp.push_back(RTL);
-	indtmp.push_back(RBL);
-	indtmp.push_back(RBR);
-
-
-	//If not axis aligned, then must transform these points to match parent orientation
+	//Apply parent rotation to the indicies
 	if (parentRot.x != 0 || parentRot.y != 0 || parentRot.z != 0)
 	{
-
 		for (int i = 0; i < 8; ++i)
-		{
-
-			indtmp[i] = MathHelp::RotatePoint(indtmp[i], parentRot);
-		}
-
-		/*for (Vec3<float> i : ind)
-		{
-		i = MathHelp::RotatePoint(i, parentRot);
-		}*/
+			ind[i] = MathHelp::RotatePoint(ind[i], parentRot);
 	}
 
-
-	FTL = parentPos - indtmp[0];
-	FTR = parentPos - indtmp[1];
-	FBR =  parentPos - indtmp[2];
-	FBL = parentPos - indtmp[3];
-	RTR = parentPos - indtmp[4];
-	RTL = parentPos - indtmp[5];
-	RBL = parentPos - indtmp[6];
-	RBR = parentPos - indtmp[7];
-
-
-
-
-
-
-	std::vector<Vec3<float>> ind;
-	ind.push_back(FTL);
-	ind.push_back(FTR);
-	ind.push_back(FBR);
-	ind.push_back(FBL);
-
-	ind.push_back(RTR);
-	ind.push_back(RTL);
-	ind.push_back(RBL);
-	ind.push_back(RBR);
-
-
-	/*ind.push_back(RTL);
-	ind.push_back(RTR);
-	ind.push_back(RBL);
-	ind.push_back(RBR);
-	ind.push_back(FTL);
-	ind.push_back(FTR);
-	ind.push_back(FBL);
-	ind.push_back(FBR);*/
-
-	
+	//Apply parent translation to the indicies
+	ind[0] = parentPos + ind[0];
+	ind[1] = parentPos + ind[1];
+	ind[2] = parentPos + ind[2];
+	ind[3] = parentPos + ind[3];
+	ind[4] = parentPos + ind[4];
+	ind[5] = parentPos + ind[5];
+	ind[6] = parentPos + ind[6];
+	ind[7] = parentPos + ind[7];
 
 	return ind;
+}
+
+std::vector<BoxFace> BoundingBox::GetFaces() const
+{
+	//Grab the box points
+	std::vector<Vec3<float>> ind = GetIndicies();
+
+	//Front Face
+	BoxFace front(ind[0], ind[2], ind[1]);
+	//Back Face
+	BoxFace back(ind[4], ind[7], ind[5]);
+	//Top face
+	BoxFace top(ind[5], ind[0], ind[4]);
+	//Bottom face
+	BoxFace bot(ind[7], ind[2], ind[6]);
+	//Left face
+	BoxFace left(ind[5], ind[6], ind[0]);
+	//Right face
+	BoxFace right(ind[1], ind[2], ind[4]);
+
+	std::vector<BoxFace> faces;
+	faces.push_back(front);
+	faces.push_back(back);
+	faces.push_back(top);
+	faces.push_back(bot);
+	faces.push_back(left);
+	faces.push_back(right);
+
+	return faces;
 }

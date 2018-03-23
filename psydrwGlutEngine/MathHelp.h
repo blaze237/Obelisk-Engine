@@ -29,6 +29,7 @@ namespace MathHelp
 		return theta * (180.0 / M_PI);
 	}
 
+
 	template <class T>
 	Vec3<T> RotatePoint(Vec3<T> point, Vec3<T> rotation, bool degrees = true)
 	{
@@ -68,10 +69,29 @@ namespace MathHelp
 		//Convert point into homogoneised matrix
 		double hPos[4] = { point.x, point.y, point.z, 1 };
 
-
 		//Apply each rotation matrix to the point to get new coordiantes.
 
+		
 		//Dont waste time applying matrix for zero rotation
+		if (rotation.x != 0)
+		{
+			double tmp[4] = { 0, 0, 0, 0 };
+
+			//Loop over each row of rotation matrix 
+			for (int i = 0; i < 4; ++i)
+			{
+				//Multiply each element in the row with each element in hPos col to get new position
+				for (int j = 0; j < 4; ++j)
+				{
+					tmp[i] += xRot[i][j] * hPos[j];
+				}
+			}
+
+			//Set the position value
+			for (int i = 0; i < 4; ++i)
+				hPos[i] = tmp[i];
+		}
+
 		if (rotation.z != 0)
 		{
 
@@ -111,33 +131,12 @@ namespace MathHelp
 			for (int i = 0; i < 4; ++i)
 				hPos[i] = tmp[i];
 		}
-
-		if (rotation.x != 0)
-		{
-			double tmp[4] = { 0, 0, 0, 0 };
-
-			//Loop over each row of rotation matrix 
-			for (int i = 0; i < 4; ++i)
-			{
-				//Multiply each element in the row with each element in hPos col to get new position
-				for (int j = 0; j < 4; ++j)
-				{
-					tmp[i] += xRot[i][j] * hPos[j];
-				}
-			}
-
-			//Set the position value
-			for (int i = 0; i < 4; ++i)
-				hPos[i] = tmp[i];
-		}
-
-		
-
-
 		
 
 		return Vec3<T>(hPos[0], hPos[1], hPos[2]);
 	}
+
+
 
 
 }

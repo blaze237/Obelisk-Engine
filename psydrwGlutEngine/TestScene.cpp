@@ -29,15 +29,15 @@ TestScene::TestScene()
 
 
 	//Set up the scenes objects
-	std::unique_ptr<DisplayableObject> t = std::make_unique<TestObject>(Vec3<float>(0,0,-50),Texture2D("../textures/wall.jpg"));
+	std::shared_ptr<DisplayableObject> t = std::make_shared<TestObject>(Vec3<float>(0,0,-50),Texture2D("../textures/wall.jpg"));
 	t->SetScale(10);
-	objects.push_back(std::move(t));
+	objects.push_back(t);
 
 
-	std::unique_ptr<DisplayableObject> t2 = std::make_unique<TestObject2>(Vec3<float>(50, 0, -50), objects[0]);
+	std::shared_ptr<DisplayableObject> t2 = std::make_shared<TestObject2>(Vec3<float>(50, 0, -50), t);
 	t2->SetScale(10);
-
 	objects.push_back(std::move(t2));
+	objects[1]->Update(3);
 
 	//Make the lights for scene
 	for (int i = 0; i < 10; i++) {
