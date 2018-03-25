@@ -113,6 +113,18 @@ public:
 		return *this;
 	}
 
+	//Square bracket 
+	T operator[](int i)
+	{
+		if (i == 0)
+			return x;
+		if (i == 1)
+			return y;
+		if (i == 2)
+			return z;
+		else
+			throw std::invalid_argument("Please supply an index between 0 and 2");
+	}
 
 
 	/***MEMBER FUNCTIONS***/

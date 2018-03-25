@@ -3,9 +3,9 @@
 #include "MathHelp.h"
 
 TestObject::TestObject(Vec3<float> pos, Texture2D texture)
-	:DisplayableObject(pos, Vec3<float>(5, 5, 5)), texture(texture)
+	:DisplayableObject(pos, Vec3<float>(5, 5, 5), "test"), texture(texture)
 {
-
+	IS_KINEMATIC = false;
 }
 
 

@@ -3,8 +3,8 @@
 #include "MathHelp.h"
 #include <iostream>
 
-BoundingBox::BoundingBox(float width, float height, float depth, const Vec3<float>& parentPos, const Vec3<float>& parentRot)
-	:width(width), height(height), depth(depth), parentPos(parentPos), parentRot(parentRot)
+BoundingBox::BoundingBox(float width, float height, float depth, const Vec3<float>& parentPos, const Vec3<float>& parentRot, bool trigger)
+	:width(width), height(height), depth(depth), parentPos(parentPos), parentRot(parentRot), trigger(trigger)
 {
 }
 
@@ -70,7 +70,7 @@ void BoundingBox::Render() const
 	glPopMatrix();
 }
 
-std::vector<Vec3<float>> BoundingBox::GetIndicies() const
+std::vector<Vec3<float>> BoundingBox::GetIndicies(Vec3<float> offset) const
 {
 	//Get indicies for cube centered at origin with no rotation
 	std::vector<Vec3<float>> ind;
@@ -83,31 +83,34 @@ std::vector<Vec3<float>> BoundingBox::GetIndicies() const
 	ind.push_back(Vec3<float>(-width, -height, -depth)); //RBL
 	ind.push_back(Vec3<float>(width, -height, -depth)); //RBR
 
+	//Note that the translations and rotations appear to be being done in the reverse order to that used in the parent displayable objects RenderObject method. 
+	//However, this isnt actualy the case, the discrepancy is due to the fact that opengl matrix stack transforms are actualy applied in the opposite order to which they are called in.
+	//As opposed to the following custom transform code, which applies transforms in the order they are called.
 
-	//Apply parent rotation to the indicies
+	//Apply parent rotation to the indicies so that they are correclty placed in cube space
 	if (parentRot.x != 0 || parentRot.y != 0 || parentRot.z != 0)
 	{
 		for (int i = 0; i < 8; ++i)
 			ind[i] = MathHelp::RotatePoint(ind[i], parentRot);
 	}
 
-	//Apply parent translation to the indicies
-	ind[0] = parentPos + ind[0];
-	ind[1] = parentPos + ind[1];
-	ind[2] = parentPos + ind[2];
-	ind[3] = parentPos + ind[3];
-	ind[4] = parentPos + ind[4];
-	ind[5] = parentPos + ind[5];
-	ind[6] = parentPos + ind[6];
-	ind[7] = parentPos + ind[7];
+	//Apply parent translation to the indicies to convert positions into world
+	ind[0] = parentPos + ind[0] + offset;
+	ind[1] = parentPos + ind[1] + offset;
+	ind[2] = parentPos + ind[2] + offset;
+	ind[3] = parentPos + ind[3] + offset;
+	ind[4] = parentPos + ind[4] + offset;
+	ind[5] = parentPos + ind[5] + offset;
+	ind[6] = parentPos + ind[6] + offset;
+	ind[7] = parentPos + ind[7] + offset;
 
 	return ind;
 }
 
-std::vector<BoxFace> BoundingBox::GetFaces() const
+std::vector<BoxFace> BoundingBox::GetFaces(Vec3<float> offset) const
 {
 	//Grab the box points
-	std::vector<Vec3<float>> ind = GetIndicies();
+	std::vector<Vec3<float>> ind = GetIndicies(offset);
 
 	//Front Face
 	BoxFace front(ind[0], ind[2], ind[1]);

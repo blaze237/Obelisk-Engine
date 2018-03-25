@@ -1,3 +1,2 @@
 ﻿  TestObject2.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\testobject2.cpp(10): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

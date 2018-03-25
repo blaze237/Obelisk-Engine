@@ -32,6 +32,7 @@ public:
 	virtual void Render();
 	//Update the scene. Default implementation just tells all objects in the scene to update themselves. And calls update on the camera
 	virtual void Update(long tCurrent);
+	
 
 	//Render the skybox at main cam position
 	void RenderSky();
@@ -57,6 +58,16 @@ public:
 private:
 	bool LightSortFcn(std::shared_ptr<Light>& a, std::shared_ptr<Light>& b);
 
+	//Update pshysics for all objects (i.e, update position according to velocity, friction and collisions)
+	void PhysicsUpdate();
+
+	bool PredictPosition(const std::shared_ptr<DisplayableObject>&  object, int index, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
+
+	bool CheckCollision(Vec3<float> posOffset, const std::shared_ptr<DisplayableObject>& obj1, const std::shared_ptr<DisplayableObject>& obj2);
+
+	//Determine if a point is in front of or behind a plane (defined by a point on the plane and the planes normal)
+	bool HalfSpaceTest(Vec3<float> normal, Vec3<float> planePoint, Vec3<float> point);
+
 protected:
 	std::vector<std::shared_ptr<DisplayableObject>> objects;
 	std::vector<std::shared_ptr<Light>> lights;
@@ -66,5 +77,9 @@ protected:
 
 	//The current skybox object for this scene
 	std::unique_ptr<SkyBox> skyBox;
+
+	float gravity = 0.8;
+	float friction = 0.1;
+	float collisionDistBuffer = 1;
 };
 

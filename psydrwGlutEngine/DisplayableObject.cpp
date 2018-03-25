@@ -1,10 +1,11 @@
 #include "DisplayableObject.h"
+#include <iostream>
 
 
-
-DisplayableObject::DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, Vec3<float> scale, Vec3<float> orientation )
-	:pos(pos), scale(scale), orientation(orientation), bBox(bBoxSize.x, bBoxSize.y, bBoxSize.z, this->pos, this->orientation)
+DisplayableObject::DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag)
+	:pos(pos), scale(Vec3<float>(1,1,1)), orientation(Vec3<float>(0,0,0)), TAG(tag), bBox(bBoxSize.x, bBoxSize.y, bBoxSize.z, this->pos, this->orientation)
 {
+
 
 }
 
@@ -22,9 +23,11 @@ void DisplayableObject::RenderObject()
 	glTranslatef(pos.x, pos.y, pos.z);
 
 	//Orient drawing according to object orientation
-	glRotatef(orientation.y, 0, 1, 0);
+	//Associative multiplication, so final rotation call done first
 	glRotatef(orientation.z, 0, 0, 1);
+	glRotatef(orientation.y, 0, 1, 0);
 	glRotatef(orientation.x, 1, 0, 0);
+
 
 	
 
@@ -42,5 +45,9 @@ void DisplayableObject::RenderObject()
 
 }
 void DisplayableObject::Update(long tCurrent)
+{
+}
+
+void DisplayableObject::OnCollide(std::string tag)
 {
 }

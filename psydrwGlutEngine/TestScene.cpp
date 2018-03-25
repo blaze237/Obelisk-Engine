@@ -34,10 +34,13 @@ TestScene::TestScene()
 	objects.push_back(t);
 
 
-	std::shared_ptr<DisplayableObject> t2 = std::make_shared<TestObject2>(Vec3<float>(50, 0, -50), t);
+	std::shared_ptr<DisplayableObject> t3 = std::make_shared<TestObject>(Vec3<float>(-10, 10, -50), Texture2D("../textures/wall.jpg"));
+	t3->SetScale(10);
+	objects.push_back(t3);
+
+	std::shared_ptr<DisplayableObject> t2 = std::make_shared<TestObject2>(Vec3<float>(0, 60, -50), nullptr);
 	t2->SetScale(10);
 	objects.push_back(std::move(t2));
-	objects[1]->Update(3);
 
 	//Make the lights for scene
 	for (int i = 0; i < 10; i++) {

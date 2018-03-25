@@ -5,16 +5,16 @@
 class BoundingBox
 {
 public:
-	BoundingBox(float width, float height, float depth, const Vec3<float>& parentPos, const Vec3<float>& parentRot);
+	BoundingBox(float width, float height, float depth, const Vec3<float>& parentPos, const Vec3<float>& parentRot, bool trigger = false);
 	~BoundingBox();
 
 	//Use for debugging
 	void Render() const;
 
 	//Calculate and return the position of each vertex based on parent position
-	std::vector<Vec3<float>> GetIndicies() const;
+	std::vector<Vec3<float>> GetIndicies(Vec3<float> offset = Vec3<float>(0,0,0)) const;
 
-	std::vector<BoxFace> GetFaces() const;
+	std::vector<BoxFace> GetFaces(Vec3<float> offset = Vec3<float>(0, 0, 0)) const;
 
 public:
 	float width, height, depth;
@@ -22,5 +22,7 @@ public:
 	const Vec3<float>& parentPos;
 	const Vec3<float>& parentRot;
 
+	//Is this bounding box a trigger or a collider
+	bool trigger;
 };
 
