@@ -69,17 +69,10 @@ void Scene::Update(long tCurrent)
 
 void Scene::PhysicsUpdate()
 {
-
-
-
-	//Apply friction to velocity of grounded objects
-
-
 	int index = 0;
 	//Loop through each object in the vector
 	for (std::shared_ptr<DisplayableObject>& object : objects)
 	{
-	
 		//Non kinematic objects handle their own position and velocity logic
 		if (!object->IsKinematic())
 		{
@@ -88,7 +81,6 @@ void Scene::PhysicsUpdate()
 		}
 
 		//Apply gravity to y velocity (if y velocity is currently less than gravity)
-		//
 		if (object->GetVelocity().y > -gravity)
 			object->SetVelocityY((object->GetVelocity().y - gravity/10.f) < -gravity ? -gravity : object->GetVelocity().y - gravity/10.f);
 
@@ -103,32 +95,27 @@ void Scene::PhysicsUpdate()
 			if (object->GetVelocity().z > 0)
 				object->SetVelocityZ((object->GetVelocity().z - friction) < 0 ? 0 : object->GetVelocity().z - friction);
 			else if (object->GetVelocity().z < 0)
-				object->SetVelocityZ((object->GetVelocity().z + friction) > 0 ? 0 : object->GetVelocity().z - friction);
-
+				object->SetVelocityZ((object->GetVelocity().z + friction) > 0 ? 0 : object->GetVelocity().z + friction);
 		}
 
-
-		//Grab its current pos and velocity
-		Vec3<float> posCur = object->GetPos();
-		Vec3<float> velCur = object->GetVelocity();
-
-		posCur = object->GetPos();
-		velCur = object->GetVelocity();
-
-		if(velCur.x != 0)
-			PredictPosition(object, index, posCur, velCur, Vec3<float>(velCur.x, 0, 0));
-
-		posCur = object->GetPos();
-		velCur = object->GetVelocity();
-		//If moving the object downwards will cause a collision, then say the object is grounded and thus will be subject to friction effects in the next physics update
-		object->SetGrounded(PredictPosition(object, index, posCur, velCur, Vec3<float>(0, velCur.y, 0)));
+	//Apply velocity in each direction if doing so wont cause a collision
 		
-		if (velCur.z != 0)
-		{
-			posCur = object->GetPos();
-			velCur = object->GetVelocity();
-			PredictPosition(object, index, posCur, velCur, Vec3<float>(0, 0, velCur.z));
-		}
+		//Object will allways have y-velocity due to gravity, so we check this first, and use the result of collision check to determine if the object is grounded or not
+		object->SetGrounded(PredictPosition(object, index, object->GetPos(), object->GetVelocity(), Vec3<float>(0, object->GetVelocity().y, 0)));
+		
+		//Apply x and z components of velocity.
+		if(object->GetVelocity().x != 0)
+			PredictPosition(object, index, object->GetPos(), object->GetVelocity(), Vec3<float>(object->GetVelocity().x, 0, 0));
+		if (object->GetVelocity().z != 0)
+			PredictPosition(object, index, object->GetPos(), object->GetVelocity(), Vec3<float>(0, 0, object->GetVelocity().z));
+
+	//Apply rotational velocity in each direction if doing so wont cause a collision
+		if (object->GetRotVelocity().x != 0)
+			PredictRotation(object, index, object->GetPos(), object->GetRotVelocity(), Vec3<float>(object->GetRotVelocity().x, 0, 0));
+		if (object->GetRotVelocity().y != 0)
+			PredictRotation(object, index, object->GetPos(), object->GetRotVelocity(), Vec3<float>(0, object->GetRotVelocity().y, 0));
+		if (object->GetRotVelocity().z != 0)
+			PredictRotation(object, index, object->GetPos(), object->GetRotVelocity(), Vec3<float>(0, 0, object->GetRotVelocity().z));
 
 		++index;
 	}
@@ -144,14 +131,27 @@ bool Scene::PredictPosition(const std::shared_ptr<DisplayableObject>&  object, i
 		if (i == index)
 			continue;
 
-		if (CheckCollision(velComponent, object, objects[i]))
+		if (CheckCollision(velComponent, Vec3<float>(0,0,0), object, objects[i]))
 		{
-			//Let the object know a collision has occured and with what
-			object->OnCollide(objects[i]->TAG);
-			collision = true;
-			//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
-			if(!objects[i]->IsMultiCollisionMode())
-				break;
+			if (!objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
+			{
+				//Let the object know a collision has occured and with what
+				object->OnCollide(objects[i]->TAG);
+				collision = true;
+				//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
+				if (!object->IsMultiCollisionMode())
+					break;
+			}
+			//Handle possible trigger configurations
+			else if (objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
+				objects[i]->OnTrigger(object->TAG);
+			else if (object->GetBBox().IsTrigger() && !objects[i]->GetBBox().IsTrigger())
+				object->OnTrigger(objects[i]->TAG);
+			else if (object->GetBBox().IsTrigger() && objects[i]->GetBBox().IsTrigger())
+			{
+				object->OnTrigger(objects[i]->TAG);
+				objects[i]->OnTrigger(object->TAG);
+			}
 		}
 	}
 
@@ -160,8 +160,49 @@ bool Scene::PredictPosition(const std::shared_ptr<DisplayableObject>&  object, i
 	else
 		object->SetPos(posCur + velComponent);
 
+	return collision;
+}
+
+bool Scene::PredictRotation(const std::shared_ptr<DisplayableObject>& object, int index, Vec3<float> posCur, Vec3<float> rotCur, Vec3<float> rotComponent)
+{
+	//Get predicted position after applying each velocity component
+	bool collision = false;
+	//Check for collisions at this position agaisnt all other objects
+	for (int i = 0; i < objects.size(); ++i)
+	{
+		if (i == index)
+			continue;
+
+		if (CheckCollision(Vec3<float>(0,0,0), rotComponent, object, objects[i]))
+		{
+			if (!objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
+			{
+				//Let the object know a collision has occured and with what
+				object->OnCollide(objects[i]->TAG);
+				collision = true;
+				//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
+				if (!object->IsMultiCollisionMode())
+					break;
+			}
+			//Handle possible trigger configurations
+			else if (objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
+				objects[i]->OnTrigger(object->TAG);
+			else if (object->GetBBox().IsTrigger() && !objects[i]->GetBBox().IsTrigger())
+				object->OnTrigger(objects[i]->TAG);
+			else if (object->GetBBox().IsTrigger() && objects[i]->GetBBox().IsTrigger())
+			{
+				object->OnTrigger(objects[i]->TAG);
+				objects[i]->OnTrigger(object->TAG);
+			}
+
+
+		}
+	}
+
 	if (collision)
-		std::cout << "col" << velComponent.y << std::endl;
+		object->SetRotVelocity(rotCur - rotComponent);
+	else
+		object->SetOrientation(rotCur + rotComponent);
 
 	return collision;
 }
@@ -170,7 +211,7 @@ bool Scene::PredictPosition(const std::shared_ptr<DisplayableObject>&  object, i
 
 
 
-bool Scene::CheckCollision(Vec3<float> posOffset, const std::shared_ptr<DisplayableObject>& obj1, const std::shared_ptr<DisplayableObject>& obj2)
+bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, const std::shared_ptr<DisplayableObject>& obj1, const std::shared_ptr<DisplayableObject>& obj2)
 {
 	//Get the faces of object testing against
 	std::vector<BoxFace> faces = obj2->GetBBox().GetFaces();
@@ -223,7 +264,6 @@ bool Scene::CheckCollision(Vec3<float> posOffset, const std::shared_ptr<Displaya
 		faces = obj1->GetBBox().GetFaces(posOffset);
 		indicies = obj2->GetBBox().GetIndicies();
 	}
-
 
 	return false;
 }

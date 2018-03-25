@@ -3,8 +3,8 @@
 #include "MathHelp.h"
 #include <iostream>
 
-BoundingBox::BoundingBox(float width, float height, float depth, const Vec3<float>& parentPos, const Vec3<float>& parentRot, bool trigger)
-	:width(width), height(height), depth(depth), parentPos(parentPos), parentRot(parentRot), trigger(trigger)
+BoundingBox::BoundingBox(float width, float height, float depth, const Vec3<float>& parentPos, const Vec3<float>& parentRot, Vec3<float>& parentScale, bool trigger)
+	:width(width), height(height), depth(depth), parentPos(parentPos), parentRot(parentRot), parentScale(parentScale), trigger(trigger)
 {
 }
 
@@ -70,8 +70,13 @@ void BoundingBox::Render() const
 	glPopMatrix();
 }
 
-std::vector<Vec3<float>> BoundingBox::GetIndicies(Vec3<float> offset) const
+std::vector<Vec3<float>> BoundingBox::GetIndicies(Vec3<float> posOffset, Vec3<float> rotOffset) const
 {
+	//Apply scaling to the bounding box
+	int width = this->width * parentScale.x;
+	int height = this->height * parentScale.x;
+	int depth = this->depth * parentScale.x;
+
 	//Get indicies for cube centered at origin with no rotation
 	std::vector<Vec3<float>> ind;
 	ind.push_back(Vec3<float>(-width, height, depth)); //FTL
@@ -91,26 +96,26 @@ std::vector<Vec3<float>> BoundingBox::GetIndicies(Vec3<float> offset) const
 	if (parentRot.x != 0 || parentRot.y != 0 || parentRot.z != 0)
 	{
 		for (int i = 0; i < 8; ++i)
-			ind[i] = MathHelp::RotatePoint(ind[i], parentRot);
+			ind[i] = MathHelp::RotatePoint(ind[i], parentRot + rotOffset);
 	}
 
 	//Apply parent translation to the indicies to convert positions into world
-	ind[0] = parentPos + ind[0] + offset;
-	ind[1] = parentPos + ind[1] + offset;
-	ind[2] = parentPos + ind[2] + offset;
-	ind[3] = parentPos + ind[3] + offset;
-	ind[4] = parentPos + ind[4] + offset;
-	ind[5] = parentPos + ind[5] + offset;
-	ind[6] = parentPos + ind[6] + offset;
-	ind[7] = parentPos + ind[7] + offset;
+	ind[0] = parentPos + ind[0] + posOffset;
+	ind[1] = parentPos + ind[1] + posOffset;
+	ind[2] = parentPos + ind[2] + posOffset;
+	ind[3] = parentPos + ind[3] + posOffset;
+	ind[4] = parentPos + ind[4] + posOffset;
+	ind[5] = parentPos + ind[5] + posOffset;
+	ind[6] = parentPos + ind[6] + posOffset;
+	ind[7] = parentPos + ind[7] + posOffset;
 
 	return ind;
 }
 
-std::vector<BoxFace> BoundingBox::GetFaces(Vec3<float> offset) const
+std::vector<BoxFace> BoundingBox::GetFaces(Vec3<float> posOffset, Vec3<float> rotOffset) const
 {
 	//Grab the box points
-	std::vector<Vec3<float>> ind = GetIndicies(offset);
+	std::vector<Vec3<float>> ind = GetIndicies(posOffset);
 
 	//Front Face
 	BoxFace front(ind[0], ind[2], ind[1]);

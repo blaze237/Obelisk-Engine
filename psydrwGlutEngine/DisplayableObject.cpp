@@ -3,7 +3,7 @@
 
 
 DisplayableObject::DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag)
-	:pos(pos), scale(Vec3<float>(1,1,1)), orientation(Vec3<float>(0,0,0)), TAG(tag), bBox(bBoxSize.x, bBoxSize.y, bBoxSize.z, this->pos, this->orientation)
+	:pos(pos), scale(Vec3<float>(1,1,1)), orientation(Vec3<float>(0,0,0)), TAG(tag), bBox(bBoxSize.x, bBoxSize.y, bBoxSize.z, this->pos, this->orientation, this->scale)
 {
 
 
@@ -29,8 +29,6 @@ void DisplayableObject::RenderObject()
 	glRotatef(orientation.x, 1, 0, 0);
 
 
-	
-
 	//Set drawing scale
 	glScalef(scale.x, scale.y, scale.z);
 
@@ -49,5 +47,9 @@ void DisplayableObject::Update(long tCurrent)
 }
 
 void DisplayableObject::OnCollide(std::string tag)
+{
+}
+
+void DisplayableObject::OnTrigger(std::string tag)
 {
 }

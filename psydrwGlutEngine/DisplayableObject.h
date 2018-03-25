@@ -22,6 +22,8 @@ public:
 	virtual void Update(long tCurrent);
 	//Collision handler. Default implemnation does nothing on collision.
 	virtual void OnCollide(std::string tag);
+	//Trigger collision handler. Default does nothing
+	virtual void OnTrigger(std::string tag);
 
 
 	//Getters
@@ -40,6 +42,10 @@ public:
 	inline Vec3<float> GetVelocity() const
 	{
 		return velocity;
+	}
+	inline Vec3<float> GetRotVelocity() const
+	{
+		return rotVelocity;
 	}
 	inline bool IsGrounded() const
 	{
@@ -96,6 +102,10 @@ public:
 	{
 		velocity = v;
 	}
+	inline void SetRotVelocity(const Vec3<float>& v)
+	{
+		rotVelocity = v;
+	}
 	inline void SetVelocityX(float v)
 	{
 		velocity.x = v;
@@ -107,6 +117,17 @@ public:
 	inline void SetVelocityZ(float v)
 	{
 		velocity.z = v;
+	}
+	inline void SetRotVelocityX(float v)
+	{
+		rotVelocity.x = v;
+	}
+	inline void SetRotVelocityY(float v)
+	{
+		rotVelocity.y = v;
+	}inline void SetRotVelocityZ(float v)
+	{
+		rotVelocity.z = v;
 	}
 	inline void SetGrounded(bool b)
 	{
@@ -128,6 +149,7 @@ protected:
 	Vec3<float> scale;
 	Vec3<float> orientation;
 	Vec3<float> velocity;
+	Vec3<float> rotVelocity;
 	BoundingBox bBox;
 
 	//Is this object currently colliding with something underneath it (determined by wether gravity can be applied without causing a collision)

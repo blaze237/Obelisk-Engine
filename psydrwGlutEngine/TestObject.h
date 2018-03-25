@@ -7,7 +7,7 @@ class TestObject :
 	public DisplayableObject
 {
 public:
-	TestObject(Vec3<float> pos, Texture2D texture = Texture2D(""));
+	TestObject(Vec3<float> pos, Texture2D texture = Texture2D(""), std::string tag = "obj");
 	~TestObject();
 
 	virtual void Render();

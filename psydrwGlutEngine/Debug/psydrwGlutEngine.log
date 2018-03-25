@@ -1,2 +1,10 @@
-﻿  TestObject2.cpp
+﻿  Scene.cpp
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.h(73): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.h(74): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(37): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(131): warning C4018: '<': signed/unsigned mismatch
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(175): warning C4018: '<': signed/unsigned mismatch
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(309): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(311): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

@@ -22,7 +22,7 @@ bool BehindPlane(Vec3<float> normal, Vec3<float> planePoint, Vec3<float> point)
 }
 
 TestObject2::TestObject2(Vec3<float> pos, std::shared_ptr<DisplayableObject> testOb, Texture2D texture)
-	:TestObject(pos, texture), testOb(testOb)
+	:TestObject(pos, texture, "player"), testOb(testOb)
 {
 	IS_KINEMATIC = true;
 }
@@ -40,10 +40,9 @@ void TestObject2::Update(long tCurrent)
 		//Get the new rotation of the camera
 		theta = theta < (360) ? (theta + dt / timeStep) : 0;
 		lastTime = tCurrent;
-		orientation.x = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
-		orientation.y = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
-		
-		orientation.z = MathHelp::Clamp((float)theta, 0.f, 360.0f);
+		rotVelocity.x = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
+		rotVelocity.y = MathHelp::Clamp( (float)theta, 0.f, 360.0f);
+		rotVelocity.z = MathHelp::Clamp((float)theta, 0.f, 360.0f);
 		
 		
 	}
@@ -69,10 +68,10 @@ void TestObject2::Update(long tCurrent)
 
 	if(InputManager::Released(InputManager::LEFT) || InputManager::Released(InputManager::RIGHT))
 		velocity.x = 0;
-
-
 	if (InputManager::Released('[') || InputManager::Released(']'))
 		velocity.z = 0;
+	if (InputManager::Released('r'))
+		rotVelocity = Vec3<float>(0, 0, 0);
 }
 
 void TestObject2::CheckCollision()

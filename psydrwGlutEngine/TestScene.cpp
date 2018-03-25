@@ -7,6 +7,7 @@
 #include "Texture2D.h"
 #include "SkyBox.h"
 #include "TestObject2.h"
+#include "TriggerTest.h"
 #include "SceneManager.h"
 TestScene::TestScene()
 {
@@ -33,6 +34,9 @@ TestScene::TestScene()
 	t->SetScale(10);
 	objects.push_back(t);
 
+	std::shared_ptr<DisplayableObject> tr = std::make_shared<TriggerTest>(Vec3<float>(15, 10, -50), Texture2D("../textures/wall.jpg"));
+	tr->SetScale(10);
+	objects.push_back(tr);
 
 	std::shared_ptr<DisplayableObject> t3 = std::make_shared<TestObject>(Vec3<float>(-10, 10, -50), Texture2D("../textures/wall.jpg"));
 	t3->SetScale(10);

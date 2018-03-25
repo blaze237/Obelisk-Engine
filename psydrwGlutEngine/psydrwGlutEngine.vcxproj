@@ -143,6 +143,7 @@
     <ClCompile Include="TestObject2.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="TriggerTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoundingBox.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="TestObject2.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="TriggerTest.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
   </ItemGroup>
