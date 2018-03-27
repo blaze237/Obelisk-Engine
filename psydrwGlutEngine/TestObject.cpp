@@ -3,7 +3,7 @@
 #include "MathHelp.h"
 
 TestObject::TestObject(Vec3<float> pos, Texture2D texture, std::string tag)
-	:DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag), texture(texture)
+	:DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag, texture)
 {
 	IS_KINEMATIC = false;
 }

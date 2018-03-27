@@ -2,15 +2,20 @@
 #include <GL/glut.h>
 #include "Vec3.h"
 #include "BoundingBox.h"
+#include "Texture2D.h"
 class DisplayableObject
 {
 public:
 
 	const std::string TAG;
+	//Uniquley assigned per object ID
+	const unsigned int ID;
 
 
-	DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag);
+	DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag, Texture2D texture);
 	virtual ~DisplayableObject();
+
+
 
 	//Calls your render function and handles matrix translations needed to draw at the correct position, scale and orientation. 
 	//Not intended to be overiden
@@ -141,7 +146,10 @@ public:
 	{
 		MULTI_COLLISION_MODE = b;
 	}
-
+	inline void SetColliderRenderer(bool b)
+	{
+		renderCollider = b;
+	}
 
 
 protected:
@@ -151,6 +159,15 @@ protected:
 	Vec3<float> velocity;
 	Vec3<float> rotVelocity;
 	BoundingBox bBox;
+	Texture2D texture;
+	bool renderCollider = false;
+
+	//Material properites for object
+	float matAmb[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	float matDif[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	float matSpec[4] = { 0, 0, 0, 1 };
+	float matEmis[4] = { 0, 0, 0, 1 };
+	int   matShin = 0;
 
 	//Is this object currently colliding with something underneath it (determined by wether gravity can be applied without causing a collision)
 	bool grounded = false;
@@ -161,5 +178,7 @@ protected:
 	bool MULTI_COLLISION_MODE = false;
 	//Is this object subject to physics logic (gravity, collisions, friction). Note that other objects can still collide with this object even if this object is not kinematic.
 	bool IS_KINEMATIC = true;
+
+	static unsigned int nextID;
 };
 

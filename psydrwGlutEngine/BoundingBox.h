@@ -1,7 +1,11 @@
 #pragma once
 #include "Vec3.h"
 #include <vector>
+#include "MathHelp.h"
 #include "BoxFace.h"
+#include <algorithm>
+#include <functional>
+#include <array>
 class BoundingBox
 {
 public:
@@ -15,6 +19,17 @@ public:
 	std::vector<Vec3<float>> GetIndicies(Vec3<float> posOffset = Vec3<float>(0,0,0), Vec3<float> rotOffset = Vec3<float>(0, 0, 0)) const;
 	std::vector<BoxFace> GetFaces(Vec3<float> posOffset = Vec3<float>(0, 0, 0), Vec3<float> rotOffset = Vec3<float>(0,0,0)) const;
 
+
+
+	inline float GetLargestDimension() const
+	{
+		//Get the two largest cardinal dimensions
+		std::array<int, 3> dims = { width * parentScale.x, height * parentScale.y, depth * parentScale.z };
+		std::sort(dims.begin(), dims.end(), std::greater<int>());
+
+		//Use them with pythagoras to get largest distance to box edge
+		return (dims[0] * dims[0] + dims[1] * dims[1]);
+	}
 
 	bool IsTrigger() const
 	{

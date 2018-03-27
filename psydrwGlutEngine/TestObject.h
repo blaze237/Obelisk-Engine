@@ -17,6 +17,5 @@ public:
 private:
 	int theta = 0;
 	long lastTime = 0;
-	Texture2D texture;
 };
 

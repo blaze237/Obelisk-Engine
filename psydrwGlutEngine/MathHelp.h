@@ -30,7 +30,19 @@ namespace MathHelp
 	}
 
 
+	template <class T>
+	T Max3(T i, T j, T k)
+	{
+		if (i > j && i > k)
+			return i;
+		if (j > i && j > k)
+			return j;
+		if (k > i && k > j)
+			return k;
 
+		//Equalilty case
+		return i;
+	}
 
 
 

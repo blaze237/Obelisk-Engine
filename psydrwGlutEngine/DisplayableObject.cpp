@@ -1,9 +1,11 @@
 #include "DisplayableObject.h"
 #include <iostream>
 
+unsigned int DisplayableObject::nextID = 0;
 
-DisplayableObject::DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag)
-	:pos(pos), scale(Vec3<float>(1,1,1)), orientation(Vec3<float>(0,0,0)), TAG(tag), bBox(bBoxSize.x, bBoxSize.y, bBoxSize.z, this->pos, this->orientation, this->scale)
+
+DisplayableObject::DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag, Texture2D texture)
+	:pos(pos), scale(Vec3<float>(1,1,1)), orientation(Vec3<float>(0,0,0)), TAG(tag), texture(texture), bBox(bBoxSize.x, bBoxSize.y, bBoxSize.z, this->pos, this->orientation, this->scale), ID(nextID++)
 {
 
 
@@ -15,10 +17,20 @@ DisplayableObject::~DisplayableObject()
 }
 void DisplayableObject::RenderObject()
 {
-	//Render the box before applying scaling
-	bBox.Render();
+	//Render the box before applying properties
+	if(renderCollider)
+		bBox.Render();
 
 	glPushMatrix();
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+
+	glEnable(GL_TEXTURE_2D);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, matAmb);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, matDif);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
+	glMaterialfv(GL_FRONT, GL_EMISSION, matEmis);
+	glMateriali(GL_FRONT, GL_SHININESS, matShin);
+
 	//Move drawing to object location
 	glTranslatef(pos.x, pos.y, pos.z);
 
@@ -35,12 +47,12 @@ void DisplayableObject::RenderObject()
 	//Draw the object
 	Render();
 
+
+
+	glPopAttrib();
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
-
-
-	
-
-
 }
 void DisplayableObject::Update(long tCurrent)
 {

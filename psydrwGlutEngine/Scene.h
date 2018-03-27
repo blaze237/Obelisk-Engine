@@ -55,24 +55,76 @@ public:
 		skyBox = std::move(sky);
 	}
 
+	//Set the global gravity value for the scene
+	inline void SetGravity(float g)
+	{
+		gravity = g;
+	}
+	//Set the global gravity value for the scene
+	inline void SetFriction(float f)
+	{
+		friction = f;
+	}
+	//Enable or disable recursive collision checking to get objects as close to each other as possible
+	inline void SetRecursiveCollisions(bool b)
+	{
+		RecurisveCollisions = b;
+	}
+
+	//Get the global gravity value for the scene
+	inline float GetGravity() const
+	{
+		return gravity;
+	}
+	//Get the global friction value for the scene
+	inline float GetFriction() const
+	{
+		return friction;
+	}
+
+	inline bool IsRecursiveCollisions() const
+	{
+		return RecurisveCollisions;
+	}
+
+	//Check if a supplied object is colliding with any other object in the scene. Intended to be used by non-kinematic objects to manualy check for collisions but can use with kinematic objects also. 
+	//Will trigger the OnCollision or OnTrigger method of object(s) the supplied object is determined to be colliding with.
+	bool CheckCollisions(DisplayableObject* obj);
+
 private:
-	bool LightSortFcn(std::shared_ptr<Light>& a, std::shared_ptr<Light>& b);
+	
 
 	//Update pshysics for all objects (i.e, update position according to velocity, friction and collisions)
 	void PhysicsUpdate();
 
-	bool PredictPosition(const std::shared_ptr<DisplayableObject>&  object, int index, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
-	bool PredictRotation(const std::shared_ptr<DisplayableObject>&  object, int index, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
-
-
+	//Checks if applying an objects velocity in a given direction (given by the velComponent input. For x velocity, would pass (v.x, 0, 0) for velComponent) to its position would cause a collision, and if so, calls the appropriate collision handler and prevents movement by setting the objects velocity to zero.
+	bool ApplyVelocity(const std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
+	//Checks if applying an objects rotational velocity in a given axis ((given by the velComponent input. For x velocity, would pass (v.x, 0, 0) for velComponent) to its orientation would cause a collision, and if so, calls the appropriate collision handler and prevents movement by setting the objects rotational velocity to zero.
+	bool ApplyRotVelocity(const std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
+	//Check if an object, obj1 collides with an object, obj2, when some positional offset posOffset and rotational offset rotOffsetis applied to obj1's position and orientation.
 	bool CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, const std::shared_ptr<DisplayableObject>& obj1, const std::shared_ptr<DisplayableObject>& obj2);
+	//Check if an object is colliding with with an object objectwhen some positional offset posOffset and rotational offset rotOffsetis applied to obj1's position and orientation. Helper function used in by CheckCollisions and the alternate version of this function
+	bool CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, DisplayableObject* obj1, const std::shared_ptr<DisplayableObject>& obj2);
 
-	//Determine if a point is in front of or behind a plane (defined by a point on the plane and the planes normal)
+
+	//Determine if a point is in front of or behind a plane (defined by a point on the plane and the planes normal). Used for collision checking
 	bool HalfSpaceTest(Vec3<float> normal, Vec3<float> planePoint, Vec3<float> point);
 
+	//Global Gravity
 	float gravity = 0.8;
+	//Global Friction
 	float friction = 0.1;
-	float collisionDistBuffer = 1;
+
+	//If set to true, when an object is determined to be about to collide with another due to its velocity, the phsyics system will, instead of stopping the object in its tracks, attempt to recursivley find a short distance that can be traveresed without colliding in order to place the objects close but not touching
+	//Can have big effect on performance, and similar effect can be acheived more efficently by applying gradualy increasing velocity to objects instead of binary on/off velocity.
+	bool RecurisveCollisions = false;
+	//What factor to divide the objects velocity by when trying to find shortest distance
+	float RecursiveCollisionsFactor = 10.f;
+	//How many times to try finding shortest distance before giving up
+	int RecursiveCollisionsLimit = 1;
+	//Wether to use recursive collisions for collisions resulting from y velocity. Largley uneeded due to the fact that gravity is allready increasingly applied anyway
+	bool RecursiveCollisionsForY = false;
+
 
 protected:
 	std::vector<std::shared_ptr<DisplayableObject>> objects;

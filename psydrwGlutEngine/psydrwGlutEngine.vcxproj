@@ -84,6 +84,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\Daniel\Obelisk-Engine\devil\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\Daniel\Obelisk-Engine\devil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

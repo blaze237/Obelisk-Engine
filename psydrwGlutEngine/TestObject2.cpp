@@ -25,6 +25,8 @@ TestObject2::TestObject2(Vec3<float> pos, std::shared_ptr<DisplayableObject> tes
 	:TestObject(pos, texture, "player"), testOb(testOb)
 {
 	IS_KINEMATIC = true;
+	
+
 }
 
 

@@ -34,7 +34,7 @@ TestScene::TestScene()
 	t->SetScale(10);
 	objects.push_back(t);
 
-	std::shared_ptr<DisplayableObject> tr = std::make_shared<TriggerTest>(Vec3<float>(15, 10, -50), Texture2D("../textures/wall.jpg"));
+	std::shared_ptr<DisplayableObject> tr = std::make_shared<TriggerTest>(Vec3<float>(15, 10, -50), Texture2D("../textures/wall.jpg"), this);
 	tr->SetScale(10);
 	objects.push_back(tr);
 

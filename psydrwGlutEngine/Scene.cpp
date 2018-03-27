@@ -69,16 +69,13 @@ void Scene::Update(long tCurrent)
 
 void Scene::PhysicsUpdate()
 {
-	int index = 0;
 	//Loop through each object in the vector
 	for (std::shared_ptr<DisplayableObject>& object : objects)
 	{
 		//Non kinematic objects handle their own position and velocity logic
 		if (!object->IsKinematic())
-		{
-			++index;
 			continue;
-		}
+		
 
 		//Apply gravity to y velocity (if y velocity is currently less than gravity)
 		if (object->GetVelocity().y > -gravity)
@@ -101,34 +98,41 @@ void Scene::PhysicsUpdate()
 	//Apply velocity in each direction if doing so wont cause a collision
 		
 		//Object will allways have y-velocity due to gravity, so we check this first, and use the result of collision check to determine if the object is grounded or not
-		object->SetGrounded(PredictPosition(object, index, object->GetPos(), object->GetVelocity(), Vec3<float>(0, object->GetVelocity().y, 0)));
+		object->SetGrounded(ApplyVelocity(object,object->GetPos(), object->GetVelocity(), Vec3<float>(0, object->GetVelocity().y, 0)));
 		
 		//Apply x and z components of velocity.
 		if(object->GetVelocity().x != 0)
-			PredictPosition(object, index, object->GetPos(), object->GetVelocity(), Vec3<float>(object->GetVelocity().x, 0, 0));
+			ApplyVelocity(object, object->GetPos(), object->GetVelocity(), Vec3<float>(object->GetVelocity().x, 0, 0));
 		if (object->GetVelocity().z != 0)
-			PredictPosition(object, index, object->GetPos(), object->GetVelocity(), Vec3<float>(0, 0, object->GetVelocity().z));
+			ApplyVelocity(object,object->GetPos(), object->GetVelocity(), Vec3<float>(0, 0, object->GetVelocity().z));
 
 	//Apply rotational velocity in each direction if doing so wont cause a collision
 		if (object->GetRotVelocity().x != 0)
-			PredictRotation(object, index, object->GetPos(), object->GetRotVelocity(), Vec3<float>(object->GetRotVelocity().x, 0, 0));
+			ApplyRotVelocity(object, object->GetPos(), object->GetRotVelocity(), Vec3<float>(object->GetRotVelocity().x, 0, 0));
 		if (object->GetRotVelocity().y != 0)
-			PredictRotation(object, index, object->GetPos(), object->GetRotVelocity(), Vec3<float>(0, object->GetRotVelocity().y, 0));
+			ApplyRotVelocity(object, object->GetPos(), object->GetRotVelocity(), Vec3<float>(0, object->GetRotVelocity().y, 0));
 		if (object->GetRotVelocity().z != 0)
-			PredictRotation(object, index, object->GetPos(), object->GetRotVelocity(), Vec3<float>(0, 0, object->GetRotVelocity().z));
+			ApplyRotVelocity(object, object->GetPos(), object->GetRotVelocity(), Vec3<float>(0, 0, object->GetRotVelocity().z));
 
-		++index;
 	}
 }
 
-bool Scene::PredictPosition(const std::shared_ptr<DisplayableObject>&  object, int index, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent)
+bool Scene::ApplyVelocity(const std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent)
 {
-	//Get predicted position after applying each velocity component
+	//Used for recursive collision checks (if enabled)
+	static int counter = 0;
+
 	bool collision = false;
-	//Check for collisions at this position agaisnt all other objects
+	//Check for collisions at its predicted position position agaisnt all other objects
 	for (int i = 0; i < objects.size(); ++i)
 	{
-		if (i == index)
+		//Dont want to test for collisions with self
+		if(object->ID == objects[i]->ID)
+			continue;
+
+		//Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
+		float vel = MathHelp::Max3(abs(velComponent.x), abs(velComponent.y), abs(velComponent.z));
+		if (object->GetPos().distanceTo(objects[i]->GetPos()) > vel + object->GetBBox().GetLargestDimension())
 			continue;
 
 		if (CheckCollision(velComponent, Vec3<float>(0,0,0), object, objects[i]))
@@ -136,18 +140,19 @@ bool Scene::PredictPosition(const std::shared_ptr<DisplayableObject>&  object, i
 			if (!objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
 			{
 				//Let the object know a collision has occured and with what
-				object->OnCollide(objects[i]->TAG);
+				if(counter == 0)
+					object->OnCollide(objects[i]->TAG);
 				collision = true;
 				//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
 				if (!object->IsMultiCollisionMode())
 					break;
 			}
 			//Handle possible trigger configurations
-			else if (objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
+			else if (counter == 0 && objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
 				objects[i]->OnTrigger(object->TAG);
-			else if (object->GetBBox().IsTrigger() && !objects[i]->GetBBox().IsTrigger())
+			else if (counter == 0 && object->GetBBox().IsTrigger() && !objects[i]->GetBBox().IsTrigger())
 				object->OnTrigger(objects[i]->TAG);
-			else if (object->GetBBox().IsTrigger() && objects[i]->GetBBox().IsTrigger())
+			else if (counter == 0 && object->GetBBox().IsTrigger() && objects[i]->GetBBox().IsTrigger())
 			{
 				object->OnTrigger(objects[i]->TAG);
 				objects[i]->OnTrigger(object->TAG);
@@ -160,18 +165,46 @@ bool Scene::PredictPosition(const std::shared_ptr<DisplayableObject>&  object, i
 	else
 		object->SetPos(posCur + velComponent);
 
+
+	//Attempt to get objects as close to oneanother as possible if determine that an objects velocity would cause a collision. If recurssion is enabled
+	if (RecurisveCollisions)
+	{
+		//If no collision was predicted then no need to do anything
+		if (counter == 0 && !collision)
+			return collision;
+
+		//Otherwise, attempt to recursivley move the object closer to colliding objects
+		if(!RecursiveCollisionsForY && counter < 1 && velComponent.y == 0)
+		{
+			++counter;
+			ApplyVelocity(object, posCur, velCur, velComponent / 10.f);
+
+		}
+		else if (RecursiveCollisionsForY && counter < 1)
+		{
+			++counter;
+			ApplyVelocity(object, posCur, velCur, velComponent / 10.f);
+		}
+
+		else
+			counter = 0;
+	}
 	return collision;
 }
 
-bool Scene::PredictRotation(const std::shared_ptr<DisplayableObject>& object, int index, Vec3<float> posCur, Vec3<float> rotCur, Vec3<float> rotComponent)
+bool Scene::ApplyRotVelocity(const std::shared_ptr<DisplayableObject>& object, Vec3<float> posCur, Vec3<float> rotCur, Vec3<float> rotComponent)
 {
-	//Get predicted position after applying each velocity component
+	//Used for recursive collision checks (if enabled)
+	static int counter = 0;
+
 	bool collision = false;
-	//Check for collisions at this position agaisnt all other objects
+	//Check for collisions at the predicted rotation agaisnt all other objects
 	for (int i = 0; i < objects.size(); ++i)
 	{
-		if (i == index)
+		//Dont want to test for collisions with self
+		if (object->ID == objects[i]->ID)
 			continue;
+
 
 		if (CheckCollision(Vec3<float>(0,0,0), rotComponent, object, objects[i]))
 		{
@@ -194,8 +227,6 @@ bool Scene::PredictRotation(const std::shared_ptr<DisplayableObject>& object, in
 				object->OnTrigger(objects[i]->TAG);
 				objects[i]->OnTrigger(object->TAG);
 			}
-
-
 		}
 	}
 
@@ -204,14 +235,40 @@ bool Scene::PredictRotation(const std::shared_ptr<DisplayableObject>& object, in
 	else
 		object->SetOrientation(rotCur + rotComponent);
 
+
+	//Attempt to get objects as close to oneanother as possible if determine that an objects velocity would cause a collision. If recurssion is enabled
+	if (RecurisveCollisions)
+	{
+		//If no collision was predicted then no need to do anything
+		if (counter == 0 && !collision)
+			return collision;
+
+		//Otherwise, attempt to recursivley move the object closer to colliding objects
+		if (!RecursiveCollisionsForY && counter < 1 && rotComponent.y == 0)
+		{
+			++counter;
+			ApplyRotVelocity(object, posCur, rotCur, rotComponent / 10.f);
+
+		}
+		else if (RecursiveCollisionsForY && counter < 1)
+		{
+			++counter;
+			ApplyRotVelocity(object, posCur, rotCur, rotComponent / 10.f);
+		}
+
+		else
+			counter = 0;
+	}
 	return collision;
 }
 
 
-
-
-
 bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, const std::shared_ptr<DisplayableObject>& obj1, const std::shared_ptr<DisplayableObject>& obj2)
+{
+	return CheckCollision(posOffset, rotOffset, obj1.get(), obj2);
+}
+
+bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, DisplayableObject * obj1, const std::shared_ptr<DisplayableObject>& obj2)
 {
 	//Get the faces of object testing against
 	std::vector<BoxFace> faces = obj2->GetBBox().GetFaces();
@@ -268,6 +325,48 @@ bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, const s
 	return false;
 }
 
+
+bool Scene::CheckCollisions(DisplayableObject * obj)
+{
+	bool collision = false;
+	for (int i = 0; i < objects.size(); ++i)
+	{
+		//Dont want to test for collisions with self
+		if (obj->ID == objects[i]->ID)
+			continue;
+
+		//Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
+		if (obj->GetPos().distanceTo(objects[i]->GetPos()) >  obj->GetBBox().GetLargestDimension())
+			continue;
+
+		if (CheckCollision(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0), obj, objects[i]))
+		{
+			if (!objects[i]->GetBBox().IsTrigger() && !obj->GetBBox().IsTrigger())
+			{
+				//Let the object know a collision has occured and with what
+				obj->OnCollide(objects[i]->TAG);
+				collision = true;
+				//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
+				if (!obj->IsMultiCollisionMode())
+					break;
+			}
+			//Handle possible trigger configurations
+			else if (objects[i]->GetBBox().IsTrigger() && !obj->GetBBox().IsTrigger())
+				objects[i]->OnTrigger(obj->TAG);
+			else if (obj->GetBBox().IsTrigger() && !objects[i]->GetBBox().IsTrigger())
+				obj->OnTrigger(objects[i]->TAG);
+			else if (obj->GetBBox().IsTrigger() && objects[i]->GetBBox().IsTrigger())
+			{
+				obj->OnTrigger(objects[i]->TAG);
+				objects[i]->OnTrigger(obj->TAG);
+			}
+		}
+	}
+
+	return collision;
+}
+
+
 bool Scene::HalfSpaceTest(Vec3<float> normal, Vec3<float> planePoint, Vec3<float> point)
 {
 	//Get vector from point on plane to test point
@@ -297,17 +396,5 @@ void Scene::DrawScreenString(std::string s, Vec2<int> pos, Colour c)
 	SceneManager::DrawScreenString(s, pos, c);
 }
 
-bool Scene::LightSortFcn(std::shared_ptr<Light>& a, std::shared_ptr<Light>& b)
-{
-	const Vec3<float>& eyePos = mainCam->GetEyePos();
-
-	//Get distance to a
-	float aDist = a->GetPos().distanceTo(eyePos);
-	//Get distance to be
-	float bDist = b->GetPos().distanceTo(eyePos);
-
-	return aDist < bDist;
-	
-}
 
 

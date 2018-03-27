@@ -31,6 +31,9 @@
     <Filter Include="Game Objects\Base Types">
       <UniqueIdentifier>{5915ab25-bc6d-439c-83eb-45fa06dbdf7d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Levels\Testing">
+      <UniqueIdentifier>{41e73fff-b63b-4e16-9852-d5ddbf632934}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -41,12 +44,6 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="TestScene.cpp">
-      <Filter>Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="TestObject.cpp">
-      <Filter>Levels</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Util</Filter>
@@ -72,17 +69,23 @@
     <ClCompile Include="DisplayableObject.cpp">
       <Filter>Game Objects\Base Types</Filter>
     </ClCompile>
-    <ClCompile Include="TestObject2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BoxFace.cpp">
       <Filter>Game Objects\Base Types</Filter>
     </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Game Objects\Base Types</Filter>
     </ClCompile>
+    <ClCompile Include="TestObject.cpp">
+      <Filter>Levels\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>Levels\Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="TestObject2.cpp">
+      <Filter>Levels\Testing</Filter>
+    </ClCompile>
     <ClCompile Include="TriggerTest.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Levels\Testing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,12 +100,6 @@
     </ClInclude>
     <ClInclude Include="Vec2.h">
       <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScene.h">
-      <Filter>Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject.h">
-      <Filter>Levels</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Util</Filter>
@@ -134,17 +131,23 @@
     <ClInclude Include="SkyBox.h">
       <Filter>Game Objects\Base Types</Filter>
     </ClInclude>
-    <ClInclude Include="TestObject2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BoxFace.h">
       <Filter>Game Objects\Base Types</Filter>
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
       <Filter>Game Objects\Base Types</Filter>
     </ClInclude>
+    <ClInclude Include="TestObject2.h">
+      <Filter>Levels\Testing</Filter>
+    </ClInclude>
     <ClInclude Include="TriggerTest.h">
-      <Filter>Header Files</Filter>
+      <Filter>Levels\Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObject.h">
+      <Filter>Levels\Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>Levels\Testing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
