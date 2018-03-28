@@ -31,15 +31,21 @@ public:
 		return (dims[0] * dims[0] + dims[1] * dims[1]);
 	}
 
-	bool IsTrigger() const
+	inline bool IsTrigger() const
 	{
 		return trigger;
 	}
 
-	void SetTrigger(bool b)
+	inline void SetTrigger(bool b)
 	{
 		trigger = b;
 	}
+
+	inline Vec3<float> GetParentPos() const
+	{
+		return parentPos;
+	}
+
 
 public:
 	float width, height, depth;

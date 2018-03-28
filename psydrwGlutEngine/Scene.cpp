@@ -135,7 +135,7 @@ bool Scene::ApplyVelocity(const std::shared_ptr<DisplayableObject>&  object, Vec
 		if (object->GetPos().distanceTo(objects[i]->GetPos()) > vel + object->GetBBox().GetLargestDimension())
 			continue;
 
-		if (CheckCollision(velComponent, Vec3<float>(0,0,0), object, objects[i]))
+		if (CheckCollision(velComponent, Vec3<float>(0,0,0), object->GetBBox(), objects[i]->GetBBox()))
 		{
 			if (!objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
 			{
@@ -206,7 +206,7 @@ bool Scene::ApplyRotVelocity(const std::shared_ptr<DisplayableObject>& object, V
 			continue;
 
 
-		if (CheckCollision(Vec3<float>(0,0,0), rotComponent, object, objects[i]))
+		if (CheckCollision(Vec3<float>(0,0,0), rotComponent, object->GetBBox(), objects[i]->GetBBox()))
 		{
 			if (!objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
 			{
@@ -263,17 +263,14 @@ bool Scene::ApplyRotVelocity(const std::shared_ptr<DisplayableObject>& object, V
 }
 
 
-bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, const std::shared_ptr<DisplayableObject>& obj1, const std::shared_ptr<DisplayableObject>& obj2)
-{
-	return CheckCollision(posOffset, rotOffset, obj1.get(), obj2);
-}
 
-bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, DisplayableObject * obj1, const std::shared_ptr<DisplayableObject>& obj2)
+
+bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, BoundingBox obj1, BoundingBox obj2)
 {
 	//Get the faces of object testing against
-	std::vector<BoxFace> faces = obj2->GetBBox().GetFaces();
+	std::vector<BoxFace> faces = obj2.GetFaces();
 	//Get indicies of object being tested's bbox
-	std::vector<Vec3<float>> indicies = obj1->GetBBox().GetIndicies(posOffset);
+	std::vector<Vec3<float>> indicies = obj1.GetIndicies(posOffset);
 
 	//First iteration checks if any point of the bbox of object being tested is in the volume of the bbox of object testing against.
 	//Second object does the inverse
@@ -318,8 +315,8 @@ bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, Display
 		}
 
 		//Now need to check other way round for next loop iteration
-		faces = obj1->GetBBox().GetFaces(posOffset);
-		indicies = obj2->GetBBox().GetIndicies();
+		faces = obj1.GetFaces(posOffset);
+		indicies = obj2.GetIndicies();
 	}
 
 	return false;
@@ -339,7 +336,7 @@ bool Scene::CheckCollisions(DisplayableObject * obj)
 		if (obj->GetPos().distanceTo(objects[i]->GetPos()) >  obj->GetBBox().GetLargestDimension())
 			continue;
 
-		if (CheckCollision(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0), obj, objects[i]))
+		if (CheckCollision(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0), obj->GetBBox(), objects[i]->GetBBox()))
 		{
 			if (!objects[i]->GetBBox().IsTrigger() && !obj->GetBBox().IsTrigger())
 			{
@@ -360,6 +357,33 @@ bool Scene::CheckCollisions(DisplayableObject * obj)
 				obj->OnTrigger(objects[i]->TAG);
 				objects[i]->OnTrigger(obj->TAG);
 			}
+		}
+	}
+
+	return collision;
+}
+
+bool Scene::CheckCollisions(BoundingBox bBox, std::string tag, bool multiObjectCollissions)
+{
+	bool collision = false;
+	for (int i = 0; i < objects.size(); ++i)
+	{
+		//Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
+		if (bBox.GetParentPos().distanceTo(objects[i]->GetPos()) >  bBox.GetLargestDimension())
+			continue;
+
+		if (CheckCollision(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0), bBox, objects[i]->GetBBox()))
+		{
+			if (!objects[i]->GetBBox().IsTrigger() && !bBox.IsTrigger())
+			{
+				collision = true;
+				//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
+				if (multiObjectCollissions)
+					break;
+			}
+			//Handle possible trigger configurations
+			else if (objects[i]->GetBBox().IsTrigger())
+				objects[i]->OnTrigger(tag);
 		}
 	}
 

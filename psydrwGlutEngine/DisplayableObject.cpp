@@ -25,6 +25,7 @@ void DisplayableObject::RenderObject()
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture.getID());
 	glMaterialfv(GL_FRONT, GL_AMBIENT, matAmb);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, matDif);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);

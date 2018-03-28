@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "SkyBox.h"
+#include "BoundingBox.h"
 #include "MathHelp.h"
 class Scene
 {
@@ -90,6 +91,9 @@ public:
 	//Check if a supplied object is colliding with any other object in the scene. Intended to be used by non-kinematic objects to manualy check for collisions but can use with kinematic objects also. 
 	//Will trigger the OnCollision or OnTrigger method of object(s) the supplied object is determined to be colliding with.
 	bool CheckCollisions(DisplayableObject* obj);
+	//As above but will only trigger the OnCollision or onTrigger of the object(s) the supplied bbox interssects.NOTE this version does not have self collision checks, and is mainly intended for non displayable object colliders such as cameras
+	bool CheckCollisions(BoundingBox bBox, std::string tag = std::string("NULL"), bool multiObjectCollissions = false);
+
 
 private:
 	
@@ -102,18 +106,17 @@ private:
 	//Checks if applying an objects rotational velocity in a given axis ((given by the velComponent input. For x velocity, would pass (v.x, 0, 0) for velComponent) to its orientation would cause a collision, and if so, calls the appropriate collision handler and prevents movement by setting the objects rotational velocity to zero.
 	bool ApplyRotVelocity(const std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
 	//Check if an object, obj1 collides with an object, obj2, when some positional offset posOffset and rotational offset rotOffsetis applied to obj1's position and orientation.
-	bool CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, const std::shared_ptr<DisplayableObject>& obj1, const std::shared_ptr<DisplayableObject>& obj2);
-	//Check if an object is colliding with with an object objectwhen some positional offset posOffset and rotational offset rotOffsetis applied to obj1's position and orientation. Helper function used in by CheckCollisions and the alternate version of this function
-	bool CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, DisplayableObject* obj1, const std::shared_ptr<DisplayableObject>& obj2);
+	bool CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, BoundingBox obj1, const BoundingBox obj2);
+
 
 
 	//Determine if a point is in front of or behind a plane (defined by a point on the plane and the planes normal). Used for collision checking
 	bool HalfSpaceTest(Vec3<float> normal, Vec3<float> planePoint, Vec3<float> point);
 
 	//Global Gravity
-	float gravity = 0.8;
+	float gravity = 0.8f;
 	//Global Friction
-	float friction = 0.1;
+	float friction = 0.1f;
 
 	//If set to true, when an object is determined to be about to collide with another due to its velocity, the phsyics system will, instead of stopping the object in its tracks, attempt to recursivley find a short distance that can be traveresed without colliding in order to place the objects close but not touching
 	//Can have big effect on performance, and similar effect can be acheived more efficently by applying gradualy increasing velocity to objects instead of binary on/off velocity.

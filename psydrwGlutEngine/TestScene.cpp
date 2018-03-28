@@ -9,6 +9,7 @@
 #include "TestObject2.h"
 #include "TriggerTest.h"
 #include "SceneManager.h"
+#include "Plane.h"
 TestScene::TestScene()
 {
 	//Set scene cam
@@ -18,21 +19,35 @@ TestScene::TestScene()
 
 	//Skybox textures
 	std::vector<Texture2D> sBoxTs;
-	sBoxTs.push_back(Texture2D("../textures/skybox/skybox_left.png"));
-	sBoxTs.push_back(Texture2D("../textures/skybox/skybox_right.png"));
-	sBoxTs.push_back(Texture2D("../textures/skybox/skybox_front.png"));
-	sBoxTs.push_back(Texture2D("../textures/skybox/skybox_back.png"));
-	sBoxTs.push_back(Texture2D("../textures/skybox/skybox_down.png"));
-	sBoxTs.push_back(Texture2D("../textures/skybox/skybox_up.png"));
+	sBoxTs.push_back(Texture2D("../textures/skybox/left.png"));
+	sBoxTs.push_back(Texture2D("../textures/skybox/right.png"));
+	sBoxTs.push_back(Texture2D("../textures/skybox/front.png"));
+	sBoxTs.push_back(Texture2D("../textures/skybox/back.png"));
+	sBoxTs.push_back(Texture2D("../textures/skybox/down.png"));
+	sBoxTs.push_back(Texture2D("../textures/skybox/up.png"));
+
+	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_left.png"));
+	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_right.png"));
+	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_front.png"));
+	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_back.png"));
+	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_down.png"));
+	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_up.png"));
 
 	skyBox = std::make_unique<SkyBox>(sBoxTs);
 	skyBox->SetScale(mainCam->GetFarClip()/2);
 
 
-	//Set up the scenes objects
-	std::shared_ptr<DisplayableObject> t = std::make_shared<TestObject>(Vec3<float>(0,0,-50),Texture2D("../textures/wall.jpg"));
-	t->SetScale(10);
-	objects.push_back(t);
+	////Set up the scenes objects
+	//std::shared_ptr<DisplayableObject> t = std::make_shared<TestObject>(Vec3<float>(0,0,-50),Texture2D("../textures/wall.jpg"));
+	//t->SetScale(10);
+	//objects.push_back(t);
+
+
+	std::shared_ptr<DisplayableObject> floor = std::make_shared<Plane>(Vec3<float>(0, 0, -25), Texture2D("../textures/wall.jpg"), "floor", 50, 5);
+	floor->SetScaleX(300);
+	floor->SetScaleZ(300);
+	objects.push_back(floor);
+
 
 	std::shared_ptr<DisplayableObject> tr = std::make_shared<TriggerTest>(Vec3<float>(15, 10, -50), Texture2D("../textures/wall.jpg"), this);
 	tr->SetScale(10);
@@ -40,20 +55,19 @@ TestScene::TestScene()
 
 	std::shared_ptr<DisplayableObject> t3 = std::make_shared<TestObject>(Vec3<float>(-10, 10, -50), Texture2D("../textures/wall.jpg"));
 	t3->SetScale(10);
+
 	objects.push_back(t3);
 
 	std::shared_ptr<DisplayableObject> t2 = std::make_shared<TestObject2>(Vec3<float>(0, 60, -50), nullptr);
 	t2->SetScale(10);
+	t2->SetScaleY(30);
 	objects.push_back(std::move(t2));
 
-	//Make the lights for scene
-	for (int i = 0; i < 10; i++) {
-		std::shared_ptr<Spotlight> l = std::make_shared<Spotlight>(Vec3<float>(1, 1, 25 + 100 * i), Colour(0.2, 0, 0), Colour(0.9, 0, 0), Colour(0.9, 0, 0), Vec3<float>(0, 0, -1));
 
-		//Move to avoid pointless incrmenent and decrement of shared pointer counters as the inital ones imediatley go out of scope anyway
-		lights.push_back(std::move(l));
-	}
+	 std::shared_ptr<Spotlight> l = std::make_shared<Spotlight>(Vec3<float>(0, 10, 25), Colour(0.2, 0, 0), Colour(0.9, 0, 0), Colour(0.9, 0, 0), Vec3<float>(0, 1, 0));
 
+	//Move to avoid pointless incrmenent and decrement of shared pointer counters as the inital ones imediatley go out of scope anyway
+	lights.push_back(std::move(l));
 }
 
 

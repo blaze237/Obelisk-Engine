@@ -57,5 +57,8 @@ private:
 	int constAttenuation = 1;
 	int linearAttenuation = 0;
 	int expAttenuation = 0;
+
+
+	void DebugRender();
 };
 

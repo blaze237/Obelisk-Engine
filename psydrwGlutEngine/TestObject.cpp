@@ -6,6 +6,7 @@ TestObject::TestObject(Vec3<float> pos, Texture2D texture, std::string tag)
 	:DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag, texture)
 {
 	IS_KINEMATIC = false;
+	renderCollider = true;
 }
 
 
@@ -35,15 +36,12 @@ void TestObject::Update(long tCurrent)
 
 void TestObject::drawCube(float radius)
 {
-	// Enable Texturing
-	glEnable(GL_TEXTURE_2D);
+
 
 	// Enable setting the colour of the material the cube is made from
 	// as well as the material for blending.
 	glEnable(GL_COLOR_MATERIAL);
 
-	// Tell openGL which texture buffer to use
-	glBindTexture(GL_TEXTURE_2D, texture.getID());
 
 	glBegin(GL_QUADS);
 

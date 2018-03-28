@@ -2,11 +2,15 @@
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(27): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(31): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.h(114): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.h(116): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(37): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(127): warning C4018: '<': signed/unsigned mismatch
 c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(202): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(332): warning C4018: '<': signed/unsigned mismatch
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(329): warning C4018: '<': signed/unsigned mismatch
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(369): warning C4018: '<': signed/unsigned mismatch
+  TriggerTest.cpp
+c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(27): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(31): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
   psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

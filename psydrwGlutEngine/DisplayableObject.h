@@ -95,6 +95,18 @@ public:
 	{
 		scale.x = scale.y = scale.z = s;
 	}
+	inline void SetScaleX(float s)
+	{
+		scale.x = s;
+	}
+	inline void SetScaleY(float s)
+	{
+		scale.y = s;
+	}
+	inline void SetScaleZ(float s)
+	{
+		scale.z = s;
+	}
 	inline void SetScale(const Vec3<float>& s)
 	{
 		scale = s;
@@ -177,7 +189,7 @@ protected:
 	//Only enable if needed as for movement logic we dont care about processing all collisions just one for performance
 	bool MULTI_COLLISION_MODE = false;
 	//Is this object subject to physics logic (gravity, collisions, friction). Note that other objects can still collide with this object even if this object is not kinematic.
-	bool IS_KINEMATIC = true;
+	bool IS_KINEMATIC = false;
 
 	static unsigned int nextID;
 };

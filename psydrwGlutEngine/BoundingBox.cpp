@@ -19,6 +19,8 @@ void BoundingBox::Render() const
 	std::vector<Vec3<float>> ind = GetIndicies();
 
 	glPushMatrix();
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	glDisable(GL_LIGHTING);
 	glColor4f(1.f, 0.f, 0.f, 1.f);
 	//Set drawing scale
 	glScalef(1, 1, 1);
@@ -67,15 +69,15 @@ void BoundingBox::Render() const
 	glVertex3f(ind[2].x, ind[2].y, ind[2].z); //fbr
 	glEnd();
 
-	glPopMatrix();
-}
+	glPopAttrib();
+	glPopMatrix();}
 
 std::vector<Vec3<float>> BoundingBox::GetIndicies(Vec3<float> posOffset, Vec3<float> rotOffset) const
 {
 	//Apply scaling to the bounding box
-	int width = this->width * parentScale.x;
-	int height = this->height * parentScale.x;
-	int depth = this->depth * parentScale.x;
+	float width = this->width * parentScale.x;
+	float height = this->height * parentScale.y;
+	float depth = this->depth * parentScale.z;
 
 	//Get indicies for cube centered at origin with no rotation
 	std::vector<Vec3<float>> ind;
