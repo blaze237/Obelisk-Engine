@@ -164,7 +164,7 @@ public:
 	}
 
 	//Calculate the dot product of this vector with another
-	inline T DotProd(const Vec3<T> v2) const
+	inline long double DotProd(const Vec3<T> v2) const
 	{
 		return (x * v2.x) + (y * v2.y) + (z * v2.z);
 	}
@@ -205,3 +205,8 @@ public:
 
 };
 
+template<class T>
+void PrintVector(Vec3<T>v)
+{
+	std::cout << "X: " << v.x << " Y: " << v.y << "Z: " << v.z << std::endl;
+}

@@ -120,17 +120,17 @@ std::vector<BoxFace> BoundingBox::GetFaces(Vec3<float> posOffset, Vec3<float> ro
 	std::vector<Vec3<float>> ind = GetIndicies(posOffset);
 
 	//Front Face
-	BoxFace front(ind[0], ind[2], ind[1]);
+	BoxFace front(ind[0], ind[2], ind[1], "Front");
 	//Back Face
-	BoxFace back(ind[4], ind[7], ind[5]);
+	BoxFace back(ind[4], ind[7], ind[5], "Back");
 	//Top face
-	BoxFace top(ind[5], ind[0], ind[4]);
+	BoxFace top(ind[5], ind[0], ind[4], "Top");
 	//Bottom face
-	BoxFace bot(ind[7], ind[2], ind[6]);
+	BoxFace bot(ind[7], ind[2], ind[6], "bot");
 	//Left face
-	BoxFace left(ind[5], ind[6], ind[0]);
+	BoxFace left(ind[5], ind[6], ind[0], "Left");
 	//Right face
-	BoxFace right(ind[1], ind[2], ind[4]);
+	BoxFace right(ind[1], ind[2], ind[4], "Right");
 
 	std::vector<BoxFace> faces;
 	faces.push_back(front);

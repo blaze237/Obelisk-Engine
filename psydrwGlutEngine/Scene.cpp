@@ -79,7 +79,10 @@ void Scene::PhysicsUpdate()
 
 		//Apply gravity to y velocity (if y velocity is currently less than gravity)
 		if (object->GetVelocity().y > -gravity)
-			object->SetVelocityY((object->GetVelocity().y - gravity/10.f) < -gravity ? -gravity : object->GetVelocity().y - gravity/10.f);
+			object->SetVelocityY((object->GetVelocity().y - gravity / 10.f) < -gravity ? -gravity : object->GetVelocity().y - gravity / 10.f);
+			//object->SetVelocityY( -gravity);
+
+			//
 
 		//Apply friction to grounded objects
 		if (object->IsGrounded())
@@ -130,10 +133,12 @@ bool Scene::ApplyVelocity(const std::shared_ptr<DisplayableObject>&  object, Vec
 		if(object->ID == objects[i]->ID)
 			continue;
 
-		//Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
-		float vel = MathHelp::Max3(abs(velComponent.x), abs(velComponent.y), abs(velComponent.z));
-		if (object->GetPos().distanceTo(objects[i]->GetPos()) > vel + object->GetBBox().GetLargestDimension())
-			continue;
+		////Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
+		//float vel = MathHelp::Max3(abs(velComponent.x), abs(velComponent.y), abs(velComponent.z));
+		//if (object->GetPos().distanceTo(objects[i]->GetPos()) > vel + object->GetBBox().GetLargestDimension())
+		//	continue;
+
+
 
 		if (CheckCollision(velComponent, Vec3<float>(0,0,0), object->GetBBox(), objects[i]->GetBBox()))
 		{
@@ -264,7 +269,6 @@ bool Scene::ApplyRotVelocity(const std::shared_ptr<DisplayableObject>& object, V
 
 
 
-
 bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, BoundingBox obj1, BoundingBox obj2)
 {
 	//Get the faces of object testing against
@@ -291,9 +295,11 @@ bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, Boundin
 			{
 				face1Flags[j] = HalfSpaceTest(face1.normal, face1.A, p);
 				++j;
+
 			}
 			j = 0;
-			//Check each indicie against face1 to see if any are behind it
+		
+			//Check each indicie against face2 to see if any are behind it
 			for (Vec3<float> p : indicies)
 			{
 				face2Flags[j] = HalfSpaceTest(face2.normal, face2.A, p);
@@ -313,7 +319,6 @@ bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, Boundin
 				return true;
 			}
 		}
-
 		//Now need to check other way round for next loop iteration
 		faces = obj1.GetFaces(posOffset);
 		indicies = obj2.GetIndicies();
@@ -396,14 +401,16 @@ bool Scene::HalfSpaceTest(Vec3<float> normal, Vec3<float> planePoint, Vec3<float
 	//Get vector from point on plane to test point
 	Vec3<float> tmp = point - planePoint;
 	//Get distance to point
-	float dist = tmp.DotProd(normal);
+	long double dist = tmp.DotProd(normal);
 
 	//Point is in front of plane
 	if (dist > 0)
 		return false;
 
-	//Point is behind plane
+	//Point beind
 	return true;
+
+	
 }
 
 void Scene::RenderSky()

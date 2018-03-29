@@ -44,12 +44,12 @@ TestScene::TestScene()
 
 
 	std::shared_ptr<DisplayableObject> floor = std::make_shared<Plane>(Vec3<float>(0, 0, -25), Texture2D("../textures/wall.jpg"), "floor", 50, 5);
-	floor->SetScaleX(300);
-	floor->SetScaleZ(300);
+	floor->SetScaleX(1000);
+	floor->SetScaleZ(1000);
 	objects.push_back(floor);
 
 
-	std::shared_ptr<DisplayableObject> tr = std::make_shared<TriggerTest>(Vec3<float>(15, 10, -50), Texture2D("../textures/wall.jpg"), this);
+	/*std::shared_ptr<DisplayableObject> tr = std::make_shared<TriggerTest>(Vec3<float>(15, 10, -50), Texture2D("../textures/wall.jpg"), this);
 	tr->SetScale(10);
 	objects.push_back(tr);
 
@@ -57,10 +57,10 @@ TestScene::TestScene()
 	t3->SetScale(10);
 
 	objects.push_back(t3);
-
+*/
 	std::shared_ptr<DisplayableObject> t2 = std::make_shared<TestObject2>(Vec3<float>(0, 60, -50), nullptr);
-	t2->SetScale(10);
-	t2->SetScaleY(30);
+	t2->SetScale(1);
+	//t2->SetScaleY(30);
 	objects.push_back(std::move(t2));
 
 
