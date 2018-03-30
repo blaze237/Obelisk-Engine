@@ -4,15 +4,13 @@
 
 
 Plane::Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution)
-	:DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag, texture), resolution(resolution)
+	:DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag), resolution(resolution), texture(texture)
 {
-	renderCollider = true;
 }
 
 Plane::Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution, float texTiling)
-	: DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag, texture), resolution(resolution), texTiling(texTiling)
+	: DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag), resolution(resolution), texTiling(texTiling), texture(texture)
 {
-	renderCollider = true;
 }
 
 
@@ -22,6 +20,8 @@ Plane::~Plane()
 
 void Plane::Render()
 {
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture.getID());
 
 	glBegin(GL_QUADS);
 	float step = 1.0f / resolution;
@@ -43,12 +43,15 @@ void Plane::Render()
 			//4
 			glTexCoord2f(((x + resolution / 2) * step)* texTiling, ((z + resolution / 2) * step)* texTiling);
 			glVertex3f(x * step, 0, z * step);
-			
-
-		
 
 		}
 	}
 
 	glEnd();
+
+	// Bind to the blank buffer to stop ourselves accidentaly
+	// using the wrong texture in the next draw call
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	// Stop performing texturing
+	glDisable(GL_TEXTURE_2D);
 }

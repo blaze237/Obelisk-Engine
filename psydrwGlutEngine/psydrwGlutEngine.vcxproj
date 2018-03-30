@@ -135,6 +135,8 @@
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="PhsyicsCamParent.cpp" />
+    <ClCompile Include="PhysicsCam.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -157,6 +159,8 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MathHelp.h" />
+    <ClInclude Include="PhsyicsCamParent.h" />
+    <ClInclude Include="PhysicsCam.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

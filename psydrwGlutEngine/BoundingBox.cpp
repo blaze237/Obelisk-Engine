@@ -102,14 +102,14 @@ std::vector<Vec3<float>> BoundingBox::GetIndicies(Vec3<float> posOffset, Vec3<fl
 	}
 
 	//Apply parent translation to the indicies to convert positions into world
-	ind[0] = parentPos + ind[0] + posOffset;
-	ind[1] = parentPos + ind[1] + posOffset;
-	ind[2] = parentPos + ind[2] + posOffset;
-	ind[3] = parentPos + ind[3] + posOffset;
-	ind[4] = parentPos + ind[4] + posOffset;
-	ind[5] = parentPos + ind[5] + posOffset;
-	ind[6] = parentPos + ind[6] + posOffset;
-	ind[7] = parentPos + ind[7] + posOffset;
+	ind[0] = offset + parentPos + ind[0] + posOffset;
+	ind[1] = offset + parentPos + ind[1] + posOffset;
+	ind[2] = offset + parentPos + ind[2] + posOffset;
+	ind[3] = offset + parentPos + ind[3] + posOffset;
+	ind[4] = offset + parentPos + ind[4] + posOffset;
+	ind[5] = offset + parentPos + ind[5] + posOffset;
+	ind[6] = offset + parentPos + ind[6] + posOffset;
+	ind[7] = offset + parentPos + ind[7] + posOffset;
 
 	return ind;
 }

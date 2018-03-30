@@ -14,8 +14,11 @@ public:
 	virtual void Update(long tCurrent);
 	void drawCube(float radius);
 
+protected:
+	Texture2D texture;
 private:
 	int theta = 0;
 	long lastTime = 0;
+
 };
 

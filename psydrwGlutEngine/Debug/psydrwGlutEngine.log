@@ -1,29 +1,5 @@
-﻿  Scene.cpp
+﻿  PhysicsCam.cpp
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(27): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(31): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(37): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(130): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(207): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(334): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(374): warning C4018: '<': signed/unsigned mismatch
-  TestScene.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(27): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(31): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\testscene.cpp(67): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1849): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1913): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D,const char(&)[6],int,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],int &&,int &&)' being compiled
-          with
-          [
-              _Ty=Plane
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1914): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D,const char(&)[6],int,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],int &&,int &&)' being compiled
-          with
-          [
-              _Ty=Plane
-          ]
-  c:\users\daniel\obelisk-engine\psydrwglutengine\testscene.cpp(46): note: see reference to function template instantiation 'std::shared_ptr<Plane> std::make_shared<Plane,Vec3<float>,Texture2D,const char(&)[6],int,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],int &&,int &&)' being compiled
-  Generating Code...
   psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

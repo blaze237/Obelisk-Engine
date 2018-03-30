@@ -88,10 +88,8 @@ public:
 		return RecurisveCollisions;
 	}
 
-	//Check if a supplied object is colliding with any other object in the scene. Intended to be used by non-kinematic objects to manualy check for collisions but can use with kinematic objects also. 
-	//Will trigger the OnCollision or OnTrigger method of object(s) the supplied object is determined to be colliding with.
-	bool CheckCollisions(DisplayableObject* obj);
-	//As above but will only trigger the OnCollision or onTrigger of the object(s) the supplied bbox interssects.NOTE this version does not have self collision checks, and is mainly intended for non displayable object colliders such as cameras
+	//Check if a supplied bounding box intersects the boudning box of any object in the scene. Will call OnCollision / onTrigger of the object(s) the supplied bbox interssects. 
+	//Self collision checking is available by optionaly supplying the tag of the object the supplied bbox belongs to.
 	bool CheckCollisions(BoundingBox bBox, std::string tag = std::string("NULL"), bool multiObjectCollissions = false);
 
 
@@ -102,12 +100,13 @@ private:
 	void PhysicsUpdate();
 
 	//Checks if applying an objects velocity in a given direction (given by the velComponent input. For x velocity, would pass (v.x, 0, 0) for velComponent) to its position would cause a collision, and if so, calls the appropriate collision handler and prevents movement by setting the objects velocity to zero.
-	bool ApplyVelocity(const std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
+	bool ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
 	//Checks if applying an objects rotational velocity in a given axis ((given by the velComponent input. For x velocity, would pass (v.x, 0, 0) for velComponent) to its orientation would cause a collision, and if so, calls the appropriate collision handler and prevents movement by setting the objects rotational velocity to zero.
-	bool ApplyRotVelocity(const std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
+	bool ApplyRotVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
 	//Check if an object, obj1 collides with an object, obj2, when some positional offset posOffset and rotational offset rotOffsetis applied to obj1's position and orientation.
 	bool CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, BoundingBox obj1, const BoundingBox obj2);
-
+	//Used for doing collision checks only (i.e, no velocity logic applied) on non-kinematic objects. 
+	bool CheckCollisions(std::shared_ptr<DisplayableObject>& obj);
 
 
 	//Determine if a point is in front of or behind a plane (defined by a point on the plane and the planes normal). Used for collision checking

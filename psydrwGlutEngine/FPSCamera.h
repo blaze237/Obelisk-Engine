@@ -12,17 +12,17 @@ public:
 	virtual void Update(long tCurrent);
 
 
-private:
-
-	void CheckMovement();
+protected:
+	virtual void CheckMovement();
 	void CheckRotation();
-
-	const float speed = 1;
 	char inputL = 'a';
 	char inputU = 'w';
 	char inputR = 'd';
 	char inputD = 's';
 	Vec2<int> mousePos;
 	const float sensitivity = 0.003f;
+private:
+	const float speed = 1;
+	
 };
 

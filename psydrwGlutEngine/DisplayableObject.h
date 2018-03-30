@@ -12,7 +12,7 @@ public:
 	const unsigned int ID;
 
 
-	DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag, Texture2D texture);
+	DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag);
 	virtual ~DisplayableObject();
 
 
@@ -22,7 +22,10 @@ public:
 	void RenderObject();
 
 	//Overide this with your own render code. Dont call directly, is called by RenderObject
-	virtual void Render() = 0;
+	virtual void Render()
+	{
+
+	}
 	//Default empty update. Overide for logic/animations/phsyics etc
 	virtual void Update(long tCurrent);
 	//Collision handler. Default implemnation does nothing on collision.
@@ -66,13 +69,20 @@ public:
 	}
 	inline bool IsMultiCollisionMode() const
 	{
-		return MULTI_COLLISION_MODE;
+		return multiCollisionMode;
 	}
 	inline bool IsKinematic() const
 	{
-		return IS_KINEMATIC;
+		return kinematic;
 	}
-
+	inline bool IsCollidable() const
+	{
+		return collidable;
+	}
+	inline bool IsRenderable() const
+	{
+		return renderable;
+	}
 
 	//Setters
 	inline void SetPos(const Vec3<float>& p)
@@ -115,6 +125,18 @@ public:
 	{
 		orientation = o;
 	}
+	inline void SetOrientationX(const float o)
+	{
+		orientation.x = o;
+	}
+	inline void SetOrientationY(const float o)
+	{
+		orientation.y = o;
+	}
+	inline void SetOrientationZ(const float o)
+	{
+		orientation.z = o;
+	}
 	inline void SetVelocity(const Vec3<float>& v)
 	{
 		velocity = v;
@@ -152,15 +174,23 @@ public:
 	}
 	inline void SetKinematic(bool b)
 	{
-		IS_KINEMATIC = b;
+		kinematic = b;
 	}
 	inline void SetMultiCollision(bool b)
 	{
-		MULTI_COLLISION_MODE = b;
+		multiCollisionMode = b;
+	}
+	inline void SetCollidable(bool b)
+	{
+		collidable = b;
 	}
 	inline void SetColliderRenderer(bool b)
 	{
 		renderCollider = b;
+	}
+	inline void SetRenderable(bool b)
+	{
+		renderable = b;
 	}
 
 
@@ -171,7 +201,6 @@ protected:
 	Vec3<float> velocity;
 	Vec3<float> rotVelocity;
 	BoundingBox bBox;
-	Texture2D texture;
 	bool renderCollider = false;
 
 	//Material properites for object
@@ -187,9 +216,14 @@ protected:
 
 	//If true, then all concurent collisions with this object will be passed to its OnCollide function.
 	//Only enable if needed as for movement logic we dont care about processing all collisions just one for performance
-	bool MULTI_COLLISION_MODE = false;
-	//Is this object subject to physics logic (gravity, collisions, friction). Note that other objects can still collide with this object even if this object is not kinematic.
-	bool IS_KINEMATIC = false;
+	bool multiCollisionMode = false;
+	//Is this object subject to physics logic (gravity, friction, velocity updates). 
+	bool kinematic = false;
+	//Is this object subject to collision/trigger logic. (i.e can it collide/trigger other objects and vice versa). Only enable when needed for performance
+	bool collidable = false;
+	//Should this object be rendered
+	bool renderable = true;
+
 
 	static unsigned int nextID;
 };

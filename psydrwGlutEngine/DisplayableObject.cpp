@@ -4,8 +4,8 @@
 unsigned int DisplayableObject::nextID = 0;
 
 
-DisplayableObject::DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag, Texture2D texture)
-	:pos(pos), scale(Vec3<float>(1,1,1)), orientation(Vec3<float>(0,0,0)), TAG(tag), texture(texture), bBox(bBoxSize.x, bBoxSize.y, bBoxSize.z, this->pos, this->orientation, this->scale), ID(nextID++)
+DisplayableObject::DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag)
+	:pos(pos), scale(Vec3<float>(1,1,1)), orientation(Vec3<float>(0,0,0)), TAG(tag), bBox(bBoxSize.x, bBoxSize.y, bBoxSize.z, this->pos, this->orientation, this->scale), ID(nextID++)
 {
 
 
@@ -21,11 +21,12 @@ void DisplayableObject::RenderObject()
 	if(renderCollider)
 		bBox.Render();
 
+	if (!renderable)
+		return;
+
 	glPushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, texture.getID());
+	
 	glMaterialfv(GL_FRONT, GL_AMBIENT, matAmb);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, matDif);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
@@ -52,7 +53,6 @@ void DisplayableObject::RenderObject()
 
 	glPopAttrib();
 	glBindTexture(GL_TEXTURE_2D, NULL);
-	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
 void DisplayableObject::Update(long tCurrent)

@@ -28,11 +28,14 @@
     <Filter Include="Game Objects\Prefabs">
       <UniqueIdentifier>{90feb5da-5853-46a8-938f-c08407e12e39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Objects\Base Types">
-      <UniqueIdentifier>{5915ab25-bc6d-439c-83eb-45fa06dbdf7d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Levels\Testing">
       <UniqueIdentifier>{41e73fff-b63b-4e16-9852-d5ddbf632934}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Interfaces">
+      <UniqueIdentifier>{3f4edc16-de64-488f-8e56-3cb17c26e0d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Util">
+      <UniqueIdentifier>{04b108e2-7a80-46bd-81b5-5fcba4857d17}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,29 +54,11 @@
     <ClCompile Include="FPSCamera.cpp">
       <Filter>Game Objects\Prefabs</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Game Objects\Base Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>Game Objects\Base Types</Filter>
-    </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="Spotlight.cpp">
       <Filter>Game Objects\Prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="SkyBox.cpp">
-      <Filter>Game Objects\Base Types</Filter>
-    </ClCompile>
-    <ClCompile Include="DisplayableObject.cpp">
-      <Filter>Game Objects\Base Types</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxFace.cpp">
-      <Filter>Game Objects\Base Types</Filter>
-    </ClCompile>
-    <ClCompile Include="BoundingBox.cpp">
-      <Filter>Game Objects\Base Types</Filter>
     </ClCompile>
     <ClCompile Include="TestObject.cpp">
       <Filter>Levels\Testing</Filter>
@@ -88,6 +73,30 @@
       <Filter>Levels\Testing</Filter>
     </ClCompile>
     <ClCompile Include="Plane.cpp">
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Engine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxFace.cpp">
+      <Filter>Engine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayableObject.cpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsCam.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhsyicsCamParent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,29 +125,11 @@
     <ClInclude Include="FPSCamera.h">
       <Filter>Game Objects\Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Game Objects\Base Types</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Game Objects\Base Types</Filter>
-    </ClInclude>
     <ClInclude Include="Texture2D.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="Spotlight.h">
       <Filter>Game Objects\Prefabs</Filter>
-    </ClInclude>
-    <ClInclude Include="DisplayableObject.h">
-      <Filter>Game Objects\Base Types</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyBox.h">
-      <Filter>Game Objects\Base Types</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxFace.h">
-      <Filter>Game Objects\Base Types</Filter>
-    </ClInclude>
-    <ClInclude Include="BoundingBox.h">
-      <Filter>Game Objects\Base Types</Filter>
     </ClInclude>
     <ClInclude Include="TestObject2.h">
       <Filter>Levels\Testing</Filter>
@@ -153,6 +144,30 @@
       <Filter>Levels\Testing</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxFace.h">
+      <Filter>Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayableObject.h">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsCam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhsyicsCamParent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

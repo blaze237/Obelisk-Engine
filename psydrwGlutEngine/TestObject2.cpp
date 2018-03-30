@@ -24,7 +24,7 @@ bool BehindPlane(Vec3<float> normal, Vec3<float> planePoint, Vec3<float> point)
 TestObject2::TestObject2(Vec3<float> pos, std::shared_ptr<DisplayableObject> testOb, Texture2D texture)
 	:TestObject(pos, texture, "player"), testOb(testOb)
 {
-	IS_KINEMATIC = true;
+	kinematic = true;
 	
 
 }

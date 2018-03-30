@@ -20,5 +20,4 @@ void TriggerTest::OnTrigger(std::string tag)
 
 void TriggerTest::Update(long tCurrent)
 {
-	scene->CheckCollisions(this);
 }

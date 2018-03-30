@@ -10,11 +10,18 @@
 #include "TriggerTest.h"
 #include "SceneManager.h"
 #include "Plane.h"
+#include "PhsyicsCamParent.h"
+#include "PhysicsCam.h"
 TestScene::TestScene()
 {
 	//Set scene cam
-	mainCam = std::make_unique<FPSCamera>(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, -1));
+	//mainCam = std::make_unique<FPSCamera>(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, -1));
+	mainCam = std::make_unique<PhysicsCam>(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, -1));
+	std::shared_ptr<DisplayableObject> camParent = std::make_shared<PhsyicsCamParent>(Vec3<float>(0, 100, 0), Vec3<float>(5, 15, 5), "Cam", dynamic_cast<PhysicsCam&>(*mainCam));
+	objects.push_back(camParent);
 
+	PhysicsCam& d = dynamic_cast<PhysicsCam&>(*mainCam);
+	dynamic_cast<PhysicsCam&>(*mainCam).RegisterParent(camParent);
 	//Make and set scene skybox
 
 	//Skybox textures
@@ -38,18 +45,19 @@ TestScene::TestScene()
 
 
 	////Set up the scenes objects
-	//std::shared_ptr<DisplayableObject> t = std::make_shared<TestObject>(Vec3<float>(0,0,-50),Texture2D("../textures/wall.jpg"));
-	//t->SetScale(10);
-	//objects.push_back(t);
+	std::shared_ptr<DisplayableObject> t = std::make_shared<TestObject>(Vec3<float>(0,0,-50),Texture2D("../textures/wall.jpg"));
+	t->SetScale(10);
+	objects.push_back(t);
 
 
-	std::shared_ptr<DisplayableObject> floor = std::make_shared<Plane>(Vec3<float>(0, 0, -25), Texture2D("../textures/wall.jpg"), "floor", 50, 5);
+	std::shared_ptr<DisplayableObject> floor = std::make_shared<Plane>(Vec3<float>(0, 0, -25), Texture2D("../textures/stone.jpg"), "floor", 50, 25);
 	floor->SetScaleX(1000);
 	floor->SetScaleZ(1000);
+	floor->SetCollidable(true);
 	objects.push_back(floor);
 
 
-	/*std::shared_ptr<DisplayableObject> tr = std::make_shared<TriggerTest>(Vec3<float>(15, 10, -50), Texture2D("../textures/wall.jpg"), this);
+	std::shared_ptr<DisplayableObject> tr = std::make_shared<TriggerTest>(Vec3<float>(15, 10, -50), Texture2D("../textures/wall.jpg"), this);
 	tr->SetScale(10);
 	objects.push_back(tr);
 
@@ -57,14 +65,14 @@ TestScene::TestScene()
 	t3->SetScale(10);
 
 	objects.push_back(t3);
-*/
-	std::shared_ptr<DisplayableObject> t2 = std::make_shared<TestObject2>(Vec3<float>(0, 60, -50), nullptr);
-	t2->SetScale(1);
-	//t2->SetScaleY(30);
-	objects.push_back(std::move(t2));
+
+	//std::shared_ptr<DisplayableObject> t2 = std::make_shared<TestObject2>(Vec3<float>(0, 60, -50), nullptr);
+	//t2->SetScale(1);
+	////t2->SetScaleY(30);
+	//objects.push_back(std::move(t2));
 
 
-	 std::shared_ptr<Spotlight> l = std::make_shared<Spotlight>(Vec3<float>(0, 10, 25), Colour(0.2, 0, 0), Colour(0.9, 0, 0), Colour(0.9, 0, 0), Vec3<float>(0, 1, 0));
+	 std::shared_ptr<Spotlight> l = std::make_shared<Spotlight>(Vec3<float>(0, 10, 25), Colour(0.2, 0, 0), Colour(0.9, 0, 0), Colour(0.9, 0, 0), Vec3<float>(0, 0, -2));
 
 	//Move to avoid pointless incrmenent and decrement of shared pointer counters as the inital ones imediatley go out of scope anyway
 	lights.push_back(std::move(l));

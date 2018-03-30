@@ -13,5 +13,6 @@ public:
 private:
 	int resolution;
 	float texTiling = 1;
+	Texture2D texture;
 };
 

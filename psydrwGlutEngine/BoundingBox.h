@@ -49,10 +49,12 @@ public:
 
 public:
 	float width, height, depth;
+	Vec3<float> offset;
 	//Keeps a reference to parent object position so that can use it to determine box wordlspace bounds at any given point.
 	const Vec3<float>& parentPos;
 	const Vec3<float>& parentRot;
 	const Vec3<float>& parentScale;
+
 
 	//Is this bounding box a trigger or a collider
 	bool trigger;

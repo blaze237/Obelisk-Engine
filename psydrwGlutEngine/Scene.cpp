@@ -80,9 +80,6 @@ void Scene::PhysicsUpdate()
 		//Apply gravity to y velocity (if y velocity is currently less than gravity)
 		if (object->GetVelocity().y > -gravity)
 			object->SetVelocityY((object->GetVelocity().y - gravity / 10.f) < -gravity ? -gravity : object->GetVelocity().y - gravity / 10.f);
-			//object->SetVelocityY( -gravity);
-
-			//
 
 		//Apply friction to grounded objects
 		if (object->IsGrounded())
@@ -120,55 +117,66 @@ void Scene::PhysicsUpdate()
 	}
 }
 
-bool Scene::ApplyVelocity(const std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent)
+bool Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent)
 {
 	//Used for recursive collision checks (if enabled)
 	static int counter = 0;
-
 	bool collision = false;
-	//Check for collisions at its predicted position position agaisnt all other objects
-	for (int i = 0; i < objects.size(); ++i)
+
+	//If the object isnt collidable, then skip collision checks and just apply its velocity immeadiatly 
+	if (object->IsCollidable())
 	{
-		//Dont want to test for collisions with self
-		if(object->ID == objects[i]->ID)
-			continue;
-
-		////Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
-		//float vel = MathHelp::Max3(abs(velComponent.x), abs(velComponent.y), abs(velComponent.z));
-		//if (object->GetPos().distanceTo(objects[i]->GetPos()) > vel + object->GetBBox().GetLargestDimension())
-		//	continue;
-
-
-
-		if (CheckCollision(velComponent, Vec3<float>(0,0,0), object->GetBBox(), objects[i]->GetBBox()))
+		//Check for collisions at its predicted position position agaisnt all other objects
+		for (int i = 0; i < objects.size(); ++i)
 		{
-			if (!objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
+			//Dont want to test for collisions with self
+			if (object->ID == objects[i]->ID)
+				continue;
+
+			//If the current object in the array is not collidable, then dont check for collisions
+			if (!objects[i]->IsCollidable())
+				continue;
+
+			////Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
+			//float vel = MathHelp::Max3(abs(velComponent.x), abs(velComponent.y), abs(velComponent.z));
+			//if (object->GetPos().distanceTo(objects[i]->GetPos()) > vel + object->GetBBox().GetLargestDimension())
+			//	continue;
+
+
+			if (CheckCollision(velComponent, Vec3<float>(0, 0, 0), object->GetBBox(), objects[i]->GetBBox()))
 			{
-				//Let the object know a collision has occured and with what
-				if(counter == 0)
-					object->OnCollide(objects[i]->TAG);
-				collision = true;
-				//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
-				if (!object->IsMultiCollisionMode())
-					break;
-			}
-			//Handle possible trigger configurations
-			else if (counter == 0 && objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
-				objects[i]->OnTrigger(object->TAG);
-			else if (counter == 0 && object->GetBBox().IsTrigger() && !objects[i]->GetBBox().IsTrigger())
-				object->OnTrigger(objects[i]->TAG);
-			else if (counter == 0 && object->GetBBox().IsTrigger() && objects[i]->GetBBox().IsTrigger())
-			{
-				object->OnTrigger(objects[i]->TAG);
-				objects[i]->OnTrigger(object->TAG);
+				if (!objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
+				{
+					//Let the object know a collision has occured and with what
+					if (counter == 0)
+						object->OnCollide(objects[i]->TAG);
+					collision = true;
+					//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
+					if (!object->IsMultiCollisionMode())
+						break;
+				}
+				//Handle possible trigger configurations
+				else if (counter == 0 && objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
+					objects[i]->OnTrigger(object->TAG);
+				else if (counter == 0 && object->GetBBox().IsTrigger() && !objects[i]->GetBBox().IsTrigger())
+					object->OnTrigger(objects[i]->TAG);
+				else if (counter == 0 && object->GetBBox().IsTrigger() && objects[i]->GetBBox().IsTrigger())
+				{
+					object->OnTrigger(objects[i]->TAG);
+					objects[i]->OnTrigger(object->TAG);
+				}
 			}
 		}
 	}
-
 	if (collision)
 		object->SetVelocity(velCur - velComponent);
 	else
 		object->SetPos(posCur + velComponent);
+
+	//Return straight away to avoid needless recurssion for non collidable objects
+	if (!object->IsCollidable())
+		return collision;
+
 
 
 	//Attempt to get objects as close to oneanother as possible if determine that an objects velocity would cause a collision. If recurssion is enabled
@@ -197,49 +205,59 @@ bool Scene::ApplyVelocity(const std::shared_ptr<DisplayableObject>&  object, Vec
 	return collision;
 }
 
-bool Scene::ApplyRotVelocity(const std::shared_ptr<DisplayableObject>& object, Vec3<float> posCur, Vec3<float> rotCur, Vec3<float> rotComponent)
+bool Scene::ApplyRotVelocity(std::shared_ptr<DisplayableObject>& object, Vec3<float> posCur, Vec3<float> rotCur, Vec3<float> rotComponent)
 {
 	//Used for recursive collision checks (if enabled)
 	static int counter = 0;
-
 	bool collision = false;
-	//Check for collisions at the predicted rotation agaisnt all other objects
-	for (int i = 0; i < objects.size(); ++i)
+
+	//If the object isnt collidable, then skip collision checks and just apply its velocity immeadiatly 
+	if (object->IsCollidable())
 	{
-		//Dont want to test for collisions with self
-		if (object->ID == objects[i]->ID)
-			continue;
-
-
-		if (CheckCollision(Vec3<float>(0,0,0), rotComponent, object->GetBBox(), objects[i]->GetBBox()))
+		//Check for collisions at the predicted rotation agaisnt all other objects
+		for (int i = 0; i < objects.size(); ++i)
 		{
-			if (!objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
+			//Dont want to test for collisions with self
+			if (object->ID == objects[i]->ID)
+				continue;
+
+			//If the current object in the array is not collidable, then dont check for collisions
+			if (!objects[i]->IsCollidable())
+				continue;
+
+
+			if (CheckCollision(Vec3<float>(0, 0, 0), rotComponent, object->GetBBox(), objects[i]->GetBBox()))
 			{
-				//Let the object know a collision has occured and with what
-				object->OnCollide(objects[i]->TAG);
-				collision = true;
-				//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
-				if (!object->IsMultiCollisionMode())
-					break;
-			}
-			//Handle possible trigger configurations
-			else if (objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
-				objects[i]->OnTrigger(object->TAG);
-			else if (object->GetBBox().IsTrigger() && !objects[i]->GetBBox().IsTrigger())
-				object->OnTrigger(objects[i]->TAG);
-			else if (object->GetBBox().IsTrigger() && objects[i]->GetBBox().IsTrigger())
-			{
-				object->OnTrigger(objects[i]->TAG);
-				objects[i]->OnTrigger(object->TAG);
+				if (!objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
+				{
+					//Let the object know a collision has occured and with what
+					object->OnCollide(objects[i]->TAG);
+					collision = true;
+					//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
+					if (!object->IsMultiCollisionMode())
+						break;
+				}
+				//Handle possible trigger configurations
+				else if (objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
+					objects[i]->OnTrigger(object->TAG);
+				else if (object->GetBBox().IsTrigger() && !objects[i]->GetBBox().IsTrigger())
+					object->OnTrigger(objects[i]->TAG);
+				else if (object->GetBBox().IsTrigger() && objects[i]->GetBBox().IsTrigger())
+				{
+					object->OnTrigger(objects[i]->TAG);
+					objects[i]->OnTrigger(object->TAG);
+				}
 			}
 		}
 	}
-
 	if (collision)
 		object->SetRotVelocity(rotCur - rotComponent);
 	else
 		object->SetOrientation(rotCur + rotComponent);
 
+	//Return straight away to avoid needless recurssion for non collidable objects
+	if (!object->IsCollidable())
+		return collision;
 
 	//Attempt to get objects as close to oneanother as possible if determine that an objects velocity would cause a collision. If recurssion is enabled
 	if (RecurisveCollisions)
@@ -249,18 +267,11 @@ bool Scene::ApplyRotVelocity(const std::shared_ptr<DisplayableObject>& object, V
 			return collision;
 
 		//Otherwise, attempt to recursivley move the object closer to colliding objects
-		if (!RecursiveCollisionsForY && counter < 1 && rotComponent.y == 0)
-		{
-			++counter;
-			ApplyRotVelocity(object, posCur, rotCur, rotComponent / 10.f);
-
-		}
-		else if (RecursiveCollisionsForY && counter < 1)
+		if (counter < 1)
 		{
 			++counter;
 			ApplyRotVelocity(object, posCur, rotCur, rotComponent / 10.f);
 		}
-
 		else
 			counter = 0;
 	}
@@ -328,18 +339,27 @@ bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, Boundin
 }
 
 
-bool Scene::CheckCollisions(DisplayableObject * obj)
+bool Scene::CheckCollisions(std::shared_ptr<DisplayableObject>& obj)
 {
+	//If the object isnt collidable, then skip collision checks 
+	if (!obj->IsCollidable())
+		return false;
+
 	bool collision = false;
+
 	for (int i = 0; i < objects.size(); ++i)
 	{
 		//Dont want to test for collisions with self
 		if (obj->ID == objects[i]->ID)
 			continue;
 
-		//Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
-		if (obj->GetPos().distanceTo(objects[i]->GetPos()) >  obj->GetBBox().GetLargestDimension())
+		//If the current object in the array is not collidable, then dont check for collisions
+		if (!objects[i]->IsCollidable())
 			continue;
+
+		////Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
+		//if (obj->GetPos().distanceTo(objects[i]->GetPos()) >  obj->GetBBox().GetLargestDimension())
+		//	continue;
 
 		if (CheckCollision(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0), obj->GetBBox(), objects[i]->GetBBox()))
 		{
@@ -373,8 +393,16 @@ bool Scene::CheckCollisions(BoundingBox bBox, std::string tag, bool multiObjectC
 	bool collision = false;
 	for (int i = 0; i < objects.size(); ++i)
 	{
-		//Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
-		if (bBox.GetParentPos().distanceTo(objects[i]->GetPos()) >  bBox.GetLargestDimension())
+		////Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
+		//if (bBox.GetParentPos().distanceTo(objects[i]->GetPos()) >  bBox.GetLargestDimension())
+		//	continue;
+
+		//If non default tag was supllied, use it to check for self collision
+		if (!tag.compare("NULL") && tag.compare(objects[i]->TAG))
+			continue;
+
+		//If the current object in the array is not collidable, then dont check for collisions
+		if (!objects[i]->IsCollidable())
 			continue;
 
 		if (CheckCollision(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0), bBox, objects[i]->GetBBox()))
