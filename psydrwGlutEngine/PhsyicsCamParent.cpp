@@ -10,7 +10,7 @@ PhsyicsCamParent::PhsyicsCamParent(Vec3<float> pos, Vec3<float> bBoxSize, std::s
 	renderable = false;
 
 	bBox.offset.y = -bBoxSize.y / 2;
-	renderCollider = false;
+	//renderCollider = true;
 }
 
 

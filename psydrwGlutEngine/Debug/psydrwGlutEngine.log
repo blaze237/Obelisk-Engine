@@ -1,15 +1,15 @@
 ﻿  Scene.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(28): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(28): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(32): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(35): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(37): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(131): warning C4018: '<': signed/unsigned mismatch
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(130): warning C4018: '<': signed/unsigned mismatch
 c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(142): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(219): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(230): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(358): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(369): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(403): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(414): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(218): warning C4018: '<': signed/unsigned mismatch
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(229): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(357): warning C4018: '<': signed/unsigned mismatch
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(368): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(402): warning C4018: '<': signed/unsigned mismatch
+c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(413): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

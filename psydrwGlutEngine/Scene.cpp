@@ -123,7 +123,6 @@ bool Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<floa
 	//Used for recursive collision checks (if enabled)
 	static int counter = 0;
 	bool collision = false;
-
 	//If the object isnt collidable, then skip collision checks and just apply its velocity immeadiatly 
 	if (object->IsCollidable())
 	{
@@ -138,9 +137,10 @@ bool Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<floa
 			if (!objects[i]->IsCollidable())
 				continue;
 
+
 			//Cull collisions based on distance for performance
 			float distToObj = object->GetPos().distanceTo(objects[i]->GetPos());
-			if (distToObj >  objects[i]->GetBBox().GetLargestDimension()  && distToObj >  object->GetBBox().GetLargestDimension() * 2 )
+			if (distToObj >  object->GetBBox().GetLargestDimension() + objects[i]->GetBBox().GetLargestDimension() + 5)
 				continue;
 
 			if (CheckCollision(velComponent, Vec3<float>(0, 0, 0), object->GetBBox(), objects[i]->GetBBox()))
@@ -172,7 +172,6 @@ bool Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<floa
 		object->SetVelocity(velCur - velComponent);
 	else
 		object->SetPos(posCur + velComponent);
-
 
 	//Return straight away to avoid needless recurssion for non collidable objects
 	if (!object->IsCollidable())
@@ -228,7 +227,7 @@ bool Scene::ApplyRotVelocity(std::shared_ptr<DisplayableObject>& object, Vec3<fl
 
 			//Cull collisions based on distance for performance
 			float distToObj = object->GetPos().distanceTo(objects[i]->GetPos());
-			if (distToObj >  objects[i]->GetBBox().GetLargestDimension() && distToObj >  object->GetBBox().GetLargestDimension() * 2)
+			if (distToObj >  object->GetBBox().GetLargestDimension() + objects[i]->GetBBox().GetLargestDimension() + 5)
 				continue;
 
 
@@ -367,7 +366,7 @@ bool Scene::CheckCollisions(std::shared_ptr<DisplayableObject>& obj)
 
 		//Cull collisions based on distance for performance
 		float distToObj = obj->GetPos().distanceTo(objects[i]->GetPos());
-		if (distToObj >  objects[i]->GetBBox().GetLargestDimension() && distToObj >  obj->GetBBox().GetLargestDimension() * 2)
+		if (distToObj >  obj->GetBBox().GetLargestDimension() + objects[i]->GetBBox().GetLargestDimension() + 5)
 			continue;
 
 		if (CheckCollision(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0), obj->GetBBox(), objects[i]->GetBBox()))
@@ -412,7 +411,7 @@ bool Scene::CheckCollisions(BoundingBox bBox, std::string tag, bool multiObjectC
 
 		//Cull collisions based on distance for performance
 		float distToObj = bBox.GetParentPos().distanceTo(objects[i]->GetPos());
-		if (distToObj >  objects[i]->GetBBox().GetLargestDimension() && distToObj >  bBox.GetLargestDimension() * 2)
+		if (distToObj >  bBox.GetLargestDimension() + objects[i]->GetBBox().GetLargestDimension() + 5)
 			continue;
 
 		if (CheckCollision(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0), bBox, objects[i]->GetBBox()))

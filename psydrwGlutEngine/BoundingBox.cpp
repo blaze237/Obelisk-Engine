@@ -74,73 +74,94 @@ void BoundingBox::Render() const
 
 std::vector<Vec3<float>> BoundingBox::GetIndicies(Vec3<float> posOffset, Vec3<float> rotOffset) const
 {
-	//Apply scaling to the bounding box
-	float width = this->width * parentScale.x;
-	float height = this->height * parentScale.y;
-	float depth = this->depth * parentScale.z;
+	//Check the cached pos, rot and scale values are still valid
+	ValidateCache();
 
-	//Get indicies for cube centered at origin with no rotation
-	std::vector<Vec3<float>> ind;
-	ind.push_back(Vec3<float>(-width, height, depth)); //FTL
-	ind.push_back(Vec3<float>(width, height, depth)); //FTR
-	ind.push_back(Vec3<float>(width, -height, depth)); //FBR
-	ind.push_back(Vec3<float>(-width, -height, depth)); //FBL
-	ind.push_back(Vec3<float>(width, height, -depth)); //RTR
-	ind.push_back(Vec3<float>(-width, height, -depth)); //RTL
-	ind.push_back(Vec3<float>(-width, -height, -depth)); //RBL
-	ind.push_back(Vec3<float>(width, -height, -depth)); //RBR
-
-	//Note that the translations and rotations appear to be being done in the reverse order to that used in the parent displayable objects RenderObject method. 
-	//However, this isnt actualy the case, the discrepancy is due to the fact that opengl matrix stack transforms are actualy applied in the opposite order to which they are called in.
-	//As opposed to the following custom transform code, which applies transforms in the order they are called.
-
-	//Apply parent rotation to the indicies so that they are correclty placed in cube space
-	if (parentRot.x != 0 || parentRot.y != 0 || parentRot.z != 0)
+	if (indDirty)
 	{
-		for (int i = 0; i < 8; ++i)
-			ind[i] = MathHelp::RotatePoint(ind[i], parentRot + rotOffset);
+		//Apply scaling to the bounding box
+		float width = this->width * parentScale.x;
+		float height = this->height * parentScale.y;
+		float depth = this->depth * parentScale.z;
+
+		//Get indicies for cube centered at origin with no rotation
+		std::vector<Vec3<float>> ind;
+		ind.push_back(Vec3<float>(-width, height, depth)); //FTL
+		ind.push_back(Vec3<float>(width, height, depth)); //FTR
+		ind.push_back(Vec3<float>(width, -height, depth)); //FBR
+		ind.push_back(Vec3<float>(-width, -height, depth)); //FBL
+		ind.push_back(Vec3<float>(width, height, -depth)); //RTR
+		ind.push_back(Vec3<float>(-width, height, -depth)); //RTL
+		ind.push_back(Vec3<float>(-width, -height, -depth)); //RBL
+		ind.push_back(Vec3<float>(width, -height, -depth)); //RBR
+
+		//Note that the translations and rotations appear to be being done in the reverse order to that used in the parent displayable objects RenderObject method. 
+		//However, this isnt actualy the case, the discrepancy is due to the fact that opengl matrix stack transforms are actualy applied in the opposite order to which they are called in.
+		//As opposed to the following custom transform code, which applies transforms in the order they are called.
+
+		//Apply parent rotation to the indicies so that they are correclty placed in cube space
+		if (parentRot.x != 0 || parentRot.y != 0 || parentRot.z != 0)
+		{
+			for (int i = 0; i < 8; ++i)
+				ind[i] = MathHelp::RotatePoint(ind[i], parentRot + rotOffset);
+		}
+
+		//Apply parent translation to the indicies to convert positions into world
+		ind[0] = offset + parentPos + ind[0] + posOffset;
+		ind[1] = offset + parentPos + ind[1] + posOffset;
+		ind[2] = offset + parentPos + ind[2] + posOffset;
+		ind[3] = offset + parentPos + ind[3] + posOffset;
+		ind[4] = offset + parentPos + ind[4] + posOffset;
+		ind[5] = offset + parentPos + ind[5] + posOffset;
+		ind[6] = offset + parentPos + ind[6] + posOffset;
+		ind[7] = offset + parentPos + ind[7] + posOffset;
+
+		indiciesCache =  ind;
+
+		indDirty = false;
 	}
 
-	//Apply parent translation to the indicies to convert positions into world
-	ind[0] = offset + parentPos + ind[0] + posOffset;
-	ind[1] = offset + parentPos + ind[1] + posOffset;
-	ind[2] = offset + parentPos + ind[2] + posOffset;
-	ind[3] = offset + parentPos + ind[3] + posOffset;
-	ind[4] = offset + parentPos + ind[4] + posOffset;
-	ind[5] = offset + parentPos + ind[5] + posOffset;
-	ind[6] = offset + parentPos + ind[6] + posOffset;
-	ind[7] = offset + parentPos + ind[7] + posOffset;
-
-	return ind;
+	return indiciesCache;
 }
 
 std::vector<BoxFace> BoundingBox::GetFaces(Vec3<float> posOffset, Vec3<float> rotOffset) const
 {
-	//Grab the box points
-	std::vector<Vec3<float>> ind = GetIndicies(posOffset);
+	//Check the cached pos, rot and scale values are still valid
+	ValidateCache();
 
-	//Front Face
-	BoxFace front(ind[0], ind[2], ind[1], "Front");
-	//Back Face
-	BoxFace back(ind[4], ind[7], ind[5], "Back");
-	//Top face
-	BoxFace top(ind[5], ind[0], ind[4], "Top");
-	//Bottom face
-	BoxFace bot(ind[7], ind[2], ind[6], "bot");
-	//Left face
-	BoxFace left(ind[5], ind[6], ind[0], "Left");
-	//Right face
-	BoxFace right(ind[1], ind[2], ind[4], "Right");
 
-	std::vector<BoxFace> faces;
-	faces.push_back(front);
-	faces.push_back(back);
-	faces.push_back(top);
-	faces.push_back(bot);
-	faces.push_back(left);
-	faces.push_back(right);
+	if (faceDirty)
+	{
+		//Grab the box points
+		std::vector<Vec3<float>> ind = GetIndicies(posOffset);
 
-	return faces;
+		//Front Face
+		BoxFace front(ind[0], ind[2], ind[1], "Front");
+		//Back Face
+		BoxFace back(ind[4], ind[7], ind[5], "Back");
+		//Top face
+		BoxFace top(ind[5], ind[0], ind[4], "Top");
+		//Bottom face
+		BoxFace bot(ind[7], ind[2], ind[6], "bot");
+		//Left face
+		BoxFace left(ind[5], ind[6], ind[0], "Left");
+		//Right face
+		BoxFace right(ind[1], ind[2], ind[4], "Right");
+
+		std::vector<BoxFace> faces;
+		faces.push_back(front);
+		faces.push_back(back);
+		faces.push_back(top);
+		faces.push_back(bot);
+		faces.push_back(left);
+		faces.push_back(right);
+
+		facesCache =  faces;
+
+		faceDirty = false;
+	}
+
+	return facesCache;
 }
 
 std::vector<BoxFace> BoundingBox::GetFaces(std::vector<Vec3<float>> ind) const
@@ -167,4 +188,29 @@ std::vector<BoxFace> BoundingBox::GetFaces(std::vector<Vec3<float>> ind) const
 	faces.push_back(right);
 
 	return faces;
+}
+
+void BoundingBox::ValidateCache() const
+{
+	bool cacheValid = true;
+	//If position or rotation have changed, then cached indicies and faces are invalid, cached dimension is fine though
+	if (parentPos != parentPosCache || parentRot != parentRotCache)
+	{
+		faceDirty = true;
+		indDirty = true;
+
+		cacheValid = false;
+	}
+	//If scale has changed, then cached indicies and faces and dimension are invalid
+	if (parentScale != parentScaleCache)
+	{
+		dimDirty = true;
+		faceDirty = true;
+		indDirty = true;
+
+		cacheValid = false;
+	}
+
+	if (!cacheValid)
+		UpdateCache();
 }

@@ -9,6 +9,7 @@
 class BoundingBox
 {
 public:
+
 	BoundingBox(float width, float height, float depth, const Vec3<float>& parentPos, const Vec3<float>& parentRot, Vec3<float>& parentScale, bool trigger = false);
 	~BoundingBox();
 
@@ -24,12 +25,19 @@ public:
 
 	inline float GetLargestDimension() const
 	{
-		//Get the two largest cardinal dimensions
-		std::array<int, 3> dims = { width * parentScale.x, height * parentScale.y, depth * parentScale.z };
-		std::sort(dims.begin(), dims.end(), std::greater<int>());
+		//Check the cached scale values are still valid
+		ValidateCache();
 
-		//Use them with pythagoras to get largest distance to box edge
-		return sqrt(dims[0] * dims[0] + dims[1] * dims[1]);
+		if (dimDirty)
+		{
+			int dims[3] = { width * parentScale.x, height * parentScale.y, depth * parentScale.z };
+			//Use 3D pythagoras to return distance to furthest corner of box
+			dimCache =  sqrt(dims[0] * dims[0] + dims[1] * dims[1] + dims[2] * dims[2]);
+
+			dimDirty = false;
+		}
+
+		return dimCache;
 	}
 
 	inline bool IsTrigger() const
@@ -55,9 +63,36 @@ public:
 	const Vec3<float>& parentPos;
 	const Vec3<float>& parentRot;
 	const Vec3<float>& parentScale;
-
-
 	//Is this bounding box a trigger or a collider
 	bool trigger;
+
+private:
+	
+
+	void ValidateCache() const;
+
+	inline void UpdateCache() const
+	{
+		parentPosCache = parentPos;
+		parentRotCache = parentRot;
+		parentScaleCache = parentScale;
+	}
+
+
+	
+	//Used for caching
+	mutable std::vector<Vec3<float>> indiciesCache;
+	mutable std::vector<BoxFace> facesCache;
+	mutable float dimCache;
+
+	//Used to signal to the box that it needs to recalculate data when asked for it instead of just returning cached versions
+	mutable Vec3<float> parentPosCache;
+	mutable Vec3<float> parentRotCache;
+	mutable Vec3<float> parentScaleCache;
+	//Intialy all true as cached data will need to be calculated the first time it is asked for
+	mutable bool dimDirty = true;
+	mutable bool faceDirty = true;
+	mutable bool indDirty = true;
+	
 };
 
