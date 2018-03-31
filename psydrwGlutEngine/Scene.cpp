@@ -72,11 +72,11 @@ void Scene::PhysicsUpdate()
 	//Loop through each object in the vector
 	for (std::shared_ptr<DisplayableObject>& object : objects)
 	{
+	
 		//Non kinematic objects handle their own position and velocity logic
 		if (!object->IsKinematic())
 			continue;
 		
-
 		//Apply gravity to y velocity (if y velocity is currently less than gravity)
 		if (object->GetVelocity().y > -gravity)
 			object->SetVelocityY((object->GetVelocity().y - gravity / 10.f) < -gravity ? -gravity : object->GetVelocity().y - gravity / 10.f);
@@ -97,6 +97,7 @@ void Scene::PhysicsUpdate()
 
 	//Apply velocity in each direction if doing so wont cause a collision
 		
+
 		//Object will allways have y-velocity due to gravity, so we check this first, and use the result of collision check to determine if the object is grounded or not
 		object->SetGrounded(ApplyVelocity(object,object->GetPos(), object->GetVelocity(), Vec3<float>(0, object->GetVelocity().y, 0)));
 		
@@ -137,11 +138,10 @@ bool Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<floa
 			if (!objects[i]->IsCollidable())
 				continue;
 
-			////Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
-			//float vel = MathHelp::Max3(abs(velComponent.x), abs(velComponent.y), abs(velComponent.z));
-			//if (object->GetPos().distanceTo(objects[i]->GetPos()) > vel + object->GetBBox().GetLargestDimension())
-			//	continue;
-
+			//Cull collisions based on distance for performance
+			float distToObj = object->GetPos().distanceTo(objects[i]->GetPos());
+			if (distToObj >  objects[i]->GetBBox().GetLargestDimension()  && distToObj >  object->GetBBox().GetLargestDimension() * 2 )
+				continue;
 
 			if (CheckCollision(velComponent, Vec3<float>(0, 0, 0), object->GetBBox(), objects[i]->GetBBox()))
 			{
@@ -172,6 +172,7 @@ bool Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<floa
 		object->SetVelocity(velCur - velComponent);
 	else
 		object->SetPos(posCur + velComponent);
+
 
 	//Return straight away to avoid needless recurssion for non collidable objects
 	if (!object->IsCollidable())
@@ -223,6 +224,11 @@ bool Scene::ApplyRotVelocity(std::shared_ptr<DisplayableObject>& object, Vec3<fl
 
 			//If the current object in the array is not collidable, then dont check for collisions
 			if (!objects[i]->IsCollidable())
+				continue;
+
+			//Cull collisions based on distance for performance
+			float distToObj = object->GetPos().distanceTo(objects[i]->GetPos());
+			if (distToObj >  objects[i]->GetBBox().GetLargestDimension() && distToObj >  object->GetBBox().GetLargestDimension() * 2)
 				continue;
 
 
@@ -278,21 +284,23 @@ bool Scene::ApplyRotVelocity(std::shared_ptr<DisplayableObject>& object, Vec3<fl
 	return collision;
 }
 
-
-
 bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, BoundingBox obj1, BoundingBox obj2)
 {
+	std::vector<Vec3<float>> indicies1 = obj1.GetIndicies(posOffset);
+	std::vector<Vec3<float>> indicies2 = obj2.GetIndicies();
+
+
 	//Get the faces of object testing against
-	std::vector<BoxFace> faces = obj2.GetFaces();
+	std::vector<BoxFace> faces = obj2.GetFaces(indicies2);
 	//Get indicies of object being tested's bbox
-	std::vector<Vec3<float>> indicies = obj1.GetIndicies(posOffset);
+	std::vector<Vec3<float>> indicies = indicies1;
 
 	//First iteration checks if any point of the bbox of object being tested is in the volume of the bbox of object testing against.
 	//Second object does the inverse
 	bool flags[3][8];
 	for (int k = 0; k < 2; ++k)
 	{
-		//For each face pair, do yo thing
+		//For each face pair, 
 		for (int i = 0; i < 6; i += 2)
 		{
 			BoxFace face1 = faces[i];
@@ -331,8 +339,8 @@ bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, Boundin
 			}
 		}
 		//Now need to check other way round for next loop iteration
-		faces = obj1.GetFaces(posOffset);
-		indicies = obj2.GetIndicies();
+		faces = obj1.GetFaces(indicies1);
+		indicies = indicies2;
 	}
 
 	return false;
@@ -357,9 +365,10 @@ bool Scene::CheckCollisions(std::shared_ptr<DisplayableObject>& obj)
 		if (!objects[i]->IsCollidable())
 			continue;
 
-		////Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
-		//if (obj->GetPos().distanceTo(objects[i]->GetPos()) >  obj->GetBBox().GetLargestDimension())
-		//	continue;
+		//Cull collisions based on distance for performance
+		float distToObj = obj->GetPos().distanceTo(objects[i]->GetPos());
+		if (distToObj >  objects[i]->GetBBox().GetLargestDimension() && distToObj >  obj->GetBBox().GetLargestDimension() * 2)
+			continue;
 
 		if (CheckCollision(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0), obj->GetBBox(), objects[i]->GetBBox()))
 		{
@@ -393,16 +402,17 @@ bool Scene::CheckCollisions(BoundingBox bBox, std::string tag, bool multiObjectC
 	bool collision = false;
 	for (int i = 0; i < objects.size(); ++i)
 	{
-		////Check the distance to object[i], if it less than the velocity of object plus the size of its bbox's largest dimension squared then dont bother checking collisions for performance
-		//if (bBox.GetParentPos().distanceTo(objects[i]->GetPos()) >  bBox.GetLargestDimension())
-		//	continue;
-
 		//If non default tag was supllied, use it to check for self collision
 		if (!tag.compare("NULL") && tag.compare(objects[i]->TAG))
 			continue;
 
 		//If the current object in the array is not collidable, then dont check for collisions
 		if (!objects[i]->IsCollidable())
+			continue;
+
+		//Cull collisions based on distance for performance
+		float distToObj = bBox.GetParentPos().distanceTo(objects[i]->GetPos());
+		if (distToObj >  objects[i]->GetBBox().GetLargestDimension() && distToObj >  bBox.GetLargestDimension() * 2)
 			continue;
 
 		if (CheckCollision(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0), bBox, objects[i]->GetBBox()))
@@ -438,7 +448,6 @@ bool Scene::HalfSpaceTest(Vec3<float> normal, Vec3<float> planePoint, Vec3<float
 	//Point beind
 	return true;
 
-	
 }
 
 void Scene::RenderSky()

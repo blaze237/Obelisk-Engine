@@ -16,7 +16,7 @@ FPSCamera::~FPSCamera()
 
 void FPSCamera::Update(long tCurrent)
 {
-	if (!InputManager::IsDown(InputManager::CTRL)) 
+	if (!InputManager::IsDown(InputManager::SHIFT)) 
 	{
 		//Handle keyboard input
 		CheckMovement();

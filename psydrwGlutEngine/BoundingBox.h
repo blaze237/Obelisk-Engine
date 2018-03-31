@@ -18,6 +18,7 @@ public:
 	//Calculate and return the position of each vertex based on parent position
 	std::vector<Vec3<float>> GetIndicies(Vec3<float> posOffset = Vec3<float>(0,0,0), Vec3<float> rotOffset = Vec3<float>(0, 0, 0)) const;
 	std::vector<BoxFace> GetFaces(Vec3<float> posOffset = Vec3<float>(0, 0, 0), Vec3<float> rotOffset = Vec3<float>(0,0,0)) const;
+	std::vector<BoxFace> GetFaces(std::vector<Vec3<float>> ind) const;
 
 
 
@@ -28,7 +29,7 @@ public:
 		std::sort(dims.begin(), dims.end(), std::greater<int>());
 
 		//Use them with pythagoras to get largest distance to box edge
-		return (dims[0] * dims[0] + dims[1] * dims[1]);
+		return sqrt(dims[0] * dims[0] + dims[1] * dims[1]);
 	}
 
 	inline bool IsTrigger() const

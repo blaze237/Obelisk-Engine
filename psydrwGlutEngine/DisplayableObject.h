@@ -6,7 +6,7 @@
 class DisplayableObject
 {
 public:
-
+	bool large = false;
 	const std::string TAG;
 	//Uniquley assigned per object ID
 	const unsigned int ID;

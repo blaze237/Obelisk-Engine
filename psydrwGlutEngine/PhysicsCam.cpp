@@ -23,17 +23,25 @@ void PhysicsCam::Update(long tCurrent)
 
 void PhysicsCam::CheckMovement()
 {
+	//Grab current velocity
 	Vec3<float> curVel = parent->GetVelocity();
 	Vec3<float> startVel = curVel;
 
+	//Velocity added by input is dependant upon camera axis in xz plane
 	Vec3<float> u = this->u;
 	u.y = 0;
 	Vec3<float> n = this->n;
 	n.y = 0;
-
 	u.Normalise();
 	n.Normalise();
 
+	//Apply speed modifier
+	bool sprint = false;
+	if (InputManager::IsDown(InputManager::CTRL))
+	{
+		sprint = true;
+		movSpeed *= sprintMult;
+	}
 
 	//Forward
 	if (InputManager::IsDown(inputU) && !InputManager::IsDown(inputD) && !InputManager::IsDown(inputR) && !InputManager::IsDown(inputL))
@@ -60,6 +68,9 @@ void PhysicsCam::CheckMovement()
 	else if (InputManager::IsDown(inputR) && InputManager::IsDown(inputD))
 		curVel = u * movSpeed + n * -movSpeed;
 
+	if (sprint)
+		movSpeed /= sprintMult;
+
 	//Re-add back on parents initial velocity that has been discared 
 	curVel.y = startVel.y;
 
@@ -67,11 +78,13 @@ void PhysicsCam::CheckMovement()
 	if (InputManager::Pressed(inputJump) && parent->IsGrounded())
 		curVel.y += jumpSpeed;
 
+	//Remove velocity when no longer inputting
 	if (InputManager::Released(inputL) || InputManager::Released(inputR))
 		curVel.x = 0;
 	if (InputManager::Released(inputU) || InputManager::Released(inputD))
 		curVel.z = 0;
 
+	//Apply velocity to parent object
 	parent->SetVelocity(curVel);
 }
 

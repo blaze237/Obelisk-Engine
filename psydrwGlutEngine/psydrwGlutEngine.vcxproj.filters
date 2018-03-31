@@ -93,11 +93,11 @@
     <ClCompile Include="SkyBox.cpp">
       <Filter>Engine\Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsCam.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PhsyicsCamParent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsCam.cpp">
+      <Filter>Game Objects\Prefabs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,11 +164,11 @@
     <ClInclude Include="SkyBox.h">
       <Filter>Engine\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsCam.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PhsyicsCamParent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsCam.h">
+      <Filter>Game Objects\Prefabs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

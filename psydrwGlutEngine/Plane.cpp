@@ -6,11 +6,14 @@
 Plane::Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution)
 	:DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag), resolution(resolution), texture(texture)
 {
+	large = true;
 }
 
 Plane::Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution, float texTiling)
 	: DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag), resolution(resolution), texTiling(texTiling), texture(texture)
 {
+	large = true;
+
 }
 
 
@@ -22,7 +25,7 @@ void Plane::Render()
 {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texture.getID());
-
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBegin(GL_QUADS);
 	float step = 1.0f / resolution;
 	for (int x = -resolution/2; x < resolution/2; ++x)

@@ -51,7 +51,7 @@ void TestObject::drawCube(float radius)
 	// draw the front face
 
 	// set the colour of the front face
-	glColor3f(1.0f, 0.0f, 0.0f);
+	//glColor3f(1.0f, 0.0f, 0.0f);
 
 	// set the normal of the front face
 	glNormal3f(0.0f, 0.0f, 1.0f);
@@ -69,7 +69,7 @@ void TestObject::drawCube(float radius)
 	// draw the back face
 
 	// set the colour of the front face
-	glColor3f(0.0f, 1.0f, 0.0f);
+	//glColor3f(0.0f, 1.0f, 0.0f);
 
 	// set the normal of the front face
 	glNormal3f(0.0f, 0.0f, -1.0f);
@@ -87,7 +87,7 @@ void TestObject::drawCube(float radius)
 	// draw the left face
 
 	// set the colour of the front face
-	glColor3f(0.0f, 0.0f, 1.0f);
+//	glColor3f(0.0f, 0.0f, 1.0f);
 
 	// set the normal of the front face
 	glNormal3f(-1.0f, 0.0f, 0.0f);
@@ -105,7 +105,7 @@ void TestObject::drawCube(float radius)
 	// draw the right face
 
 	// set the colour of the front face
-	glColor3f(0.0f, 1.0f, 1.0f);
+	//glColor3f(0.0f, 1.0f, 1.0f);
 
 	// set the normal of the front face
 	glNormal3f(1.0f, 0.0f, 0.0f);
@@ -123,7 +123,7 @@ void TestObject::drawCube(float radius)
 	// draw the top face
 
 	// set the colour of the front face
-	glColor3f(1.0f, 1.0f, 0.0f);
+	//glColor3f(1.0f, 1.0f, 0.0f);
 
 	// set the normal of the front face
 	glNormal3f(0.0f, 1.0f, 0.0f);
@@ -141,7 +141,7 @@ void TestObject::drawCube(float radius)
 	// draw the bottom face
 
 	// set the colour of the front face
-	glColor3f(1.0f, 0.0f, 1.0f);
+	//glColor3f(1.0f, 0.0f, 1.0f);
 
 	// set the normal of the front face
 	glNormal3f(0.0f, -1.0f, 0.0f);

@@ -44,6 +44,9 @@ SceneManager::SceneManager(int argc, char **argv)
 	Colour bgCol(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearColor(bgCol.r, bgCol.g, bgCol.b, bgCol.a);
 
+	float vAmbientLightBright[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, vAmbientLightBright);
+
 	//Enable correct z ordering of object faces. Without this faces must be consturcted in the order we wish them to layer.
 	//With this, opengl handles layering for us by using the components x,y,z values
 	glEnable(GL_DEPTH_TEST);
@@ -167,7 +170,7 @@ void SceneManager::MainLoop()
 		}
 
 		//Max number of visualy different renderable frames is set by the tick rate, therefore we sleep untill the next tick to avoid waisting resources rendering identical intermediate frames
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000 / TICKS_PER_SECOND + fStart - glutGet(GLUT_ELAPSED_TIME)));
+		//std::this_thread::sleep_for(std::chrono::milliseconds(1000 / TICKS_PER_SECOND + fStart - glutGet(GLUT_ELAPSED_TIME)));
 	}
 
 }

@@ -30,6 +30,7 @@ public:
 private:
 	std::shared_ptr<DisplayableObject> parent;
 	float movSpeed = 0.5;
+	float sprintMult = 2;
 	float jumpSpeed = 2;
 	char inputJump = ' ';
 };
