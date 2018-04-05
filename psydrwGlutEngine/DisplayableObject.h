@@ -6,7 +6,6 @@
 class DisplayableObject
 {
 public:
-	bool large = false;
 	const std::string TAG;
 	//Uniquley assigned per object ID
 	const unsigned int ID;
@@ -58,6 +57,10 @@ public:
 	inline bool IsGrounded() const
 	{
 		return grounded;
+	}
+	inline int GetGroundID() const
+	{
+		return groundID;
 	}
 	inline const BoundingBox& GetBBox() const
 	{
@@ -168,9 +171,10 @@ public:
 	{
 		rotVelocity.z = v;
 	}
-	inline void SetGrounded(bool b)
+	inline void SetGrounded(std::pair <int, bool> p)
 	{
-		grounded = b;
+		grounded = p.second;
+		groundID = p.first;
 	}
 	inline void SetKinematic(bool b)
 	{
@@ -212,7 +216,7 @@ protected:
 
 	//Is this object currently colliding with something underneath it (determined by wether gravity can be applied without causing a collision)
 	bool grounded = false;
-
+	int groundID = -1;
 
 	//If true, then all concurent collisions with this object will be passed to its OnCollide function.
 	//Only enable if needed as for movement logic we dont care about processing all collisions just one for performance

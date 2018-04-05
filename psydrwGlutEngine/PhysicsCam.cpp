@@ -36,12 +36,16 @@ void PhysicsCam::CheckMovement()
 	n.Normalise();
 
 	//Apply speed modifier
-	bool sprint = false;
-	if (InputManager::IsDown(InputManager::CTRL))
+	if (InputManager::Pressed(InputManager::CTRL))
 	{
-		sprint = true;
-		movSpeed *= sprintMult;
+		sprint = !sprint;
+		if(sprint)
+			movSpeed *= sprintMult;
+		else
+			movSpeed /= sprintMult;
+
 	}
+
 
 	//Forward
 	if (InputManager::IsDown(inputU) && !InputManager::IsDown(inputD) && !InputManager::IsDown(inputR) && !InputManager::IsDown(inputL))
@@ -68,8 +72,6 @@ void PhysicsCam::CheckMovement()
 	else if (InputManager::IsDown(inputR) && InputManager::IsDown(inputD))
 		curVel = u * movSpeed + n * -movSpeed;
 
-	if (sprint)
-		movSpeed /= sprintMult;
 
 	//Re-add back on parents initial velocity that has been discared 
 	curVel.y = startVel.y;

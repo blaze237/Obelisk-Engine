@@ -6,6 +6,7 @@
 #include "MathHelp.h"
 #include "Vec3.h"
 #include <iostream>
+#include "DungeonScene.h"
 int main(int argc, char **argv)
 {
 
@@ -19,7 +20,7 @@ int main(int argc, char **argv)
 	//Create an instance of the engine
 	SceneManager sm(argc, argv);
 	//Register your scenes
-	sm.AddScene(std::make_unique<TestScene>());
+	sm.AddScene(std::make_unique<DungeonScene>());
 	//Set the scene to initialy run
 	sm.SetScene(0);
 	//Start the engine

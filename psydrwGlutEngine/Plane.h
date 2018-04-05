@@ -5,14 +5,17 @@ class Plane :
 {
 public:
 	Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution);
-	Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution, float texTiling);
+	Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution, float texTiling);	
+	Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution, float texTilingX, float texTilingZ);
+
 	virtual ~Plane();
 
 	virtual void Render();
 
 private:
 	int resolution;
-	float texTiling = 1;
+	float texTilingX = 1;
+	float texTilingZ = 1;
 	Texture2D texture;
 };
 

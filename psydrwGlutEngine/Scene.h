@@ -100,7 +100,8 @@ private:
 	void PhysicsUpdate();
 
 	//Checks if applying an objects velocity in a given direction (given by the velComponent input. For x velocity, would pass (v.x, 0, 0) for velComponent) to its position would cause a collision, and if so, calls the appropriate collision handler and prevents movement by setting the objects velocity to zero.
-	bool ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
+	//Returns pair of tag of the first thing it collided against, if any, and bool indicating if collision occured. This return is usefull for easily setting an objects grounded status
+	std::pair <int, bool> ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent, int ground = -2);
 	//Checks if applying an objects rotational velocity in a given axis ((given by the velComponent input. For x velocity, would pass (v.x, 0, 0) for velComponent) to its orientation would cause a collision, and if so, calls the appropriate collision handler and prevents movement by setting the objects rotational velocity to zero.
 	bool ApplyRotVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent);
 	//Check if an object, obj1 collides with an object, obj2, when some positional offset posOffset and rotational offset rotOffsetis applied to obj1's position and orientation.

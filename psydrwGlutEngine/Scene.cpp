@@ -99,8 +99,11 @@ void Scene::PhysicsUpdate()
 		
 
 		//Object will allways have y-velocity due to gravity, so we check this first, and use the result of collision check to determine if the object is grounded or not
-		object->SetGrounded(ApplyVelocity(object,object->GetPos(), object->GetVelocity(), Vec3<float>(0, object->GetVelocity().y, 0)));
-		
+		if(object->IsGrounded())
+			object->SetGrounded(ApplyVelocity(object,object->GetPos(), object->GetVelocity(), Vec3<float>(0, object->GetVelocity().y, 0), object->GetGroundID()));
+		else
+			object->SetGrounded(ApplyVelocity(object, object->GetPos(), object->GetVelocity(), Vec3<float>(0, object->GetVelocity().y, 0)));
+
 		//Apply x and z components of velocity.
 		if(object->GetVelocity().x != 0)
 			ApplyVelocity(object, object->GetPos(), object->GetVelocity(), Vec3<float>(object->GetVelocity().x, 0, 0));
@@ -118,17 +121,23 @@ void Scene::PhysicsUpdate()
 	}
 }
 
-bool Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent)
+std::pair <int, bool>  Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<float> posCur, Vec3<float> velCur, Vec3<float> velComponent, int ground)
 {
 	//Used for recursive collision checks (if enabled)
 	static int counter = 0;
 	bool collision = false;
+	int firstColID = -1;
 	//If the object isnt collidable, then skip collision checks and just apply its velocity immeadiatly 
 	if (object->IsCollidable())
 	{
 		//Check for collisions at its predicted position position agaisnt all other objects
 		for (int i = 0; i < objects.size(); ++i)
 		{
+
+			//If we are only looking for collisions with object's ground object, then skip collision checks with all other objects
+			if (ground != -2 && objects[i]->ID != ground)
+				continue;
+
 			//Dont want to test for collisions with self
 			if (object->ID == objects[i]->ID)
 				continue;
@@ -151,6 +160,7 @@ bool Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<floa
 					if (counter == 0)
 						object->OnCollide(objects[i]->TAG);
 					collision = true;
+					firstColID = objects[i]->ID;
 					//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
 					if (!object->IsMultiCollisionMode())
 						break;
@@ -171,11 +181,26 @@ bool Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<floa
 	if (collision)
 		object->SetVelocity(velCur - velComponent);
 	else
+	{
+		//If no collision occured with ground when applying gravity, then we must check for collisions with other objects to see if they are on the same y-plane, and so should be the new ground, thus preventing incorrect  application of velocuty, 
+		if (ground != -2)
+			return ApplyVelocity(object, posCur, velCur, velComponent);
+		
+
+
 		object->SetPos(posCur + velComponent);
+	}
+	/*std::cout << firstColID;
+	if (collision)
+		std::cout << " is floor colide" << std::endl;
+	else
+		std::cout << " isnt floor colide" << std::endl;*/
+
+
 
 	//Return straight away to avoid needless recurssion for non collidable objects
 	if (!object->IsCollidable())
-		return collision;
+		return std::pair <int, bool>(firstColID, collision);
 
 
 
@@ -184,7 +209,7 @@ bool Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<floa
 	{
 		//If no collision was predicted then no need to do anything
 		if (counter == 0 && !collision)
-			return collision;
+			return std::pair <int, bool>(firstColID, collision);
 
 		//Otherwise, attempt to recursivley move the object closer to colliding objects
 		if(!RecursiveCollisionsForY && counter < 1 && velComponent.y == 0)
@@ -202,7 +227,7 @@ bool Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>&  object, Vec3<floa
 		else
 			counter = 0;
 	}
-	return collision;
+	return std::pair <int, bool>(firstColID, collision);
 }
 
 bool Scene::ApplyRotVelocity(std::shared_ptr<DisplayableObject>& object, Vec3<float> posCur, Vec3<float> rotCur, Vec3<float> rotComponent)

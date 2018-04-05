@@ -32,13 +32,6 @@ TestScene::TestScene()
 	sBoxTs.push_back(Texture2D("../textures/skybox/down.png"));
 	sBoxTs.push_back(Texture2D("../textures/skybox/up.png"));
 
-	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_left.png"));
-	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_right.png"));
-	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_front.png"));
-	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_back.png"));
-	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_down.png"));
-	//sBoxTs.push_back(Texture2D("../textures/skybox/skybox_up.png"));
-
 	skyBox = std::make_unique<SkyBox>(sBoxTs);
 	skyBox->SetScale(mainCam->GetFarClip()/2);
 

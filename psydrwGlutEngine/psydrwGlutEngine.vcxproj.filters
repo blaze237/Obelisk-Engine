@@ -37,6 +37,9 @@
     <Filter Include="Engine\Util">
       <UniqueIdentifier>{04b108e2-7a80-46bd-81b5-5fcba4857d17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Levels\Dungeon">
+      <UniqueIdentifier>{95e017e3-ab08-4ac8-8dd3-c9ea0d63efa4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -97,6 +100,12 @@
       <Filter>Game Objects\Prefabs</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsCam.cpp">
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonScene.cpp">
+      <Filter>Levels\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
       <Filter>Game Objects\Prefabs</Filter>
     </ClCompile>
   </ItemGroup>
@@ -168,6 +177,12 @@
       <Filter>Game Objects\Prefabs</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsCam.h">
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonScene.h">
+      <Filter>Levels\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
       <Filter>Game Objects\Prefabs</Filter>
     </ClInclude>
   </ItemGroup>

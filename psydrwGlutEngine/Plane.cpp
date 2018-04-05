@@ -6,14 +6,17 @@
 Plane::Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution)
 	:DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag), resolution(resolution), texture(texture)
 {
-	large = true;
 }
 
 Plane::Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution, float texTiling)
-	: DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag), resolution(resolution), texTiling(texTiling), texture(texture)
+	: DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag), resolution(resolution), texTilingX(texTiling), texTilingZ(texTiling), texture(texture)
 {
-	large = true;
 
+}
+
+Plane::Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution, float texTilingX, float texTilingZ)
+	: DisplayableObject(pos, Vec3<float>(0.5, 0.5, 0.5), tag), resolution(resolution), texTilingX(texTilingX), texTilingZ(texTilingZ), texture(texture)
+{
 }
 
 
@@ -35,16 +38,16 @@ void Plane::Render()
 
 			//1
 			glNormal3f(0, 1, 0);
-			glTexCoord2f(((x + resolution/2) * step)* texTiling, ((z + resolution /2) * step + step)* texTiling);
+			glTexCoord2f(((x + resolution/2) * step)* texTilingX, ((z + resolution /2) * step + step)* texTilingZ);
 			glVertex3f(x * step, 0, z * step + step);
 			//2
-			glTexCoord2f(((x + resolution / 2)* step + step)* texTiling, ((z + resolution / 2) * step + step)* texTiling);
+			glTexCoord2f(((x + resolution / 2)* step + step)* texTilingX, ((z + resolution / 2) * step + step)* texTilingZ);
 			glVertex3f(x * step + step, 0, z * step + step);
 			//3
-			glTexCoord2f(((x + resolution / 2) * step + step)* texTiling, ((z + resolution / 2) * step)* texTiling);
+			glTexCoord2f(((x + resolution / 2) * step + step)* texTilingX, ((z + resolution / 2) * step)* texTilingZ);
 			glVertex3f(x * step + step, 0,  z* step);
 			//4
-			glTexCoord2f(((x + resolution / 2) * step)* texTiling, ((z + resolution / 2) * step)* texTiling);
+			glTexCoord2f(((x + resolution / 2) * step)* texTilingX, ((z + resolution / 2) * step)* texTilingZ);
 			glVertex3f(x * step, 0, z * step);
 
 		}

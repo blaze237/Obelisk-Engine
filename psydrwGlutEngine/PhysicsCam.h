@@ -28,6 +28,8 @@ public:
 		jumpSpeed = v;
 	}
 private:
+
+	bool sprint = false;
 	std::shared_ptr<DisplayableObject> parent;
 	float movSpeed = 0.5;
 	float sprintMult = 2;
