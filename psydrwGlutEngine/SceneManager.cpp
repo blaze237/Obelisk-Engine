@@ -20,7 +20,7 @@ int SceneManager::frameIntervalEnd = 0;
 bool SceneManager::DevILInit = false;
 bool SceneManager::quit = false;
 
-SceneManager::SceneManager(int argc, char **argv)
+SceneManager::SceneManager(int argc, char **argv, const char* title)
 {
 	//Init DevIL library
 	ilInit();
@@ -32,7 +32,7 @@ SceneManager::SceneManager(int argc, char **argv)
 
 	//Make the window
 	glutInitWindowSize(screenW, screenH);
-	glutCreateWindow("INSERT TITLE");
+	glutCreateWindow(title);
 
 	//Place cursor in center of window
 	glutWarpPointer(screenW / 2, screenH / 2);
@@ -94,6 +94,8 @@ SceneManager::SceneManager(int argc, char **argv)
 	glutMouseWheelFunc(InputManager::MouseWheelMoved);
 	glutMotionFunc(InputManager::MouseDrag);
 	glutPassiveMotionFunc(InputManager::MouseMoved);
+
+	glutFullScreen();
 }
 
 

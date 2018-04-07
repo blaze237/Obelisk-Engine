@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	std::cout << newPos.x << " " << newPos.y << " " << newPos.z << std::endl;
 
 	//Create an instance of the engine
-	SceneManager sm(argc, argv);
+	SceneManager sm(argc, argv, "Dungeon Demo");
 	//Register your scenes
 	sm.AddScene(std::make_unique<DungeonScene>());
 	//Set the scene to initialy run

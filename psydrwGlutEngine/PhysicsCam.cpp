@@ -58,19 +58,36 @@ void PhysicsCam::CheckMovement()
 		curVel = u * -movSpeed;
 	//Left forward
 	else if (InputManager::IsDown(inputL) && InputManager::IsDown(inputU))
-		curVel = (u * -movSpeed) + (n * movSpeed);
+	{
+		//Give equal component of overal velocity in each movement direction
+		float vComponent = sqrtf(movSpeed*movSpeed / 2);
+		curVel = (u * -vComponent) + (n * vComponent);
+
+	}
 	//Left Backwards
-	else if(InputManager::IsDown(inputL) && InputManager::IsDown(inputD))
-		curVel = u * -movSpeed + n * -movSpeed;
+	else if (InputManager::IsDown(inputL) && InputManager::IsDown(inputD))
+	{
+		//Give equal component of overal velocity in each movement direction
+		float vComponent = sqrtf(movSpeed*movSpeed / 2);
+		curVel = u * -vComponent + n * -vComponent;
+	}
 	//Right
 	else if (InputManager::IsDown(inputR) && !InputManager::IsDown(inputD) && !InputManager::IsDown(inputL) && !InputManager::IsDown(inputU))
 		curVel = u * movSpeed;
 	//Right forwards
 	else if (InputManager::IsDown(inputR) && InputManager::IsDown(inputU))
-		curVel = u * movSpeed + n * movSpeed;
+	{
+		//Give equal component of overal velocity in each movement direction
+		float vComponent = sqrtf(movSpeed*movSpeed / 2);
+		curVel = u * vComponent + n * movSpeed;
+	}
 	//Right backwards
 	else if (InputManager::IsDown(inputR) && InputManager::IsDown(inputD))
-		curVel = u * movSpeed + n * -movSpeed;
+	{
+		//Give equal component of overal velocity in each movement direction
+		float vComponent = sqrtf(movSpeed*movSpeed / 2);
+		curVel = u * vComponent + n * -vComponent;
+	}
 
 
 	//Re-add back on parents initial velocity that has been discared 

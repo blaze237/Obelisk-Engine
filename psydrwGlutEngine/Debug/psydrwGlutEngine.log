@@ -2,12 +2,12 @@
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(60): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(61): warning C4305: 'argument': truncation from 'double' to 'float'
 c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(62): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(83): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(84): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(63): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(64): warning C4305: 'argument': truncation from 'double' to 'float'
 c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(85): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(86): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(87): warning C4305: 'argument': truncation from 'double' to 'float'
 c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1849): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1913): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D,const char(&)[6],int,int,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],int &&,int &&,int &&)' being compiled
           with
@@ -19,17 +19,17 @@ c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.1
           [
               _Ty=Plane
           ]
-  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(33): note: see reference to function template instantiation 'std::shared_ptr<Plane> std::make_shared<Plane,Vec3<float>,Texture2D,const char(&)[6],int,int,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],int &&,int &&,int &&)' being compiled
+  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(35): note: see reference to function template instantiation 'std::shared_ptr<Plane> std::make_shared<Plane,Vec3<float>,Texture2D,const char(&)[6],int,int,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],int &&,int &&,int &&)' being compiled
 c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1849): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1913): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,const char(&)[5],Texture2D,double,double>(Vec3<float> &&,const char (&)[5],Texture2D &&,double &&,double &&)' being compiled
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1913): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D,const char(&)[5],int,int,double>(Vec3<float> &&,Texture2D &&,const char (&)[5],int &&,int &&,double &&)' being compiled
           with
           [
-              _Ty=Cube
+              _Ty=Plane
           ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1914): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,const char(&)[5],Texture2D,double,double>(Vec3<float> &&,const char (&)[5],Texture2D &&,double &&,double &&)' being compiled
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1914): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D,const char(&)[5],int,int,double>(Vec3<float> &&,Texture2D &&,const char (&)[5],int &&,int &&,double &&)' being compiled
           with
           [
-              _Ty=Cube
+              _Ty=Plane
           ]
-  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(60): note: see reference to function template instantiation 'std::shared_ptr<Cube> std::make_shared<Cube,Vec3<float>,const char(&)[5],Texture2D,double,double>(Vec3<float> &&,const char (&)[5],Texture2D &&,double &&,double &&)' being compiled
+  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(48): note: see reference to function template instantiation 'std::shared_ptr<Plane> std::make_shared<Plane,Vec3<float>,Texture2D,const char(&)[5],int,int,double>(Vec3<float> &&,Texture2D &&,const char (&)[5],int &&,int &&,double &&)' being compiled
   psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

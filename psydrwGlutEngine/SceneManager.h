@@ -31,7 +31,7 @@ public:
 		return ERROR_TEXTURE;
 	}
 
-	SceneManager(int argc, char **argv);
+	SceneManager(int argc, char **argv, const char* title);
 	~SceneManager();
 
 	static void AddScene(std::unique_ptr<Scene>);
