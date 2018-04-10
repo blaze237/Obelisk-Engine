@@ -75,9 +75,6 @@
     <ClCompile Include="TriggerTest.cpp">
       <Filter>Levels\Testing</Filter>
     </ClCompile>
-    <ClCompile Include="Plane.cpp">
-      <Filter>Game Objects\Prefabs</Filter>
-    </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Engine\Util</Filter>
     </ClCompile>
@@ -107,6 +104,12 @@
     </ClCompile>
     <ClCompile Include="Cube.cpp">
       <Filter>Game Objects\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneObj.cpp">
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,9 +155,6 @@
     <ClInclude Include="TestScene.h">
       <Filter>Levels\Testing</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>Game Objects\Prefabs</Filter>
-    </ClInclude>
     <ClInclude Include="BoundingBox.h">
       <Filter>Engine\Util</Filter>
     </ClInclude>
@@ -184,6 +184,12 @@
     </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>Game Objects\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneObj.h">
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

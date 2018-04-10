@@ -21,6 +21,7 @@ int main(int argc, char **argv)
 	SceneManager sm(argc, argv, "Dungeon Demo");
 	//Register your scenes
 	sm.AddScene(std::make_unique<DungeonScene>());
+
 	//Set the scene to initialy run
 	sm.SetScene(0);
 	//Start the engine

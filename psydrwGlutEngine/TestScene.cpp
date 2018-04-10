@@ -9,7 +9,7 @@
 #include "TestObject2.h"
 #include "TriggerTest.h"
 #include "SceneManager.h"
-#include "Plane.h"
+#include "PlaneObj.h"
 #include "PhsyicsCamParent.h"
 #include "PhysicsCam.h"
 TestScene::TestScene()
@@ -33,7 +33,7 @@ TestScene::TestScene()
 	sBoxTs.push_back(Texture2D("../textures/skybox/up.png"));
 
 	skyBox = std::make_unique<SkyBox>(sBoxTs);
-	skyBox->SetScale(mainCam->GetFarClip()/2);
+	skyBox->SetScale(mainCam->GetFarDist()/2);
 
 
 	////Set up the scenes objects
@@ -41,22 +41,22 @@ TestScene::TestScene()
 	t->SetScale(10);
 	objects.push_back(t);
 
-	std::shared_ptr<DisplayableObject> t3 = std::make_shared<TestObject>(Vec3<float>(0, 0, -100), Texture2D("../textures/stone.jpg"));
+	/*std::shared_ptr<DisplayableObject> t3 = std::make_shared<TestObject>(Vec3<float>(0, 0, -100), Texture2D("../textures/stone.jpg"));
 	t3->SetScale(10);
 	t3->SetScaleX(500);
 	t3->SetScaleY(200);
 
 	objects.push_back(t3);
 
-	std::shared_ptr<DisplayableObject> floor = std::make_shared<Plane>(Vec3<float>(0, 0, -25), Texture2D("../textures/grass.jpg"), "floor", 50, 40);
+	std::shared_ptr<DisplayableObject> floor = std::make_shared<PlaneObj>(Vec3<float>(0, 0, -25), Texture2D("../textures/grass.jpg"), "floor", 50, 40);
 	floor->SetScaleX(1000);
 	floor->SetScaleZ(1000);
 	floor->SetCollidable(true);
 	objects.push_back(floor);
 
 
-
-	for (int i = 0; i < 20; i++)
+	*/
+	for (int i = 0; i < 200; i++)
 	{
 		std::shared_ptr<DisplayableObject> t3 = std::make_shared<TestObject>(Vec3<float>(-10*i, 10*i, -50), Texture2D("../textures/stone.jpg"));
 		t3->SetScale(10);

@@ -17,8 +17,8 @@ public:
 	void Render() const;
 
 	//Calculate and return the position of each vertex based on parent position
-	std::vector<Vec3<float>> GetIndicies(Vec3<float> posOffset = Vec3<float>(0,0,0), Vec3<float> rotOffset = Vec3<float>(0, 0, 0)) const;
-	std::vector<BoxFace> GetFaces(Vec3<float> posOffset = Vec3<float>(0, 0, 0), Vec3<float> rotOffset = Vec3<float>(0,0,0)) const;
+	std::vector<Vec3<float>> GetIndicies() const;
+	std::vector<BoxFace> GetFaces() const;
 	std::vector<BoxFace> GetFaces(std::vector<Vec3<float>> ind) const;
 
 
@@ -38,6 +38,12 @@ public:
 		}
 
 		return dimCache;
+	}
+
+	//Return the parent scale adjusted dimensions of the bounding box
+	inline Vec3<float> GetActualDimensions() const
+	{
+		return Vec3<float>(width * parentScale.x, height * parentScale.y, depth * parentScale.z);
 	}
 
 	inline bool IsTrigger() const

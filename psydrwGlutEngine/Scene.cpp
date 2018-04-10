@@ -2,7 +2,7 @@
 #include "SceneManager.h"
 #include <algorithm>
 #include <functional>
-
+#include "Plane.h"
 Scene::Scene()
 {
 }
@@ -12,6 +12,59 @@ Scene::~Scene()
 {
 }
 
+bool Scene::ObjectInFrustumBBox(std::shared_ptr<DisplayableObject>& object, std::vector<Plane>& frustum)
+{
+	float dist = 0;
+	bool inFrustum = false;
+	std::vector<Vec3<float>> inds = object->GetBBox().GetIndicies();
+
+	Plane p = frustum[1];
+
+	for (Plane p : frustum)
+	{
+		bool inFrontPlane = false;
+		for (Vec3<float> i : inds)
+		{
+			dist = p.DistTo(i);
+			if ( dist > 0)
+			{
+				inFrontPlane = true;
+				break;
+			}
+		}
+
+		//If no corneres were on the right side of the plane, then the box cannot be in the frustum
+		if (!inFrontPlane)
+			return false;
+		//Otherwise, store the result
+		inFrustum = inFrontPlane;
+	}
+
+	return inFrustum;
+}
+
+//We dont distinguish between frustum in and intersection. Just treat as being in the frustrum.
+bool Scene::ObjectInFrustum(std::shared_ptr<DisplayableObject>& object, std::vector<Plane>& frustum)
+{
+	float dist;
+	float radius = object->GetBBox().GetLargestDimension();
+	Vec3<float> pos = object->GetPos();
+
+
+	int k = 0;
+	for (Plane p : frustum)
+	{
+		dist = p.DistTo(pos);
+
+		if (dist < -radius)
+			return false;
+
+	}
+
+	return true;
+
+}
+
 void Scene::Render()
 {
 	//Set up camera properites
@@ -19,9 +72,18 @@ void Scene::Render()
 
 	RenderSky();
 
+	//Grab camera frustum
+	std::vector<Plane> frustum = mainCam->GetFrustum();
 	//Tell each object in the scene to render itself
 	for (std::shared_ptr<DisplayableObject>& o : objects)
+	{
+		//Only render object if it is within the camera frustum
+		if (!ObjectInFrustumBBox(o, frustum))
+		{
+			continue;
+		}
 		o->RenderObject();
+	}
 
 	//Render the lights
 	if (lights.size() > 8)
@@ -66,6 +128,8 @@ void Scene::Update(long tCurrent)
 	PhysicsUpdate();
 
 }
+
+
 
 void Scene::PhysicsUpdate()
 {
@@ -185,17 +249,9 @@ std::pair <int, bool>  Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>& 
 		//If no collision occured with ground when applying gravity, then we must check for collisions with other objects to see if they are on the same y-plane, and so should be the new ground, thus preventing incorrect  application of velocuty, 
 		if (ground != -2)
 			return ApplyVelocity(object, posCur, velCur, velComponent);
-		
-
 
 		object->SetPos(posCur + velComponent);
 	}
-	/*std::cout << firstColID;
-	if (collision)
-		std::cout << " is floor colide" << std::endl;
-	else
-		std::cout << " isnt floor colide" << std::endl;*/
-
 
 
 	//Return straight away to avoid needless recurssion for non collidable objects
@@ -310,10 +366,13 @@ bool Scene::ApplyRotVelocity(std::shared_ptr<DisplayableObject>& object, Vec3<fl
 
 bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, BoundingBox obj1, BoundingBox obj2)
 {
-	std::vector<Vec3<float>> indicies1 = obj1.GetIndicies(posOffset);
+	std::vector<Vec3<float>> indicies1 = obj1.GetIndicies();
 	std::vector<Vec3<float>> indicies2 = obj2.GetIndicies();
 
-
+	//Apply position offset to each vertex
+	for(int i = 0; i < indicies1.size(); ++i)
+		indicies1[i] = indicies1[i] + posOffset;
+	
 	//Get the faces of object testing against
 	std::vector<BoxFace> faces = obj2.GetFaces(indicies2);
 	//Get indicies of object being tested's bbox

@@ -1,10 +1,10 @@
 #include "DungeonScene.h"
 #include "PhysicsCam.h"
 #include "PhsyicsCamParent.h"
-#include "Plane.h"
+#include "PlaneObj.h"
 #include "Cube.h"
 
-#define planeRes  50
+#define planeRes  2
 
 DungeonScene::DungeonScene()
 {
@@ -26,30 +26,39 @@ DungeonScene::DungeonScene()
 	sBoxTs.push_back(Texture2D("../textures/skybox/up.png"));
 
 	skyBox = std::make_unique<SkyBox>(sBoxTs);
-	skyBox->SetScale(mainCam->GetFarClip() / 2);
+	skyBox->SetScale(mainCam->GetFarDist() / 2);
 
+	
 
-//Create scene objects
-
+	//Ground and roof
 	//Ground grass outside
-	std::shared_ptr<DisplayableObject> floorGrass = std::make_shared<Plane>(Vec3<float>(0, 50, -25), Texture2D("../textures/grass.jpg"), "floor", planeRes, 40, 12);
+	std::shared_ptr<DisplayableObject> floorGrass = std::make_shared<PlaneObj>(Vec3<float>(0, 50, -25), Texture2D("../textures/grass.jpg"), "floor", planeRes, 40, 12);
 	floorGrass->SetScaleX(1000);
 	floorGrass->SetScaleZ(300);
 	floorGrass->SetCollidable(true);
 	objects.push_back(floorGrass);
 	//Ground cobble inside
-	std::shared_ptr<DisplayableObject> floorGround = std::make_shared<Plane>(Vec3<float>(0, 40, 600), Texture2D("../textures/groundStone.jpg"), "floor", planeRes, 40);
+	std::shared_ptr<DisplayableObject> floorGround = std::make_shared<PlaneObj>(Vec3<float>(0, 40, 1100), Texture2D("../textures/groundStone.jpg"), "floor", planeRes, 40, 80);
 	floorGround->SetScaleX(1000);
-	floorGround->SetScaleZ(1000);
+	floorGround->SetScaleZ(2000);
 	floorGround->SetCollidable(true);
 	objects.push_back(floorGround);
 
-	//roof 1
-	std::shared_ptr<DisplayableObject> roof = std::make_shared<Plane>(Vec3<float>(0, 125, 332.5), Texture2D("../textures/groundStone.jpg"), "roof", planeRes, 40, 16.6);
+	//roof low
+	std::shared_ptr<DisplayableObject> roof = std::make_shared<PlaneObj>(Vec3<float>(0, 125, 332.5), Texture2D("../textures/groundStone.jpg"), "roof", planeRes, 40, 16.6);
 	roof->SetScaleX(1000);
 	roof->SetScaleZ(415);
 	roof->SetOrientationZ(180);
 	objects.push_back(roof);
+
+	//Roof high
+	roof = std::make_shared<PlaneObj>(Vec3<float>(0, 225, 1032.5), Texture2D("../textures/groundStone.jpg"), "roof", planeRes, 20.5, 40);
+	roof->SetScaleX(550);
+	roof->SetScaleZ(1000);
+	roof->SetOrientationZ(180);
+	objects.push_back(roof);
+
+	//Outer Walls
 
 	//Outer Wall R
 	std::shared_ptr<DisplayableObject> outerWallR = std::make_shared<Cube>(Vec3<float>(-250, 75, 130), "wall", Texture2D("../textures/cobble.jpg"), 20, 5);
@@ -89,7 +98,7 @@ DungeonScene::DungeonScene()
 	objects.push_back(outerWallLE);
 
 	//Step entrance
-	std::shared_ptr<DisplayableObject> step = std::make_shared<Cube>(Vec3<float>(0, 40.5 , 130 ), "wall", Texture2D("../textures/groundStone.jpg"), 2, 0.8);
+	std::shared_ptr<DisplayableObject> step = std::make_shared<Cube>(Vec3<float>(0, 40.5, 130), "wall", Texture2D("../textures/groundStone.jpg"), 2, 0.8);
 	step->SetScaleX(25);
 	step->SetScaleZ(10);
 	step->SetScaleY(20);
@@ -98,18 +107,18 @@ DungeonScene::DungeonScene()
 
 
 
-	//Internal walls
+	//HallWay
 
 	//left side hallway
-	std::shared_ptr<DisplayableObject> wall = std::make_shared<Cube>(Vec3<float>(30, 75, 170), "wall", Texture2D("../textures/cobble.jpg"), 3.1, 5);
-	wall->SetScaleX(75);
+	std::shared_ptr<DisplayableObject> wall = std::make_shared<Cube>(Vec3<float>(60, 75, 171), "wall", Texture2D("../textures/cobble.jpg"), 3.1, 5);
+	wall->SetScaleX(90);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
 	wall->SetCollidable(true);
 	wall->SetOrientationY(90);
 	objects.push_back(wall);
 
-	wall = std::make_shared<Cube>(Vec3<float>(30, 75, 315), "wall", Texture2D("../textures/cobble.jpg"), 6.2, 5);
+	wall = std::make_shared<Cube>(Vec3<float>(60, 75, 315), "wall", Texture2D("../textures/cobble.jpg"), 6.2, 5);
 	wall->SetScaleX(150);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
@@ -117,7 +126,7 @@ DungeonScene::DungeonScene()
 	wall->SetOrientationY(90);
 	objects.push_back(wall);
 
-	wall = std::make_shared<Cube>(Vec3<float>(30, 75, 460), "wall", Texture2D("../textures/cobble.jpg"), 6.2, 5);
+	wall = std::make_shared<Cube>(Vec3<float>(60, 75, 460), "wall", Texture2D("../textures/cobble.jpg"), 6.2, 5);
 	wall->SetScaleX(140);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
@@ -126,7 +135,7 @@ DungeonScene::DungeonScene()
 	objects.push_back(wall);
 
 	//right side hallway
-	wall = std::make_shared<Cube>(Vec3<float>(-30, 75, 171), "wall", Texture2D("../textures/cobble.jpg"), 3.1, 5);
+	wall = std::make_shared<Cube>(Vec3<float>(-60, 75, 171), "wall", Texture2D("../textures/cobble.jpg"), 3.1, 5);
 	wall->SetScaleX(90);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
@@ -134,7 +143,7 @@ DungeonScene::DungeonScene()
 	wall->SetOrientationY(90);
 	objects.push_back(wall);
 
-	wall = std::make_shared<Cube>(Vec3<float>(-30, 75, 315), "wall", Texture2D("../textures/cobble.jpg"), 6.2, 5);
+	wall = std::make_shared<Cube>(Vec3<float>(-60, 75, 315), "wall", Texture2D("../textures/cobble.jpg"), 6.2, 5);
 	wall->SetScaleX(150);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
@@ -142,7 +151,7 @@ DungeonScene::DungeonScene()
 	wall->SetOrientationY(90);
 	objects.push_back(wall);
 
-	wall = std::make_shared<Cube>(Vec3<float>(-30, 75, 460), "wall", Texture2D("../textures/cobble.jpg"), 6.2, 5);
+	wall = std::make_shared<Cube>(Vec3<float>(-60, 75, 460), "wall", Texture2D("../textures/cobble.jpg"), 6.2, 5);
 	wall->SetScaleX(140);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
@@ -150,8 +159,11 @@ DungeonScene::DungeonScene()
 	wall->SetOrientationY(90);
 	objects.push_back(wall);
 
-	//First left room
-	wall = std::make_shared<Cube>(Vec3<float>(176, 75, 325), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
+
+	//left room
+
+	//Walls
+	wall = std::make_shared<Cube>(Vec3<float>(206, 75, 325), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
 	wall->SetScaleX(300);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
@@ -166,8 +178,10 @@ DungeonScene::DungeonScene()
 	wall->SetOrientationY(90);
 	objects.push_back(wall);
 
-	//First right room
-	wall = std::make_shared<Cube>(Vec3<float>(-176, 75, 325), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
+	//right room
+
+	//Walls
+	wall = std::make_shared<Cube>(Vec3<float>(-206, 75, 325), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
 	wall->SetScaleX(300);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
@@ -182,67 +196,192 @@ DungeonScene::DungeonScene()
 	wall->SetOrientationY(90);
 	objects.push_back(wall);
 
-	//Attrium Walls
-	wall = std::make_shared<Cube>(Vec3<float>(-175, 75, 535), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
-	wall->SetScaleX(300);
+	//Attrium 
+
+	//Pillars
+
+
+
+	//Walls
+	wall = std::make_shared<Cube>(Vec3<float>(-145, 75, 535), "wall", Texture2D("../textures/cobble.jpg"), 10.3, 5);
+	wall->SetScaleX(250);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
 	wall->SetCollidable(true);
 	objects.push_back(wall);
 
-	wall = std::make_shared<Cube>(Vec3<float>(-175, 175, 535), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
-	wall->SetScaleX(300);
+	wall = std::make_shared<Cube>(Vec3<float>(0, 165, 535), "wall", Texture2D("../textures/cobble.jpg"), 1.7, 6);
+	wall->SetScaleX(40);
 	wall->SetScaleZ(10);
-	wall->SetScaleY(100);
-	wall->SetCollidable(false);
+	wall->SetScaleY(120);
 	objects.push_back(wall);
 
-	wall = std::make_shared<Cube>(Vec3<float>(175, 75, 535), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
-	wall->SetScaleX(300);
+	wall = std::make_shared<Cube>(Vec3<float>(-145, 175, 535), "wall", Texture2D("../textures/cobble.jpg"), 10.3, 5);
+	wall->SetScaleX(250);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(145, 75, 535), "wall", Texture2D("../textures/cobble.jpg"), 10.3, 5);
+	wall->SetScaleX(250);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
 	wall->SetCollidable(true);
 	objects.push_back(wall);
 
-	wall = std::make_shared<Cube>(Vec3<float>(175, 175, 535), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
-	wall->SetScaleX(300);
+	wall = std::make_shared<Cube>(Vec3<float>(145, 175, 535), "wall", Texture2D("../textures/cobble.jpg"), 10.3, 5);
+	wall->SetScaleX(250);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
-	wall->SetCollidable(false);
 	objects.push_back(wall);
 
-	wall = std::make_shared<Cube>(Vec3<float>(325, 75, 760), "wall", Texture2D("../textures/cobble.jpg"), 18.6, 5);
-	wall->SetScaleX(450);
+	wall = std::make_shared<Cube>(Vec3<float>(275, 75, 715), "wall", Texture2D("../textures/cobble.jpg"), 14.5, 5);
+	wall->SetScaleX(350);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
 	wall->SetOrientationY(90);
 	wall->SetCollidable(true);
 	objects.push_back(wall);
 
-	wall = std::make_shared<Cube>(Vec3<float>(325, 175, 760), "wall", Texture2D("../textures/cobble.jpg"), 18.6, 5);
-	wall->SetScaleX(450);
+	wall = std::make_shared<Cube>(Vec3<float>(275, 175, 715), "wall", Texture2D("../textures/cobble.jpg"), 14.5, 5);
+	wall->SetScaleX(350);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
 	wall->SetOrientationY(90);
-	wall->SetCollidable(false);
 	objects.push_back(wall);
 
-	wall = std::make_shared<Cube>(Vec3<float>(-325, 75, 760), "wall", Texture2D("../textures/cobble.jpg"), 18.6, 5);
-	wall->SetScaleX(450);
+	wall = std::make_shared<Cube>(Vec3<float>(-275, 75, 715), "wall", Texture2D("../textures/cobble.jpg"), 14.5, 5);
+	wall->SetScaleX(350);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
 	wall->SetOrientationY(90);
 	wall->SetCollidable(true);
 	objects.push_back(wall);
 
-	wall = std::make_shared<Cube>(Vec3<float>(-325, 175, 760), "wall", Texture2D("../textures/cobble.jpg"), 18.6, 5);
-	wall->SetScaleX(450);
+	wall = std::make_shared<Cube>(Vec3<float>(-275, 175, 715), "wall", Texture2D("../textures/cobble.jpg"), 14.5, 5);
+	wall->SetScaleX(350);
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
 	wall->SetOrientationY(90);
-	wall->SetCollidable(false);
 	objects.push_back(wall);
 
+	wall = std::make_shared<Cube>(Vec3<float>(0, 165, 885), "wall", Texture2D("../textures/cobble.jpg"), 1.7, 6);
+	wall->SetScaleX(40);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(120);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(-145, 75, 885), "wall", Texture2D("../textures/cobble.jpg"), 10.3, 5);
+	wall->SetScaleX(250);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	wall->SetCollidable(true);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(-145, 175, 885), "wall", Texture2D("../textures/cobble.jpg"), 10.3, 5);
+	wall->SetScaleX(250);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(145, 75, 885), "wall", Texture2D("../textures/cobble.jpg"), 10.3, 5);
+	wall->SetScaleX(250);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	wall->SetCollidable(true);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(145, 175, 885), "wall", Texture2D("../textures/cobble.jpg"), 10.3, 5);
+	wall->SetScaleX(250);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	objects.push_back(wall);
+
+	//Platforming room
+
+	//Platforms
+	std::shared_ptr<DisplayableObject> platform = std::make_shared<Cube>(Vec3<float>(-170, 50, 970), "PLATFORM", Texture2D("../textures/moss.jpg"), 3, 2);
+	platform->SetScale(30);
+	platform->SetScaleY(20);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
+
+	/*platform = std::make_shared<Cube>(Vec3<float>(-170, 60, 1020), "wall", Texture2D("../textures/moss.jpg"), 2, 2.7);
+	platform->SetScale(30);
+	platform->SetScaleY(40);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
+
+	platform = std::make_shared<Cube>(Vec3<float>(-170, 70, 1070), "wall", Texture2D("../textures/moss.jpg"), 2, 4.1);
+	platform->SetScale(30);
+	platform->SetScaleY(60);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
+
+	platform = std::make_shared<Cube>(Vec3<float>(-170, 80, 1120), "wall", Texture2D("../textures/moss.jpg"), 2, 5.4);
+	platform->SetScale(30);
+	platform->SetScaleY(80);
+	platform->SetCollidable(true);
+	objects.push_back(platform);*/
+
+
+
+	//Walls
+	wall = std::make_shared<Cube>(Vec3<float>(275, 75, 1065), "wall", Texture2D("../textures/cobble.jpg"), 14.5, 5);
+	wall->SetScaleX(350);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	wall->SetOrientationY(90);
+	wall->SetCollidable(true);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(275, 175, 1065), "wall", Texture2D("../textures/cobble.jpg"), 14.5, 5);
+	wall->SetScaleX(350);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	wall->SetOrientationY(90);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(-275, 75, 1065), "wall", Texture2D("../textures/cobble.jpg"), 14.5, 5);
+	wall->SetScaleX(350);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	wall->SetOrientationY(90);
+	wall->SetCollidable(true);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(-275, 175, 1065), "wall", Texture2D("../textures/cobble.jpg"), 14.5, 5);
+	wall->SetScaleX(350);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	wall->SetOrientationY(90);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(-150, 75, 1230), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
+	wall->SetScaleX(300);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	wall->SetCollidable(true);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(-150, 175, 1230), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
+	wall->SetScaleX(300);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(150, 75, 1230), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
+	wall->SetScaleX(300);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	wall->SetCollidable(true);
+	objects.push_back(wall);
+
+	wall = std::make_shared<Cube>(Vec3<float>(150, 175, 1230), "wall", Texture2D("../textures/cobble.jpg"), 12.4, 5);
+	wall->SetScaleX(300);
+	wall->SetScaleZ(10);
+	wall->SetScaleY(100);
+	objects.push_back(wall);
 }
 
 

@@ -1,21 +1,20 @@
 #pragma once
-#include "DisplayableObject.h"
-class Plane :
-	public DisplayableObject
+#include "Vec3.h"
+class Plane
 {
 public:
-	Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution);
-	Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution, float texTiling);	
-	Plane(Vec3<float> pos, Texture2D texture, std::string tag, int resolution, float texTilingX, float texTilingZ);
+	Plane(Vec3<float> point, Vec3<float> normal);
+	~Plane();
 
-	virtual ~Plane();
 
-	virtual void Render();
+	inline float DistTo(Vec3<float> pos)
+	{
+		return normal.DotProd(pos) + D;
+	}
 
 private:
-	int resolution;
-	float texTilingX = 1;
-	float texTilingZ = 1;
-	Texture2D texture;
+	Vec3<float> point;
+	Vec3<float> normal;
+	float D;
 };
 

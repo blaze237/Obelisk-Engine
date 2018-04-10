@@ -94,8 +94,19 @@ SceneManager::SceneManager(int argc, char **argv, const char* title)
 	glutMouseWheelFunc(InputManager::MouseWheelMoved);
 	glutMotionFunc(InputManager::MouseDrag);
 	glutPassiveMotionFunc(InputManager::MouseMoved);
+	
+	
+	//glutFullScreen();
 
-	glutFullScreen();
+	GLfloat fogColor[4] = { 0.0f,0.0f,0.0f,1.0f };
+
+	glFogi(GL_FOG_MODE, GL_EXP);
+	glFogfv(GL_FOG_COLOR, fogColor);
+	glFogf(GL_FOG_DENSITY, 0.007f);
+	glHint(GL_FOG_HINT, GL_NICEST);
+	glFogf(GL_FOG_START, 0); // Fog Start Depth 
+	glFogf(GL_FOG_END, 700.0f); // Fog End Depth
+	glEnable(GL_FOG);
 }
 
 

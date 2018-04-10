@@ -29,6 +29,8 @@ public:
 	Scene();
 	virtual ~Scene();
 
+	bool ObjectInFrustumBBox(std::shared_ptr<DisplayableObject>& object, std::vector<Plane>& frustum);
+
 	//Render the scene. Default implementation just tells all objects in the scene to render themselves.
 	virtual void Render();
 	//Update the scene. Default implementation just tells all objects in the scene to update themselves. And calls update on the camera
@@ -95,6 +97,7 @@ public:
 
 private:
 	
+	bool ObjectInFrustum(std::shared_ptr<DisplayableObject>& object, std::vector<Plane>& frustum);
 
 	//Update pshysics for all objects (i.e, update position according to velocity, friction and collisions)
 	void PhysicsUpdate();

@@ -72,7 +72,7 @@ void BoundingBox::Render() const
 	glPopAttrib();
 	glPopMatrix();}
 
-std::vector<Vec3<float>> BoundingBox::GetIndicies(Vec3<float> posOffset, Vec3<float> rotOffset) const
+std::vector<Vec3<float>> BoundingBox::GetIndicies() const
 {
 	//Check the cached pos, rot and scale values are still valid
 	ValidateCache();
@@ -103,18 +103,18 @@ std::vector<Vec3<float>> BoundingBox::GetIndicies(Vec3<float> posOffset, Vec3<fl
 		if (parentRot.x != 0 || parentRot.y != 0 || parentRot.z != 0)
 		{
 			for (int i = 0; i < 8; ++i)
-				ind[i] = MathHelp::RotatePoint(ind[i], parentRot + rotOffset);
+				ind[i] = MathHelp::RotatePoint(ind[i], parentRot);
 		}
 
 		//Apply parent translation to the indicies to convert positions into world
-		ind[0] = offset + parentPos + ind[0] + posOffset;
-		ind[1] = offset + parentPos + ind[1] + posOffset;
-		ind[2] = offset + parentPos + ind[2] + posOffset;
-		ind[3] = offset + parentPos + ind[3] + posOffset;
-		ind[4] = offset + parentPos + ind[4] + posOffset;
-		ind[5] = offset + parentPos + ind[5] + posOffset;
-		ind[6] = offset + parentPos + ind[6] + posOffset;
-		ind[7] = offset + parentPos + ind[7] + posOffset;
+		ind[0] = offset + parentPos + ind[0];
+		ind[1] = offset + parentPos + ind[1];
+		ind[2] = offset + parentPos + ind[2];
+		ind[3] = offset + parentPos + ind[3];
+		ind[4] = offset + parentPos + ind[4];
+		ind[5] = offset + parentPos + ind[5];
+		ind[6] = offset + parentPos + ind[6];
+		ind[7] = offset + parentPos + ind[7];
 
 		indiciesCache =  ind;
 
@@ -124,7 +124,7 @@ std::vector<Vec3<float>> BoundingBox::GetIndicies(Vec3<float> posOffset, Vec3<fl
 	return indiciesCache;
 }
 
-std::vector<BoxFace> BoundingBox::GetFaces(Vec3<float> posOffset, Vec3<float> rotOffset) const
+std::vector<BoxFace> BoundingBox::GetFaces() const
 {
 	//Check the cached pos, rot and scale values are still valid
 	ValidateCache();
@@ -133,7 +133,7 @@ std::vector<BoxFace> BoundingBox::GetFaces(Vec3<float> posOffset, Vec3<float> ro
 	if (faceDirty)
 	{
 		//Grab the box points
-		std::vector<Vec3<float>> ind = GetIndicies(posOffset);
+		std::vector<Vec3<float>> ind = GetIndicies();
 
 		//Front Face
 		BoxFace front(ind[0], ind[2], ind[1], "Front");

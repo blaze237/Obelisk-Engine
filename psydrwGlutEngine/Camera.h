@@ -2,7 +2,8 @@
 #include "Vec3.h"
 #include <GL/glut.h>
 #include "InputManager.h"
-
+#include "Plane.h"
+#include "MathHelp.h"
 class Camera
 {
 public:
@@ -21,9 +22,12 @@ public:
 		// Set the viewport to be the entire window
 		glViewport(0, 0, w, h);
 
-		gluPerspective(45.0, aspect, nearClip, farClip);
+		gluPerspective(FOV, aspect, nearDist, farDist);
 		// return matrix mode to modelling and viewing
 		glMatrixMode(GL_MODELVIEW);
+
+		//Update stored frustum info
+		RecalcFrustumParams(aspect);
 	}
 
 	inline Vec3<float> GetEyePos() const
@@ -46,18 +50,26 @@ public:
 	{
 		return n;
 	}
-	inline float GetNearClip()
+	inline float GetNearDist() const
 	{
-		return nearClip;
+		return nearDist;
 	}
-	inline float GetFarClip()
+	inline float GetFarDist() const
 	{
-		return farClip;
+		return farDist;
 	}
-	inline void setEyePos(Vec3<float> v) {
+	inline float GetFOV() const
+	{
+		return FOV;
+	}
+	inline void SetEyePos(Vec3<float> v) {
 		eyePos = v;
 	}
+	inline void SetFOV(float fov) {
+		FOV = fov;
+	}
 
+	std::vector<Plane> GetFrustum();
 
 	//Apply camera paramters to opengl matrix statck. Call after any changes to cam pos
 	virtual void SetCamMatrix() const;
@@ -69,12 +81,28 @@ public:
 
 
 protected:
+
+	inline void RecalcFrustumParams(float r)
+	{
+		ratio = r;
+
+		hNear = 2 * tan(MathHelp::ToRadians<float>(FOV / 2.f)) * nearDist/2;
+		wNear = hNear * ratio;
+
+		hFar = 2 * tan(MathHelp::ToRadians<float>(FOV/2.f)) * farDist/2;
+		wFar = hFar * ratio;
+	}
+
 	//Position of the camera
 	Vec3<float> eyePos;
 
-	float farClip = 2000;
-	float nearClip = 1;
 
+
+	//Frustrum paramaters
+	float FOV = 45;
+	float hNear, wNear, hFar, wFar, ratio;
+	float farDist = 1000;
+	float nearDist = 1;
 	//Position in space the camera is looking at
 	Vec3<float> viewDir;
 
