@@ -151,19 +151,7 @@ void Scene::PhysicsUpdate()
 		if (object->GetVelocity().y > -gravity)
 			object->SetVelocityY((object->GetVelocity().y - gravity / 10.f) < -gravity ? -gravity : object->GetVelocity().y - gravity / 10.f);
 
-		//Apply friction to grounded objects
-		if (object->IsGrounded())
-		{
-			if(object->GetVelocity().x > 0)
-				object->SetVelocityX((object->GetVelocity().x - friction) < 0 ? 0 : object->GetVelocity().x - friction);
-			else if(object->GetVelocity().x < 0)
-				object->SetVelocityX((object->GetVelocity().x + friction) > 0 ? 0 : object->GetVelocity().x + friction);
-			
-			if (object->GetVelocity().z > 0)
-				object->SetVelocityZ((object->GetVelocity().z - friction) < 0 ? 0 : object->GetVelocity().z - friction);
-			else if (object->GetVelocity().z < 0)
-				object->SetVelocityZ((object->GetVelocity().z + friction) > 0 ? 0 : object->GetVelocity().z + friction);
-		}
+	
 
 	//Apply velocity in each direction if doing so wont cause a collision
 		
@@ -173,6 +161,22 @@ void Scene::PhysicsUpdate()
 			object->SetGrounded(ApplyVelocity(object,object->GetPos(), object->GetVelocity(), Vec3<float>(0, object->GetVelocity().y, 0), object->GetGroundID()));
 		else
 			object->SetGrounded(ApplyVelocity(object, object->GetPos(), object->GetVelocity(), Vec3<float>(0, object->GetVelocity().y, 0)));
+
+		//Apply friction to grounded objects
+		if (object->IsGrounded())
+		{
+			if (object->GetVelocity().x > 0)
+				object->SetVelocityX((object->GetVelocity().x - friction) < 0 ? 0 : object->GetVelocity().x - friction);
+			else if (object->GetVelocity().x < 0)
+				object->SetVelocityX((object->GetVelocity().x + friction) > 0 ? 0 : object->GetVelocity().x + friction);
+
+			if (object->GetVelocity().z > 0)
+				object->SetVelocityZ((object->GetVelocity().z - friction) < 0 ? 0 : object->GetVelocity().z - friction);
+			else if (object->GetVelocity().z < 0)
+				object->SetVelocityZ((object->GetVelocity().z + friction) > 0 ? 0 : object->GetVelocity().z + friction);
+		}
+
+
 
 		//Apply x and z components of velocity.
 		if(object->GetVelocity().x != 0)

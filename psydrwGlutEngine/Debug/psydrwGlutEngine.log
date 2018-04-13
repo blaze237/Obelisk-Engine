@@ -1,29 +1,17 @@
-﻿  Camera.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\plane.h(12): warning C4244: 'return': conversion from 'long double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(30): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(23): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(89): note: see reference to function template instantiation 'T MathHelp::ToRadians<float>(T)' being compiled
-          with
-          [
-              T=float
-          ]
-  DungeonScene.cpp
+﻿  DungeonScene.cpp
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\daniel\obelisk-engine\psydrwglutengine\plane.h(12): warning C4244: 'return': conversion from 'long double' to 'float', possible loss of data
 c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(30): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(83): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(84): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(85): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(106): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(107): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(108): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(111): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(112): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(113): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(134): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(135): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(136): warning C4305: 'argument': truncation from 'double' to 'float'
 c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(23): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(89): note: see reference to function template instantiation 'T MathHelp::ToRadians<float>(T)' being compiled
+  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(95): note: see reference to function template instantiation 'T MathHelp::ToRadians<float>(T)' being compiled
           with
           [
               T=float
@@ -39,7 +27,7 @@ c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.1
           [
               _Ty=PlaneObj
           ]
-  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(45): note: see reference to function template instantiation 'std::shared_ptr<PlaneObj> std::make_shared<PlaneObj,Vec3<float>,Texture2D&,const char(&)[6],int,int,int>(Vec3<float> &&,Texture2D &,const char (&)[6],int &&,int &&,int &&)' being compiled
+  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(75): note: see reference to function template instantiation 'std::shared_ptr<PlaneObj> std::make_shared<PlaneObj,Vec3<float>,Texture2D&,const char(&)[6],int,int,int>(Vec3<float> &&,Texture2D &,const char (&)[6],int &&,int &&,int &&)' being compiled
 c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1849): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1913): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D&,const char(&)[5],int,int,double>(Vec3<float> &&,Texture2D &,const char (&)[5],int &&,int &&,double &&)' being compiled
           with
@@ -51,118 +39,5 @@ c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.1
           [
               _Ty=PlaneObj
           ]
-  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(58): note: see reference to function template instantiation 'std::shared_ptr<PlaneObj> std::make_shared<PlaneObj,Vec3<float>,Texture2D&,const char(&)[5],int,int,double>(Vec3<float> &&,Texture2D &,const char (&)[5],int &&,int &&,double &&)' being compiled
-  FPSCamera.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\plane.h(12): warning C4244: 'return': conversion from 'long double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(30): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\fpscamera.cpp(63): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\fpscamera.cpp(64): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(23): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(89): note: see reference to function template instantiation 'T MathHelp::ToRadians<float>(T)' being compiled
-          with
-          [
-              T=float
-          ]
-  Main.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\plane.h(12): warning C4244: 'return': conversion from 'long double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(30): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(23): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(89): note: see reference to function template instantiation 'T MathHelp::ToRadians<float>(T)' being compiled
-          with
-          [
-              T=float
-          ]
-c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(155): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  c:\users\daniel\obelisk-engine\psydrwglutengine\main.cpp(16): note: see reference to function template instantiation 'Vec3<float> MathHelp::RotatePoint<float>(Vec3<float>,Vec3<float>,bool)' being compiled
-  PhysicsCam.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\plane.h(12): warning C4244: 'return': conversion from 'long double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(30): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(23): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(89): note: see reference to function template instantiation 'T MathHelp::ToRadians<float>(T)' being compiled
-          with
-          [
-              T=float
-          ]
-  Scene.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\plane.h(12): warning C4244: 'return': conversion from 'long double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(30): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(103): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(105): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(211): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(228): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(312): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(323): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(386): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(461): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(472): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(506): warning C4018: '<': signed/unsigned mismatch
-c:\users\daniel\obelisk-engine\psydrwglutengine\scene.cpp(517): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(23): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(89): note: see reference to function template instantiation 'T MathHelp::ToRadians<float>(T)' being compiled
-          with
-          [
-              T=float
-          ]
-  SceneManager.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\plane.h(12): warning C4244: 'return': conversion from 'long double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(30): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(23): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(89): note: see reference to function template instantiation 'T MathHelp::ToRadians<float>(T)' being compiled
-          with
-          [
-              T=float
-          ]
-  SkyBox.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\plane.h(12): warning C4244: 'return': conversion from 'long double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(30): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(23): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(89): note: see reference to function template instantiation 'T MathHelp::ToRadians<float>(T)' being compiled
-          with
-          [
-              T=float
-          ]
-  TestScene.cpp
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\boundingbox.h(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\plane.h(12): warning C4244: 'return': conversion from 'long double' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(30): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\testscene.cpp(61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(23): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(89): note: see reference to function template instantiation 'T MathHelp::ToRadians<float>(T)' being compiled
-          with
-          [
-              T=float
-          ]
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1849): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1913): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D,const char(&)[6],int,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],int &&,int &&)' being compiled
-          with
-          [
-              _Ty=PlaneObj
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1914): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D,const char(&)[6],int,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],int &&,int &&)' being compiled
-          with
-          [
-              _Ty=PlaneObj
-          ]
-  c:\users\daniel\obelisk-engine\psydrwglutengine\testscene.cpp(51): note: see reference to function template instantiation 'std::shared_ptr<PlaneObj> std::make_shared<PlaneObj,Vec3<float>,Texture2D,const char(&)[6],int,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],int &&,int &&)' being compiled
-  Generating Code...
+  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(88): note: see reference to function template instantiation 'std::shared_ptr<PlaneObj> std::make_shared<PlaneObj,Vec3<float>,Texture2D&,const char(&)[5],int,int,double>(Vec3<float> &&,Texture2D &,const char (&)[5],int &&,int &&,double &&)' being compiled
   psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

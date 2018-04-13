@@ -4,6 +4,9 @@
 #include "PlaneObj.h"
 #include "Cube.h"
 #include "SceneManager.h"
+#include "CullPlane.h"
+#include "CullPlaneSwitch.h"
+
 
 #define planeRes  2
 
@@ -39,6 +42,33 @@ DungeonScene::DungeonScene()
 	Texture2D grassTex("../textures/grass.jpg");
 	Texture2D groundTex("../textures/groundStone.jpg");
 	Texture2D mossRockTex("../textures/moss.jpg");
+	Texture2D bushTex("../textures/bush.png");
+
+
+	//Cull plane 1
+	std::shared_ptr<DisplayableObject> cullPlane = std::make_shared<CullPlane>(Vec3<float>(0, 50, 100), dynamic_cast<PhysicsCam&>(*mainCam));
+	cullPlane->SetScaleX(600);
+	cullPlane->SetScaleZ(200);
+	cullPlane->SetOrientationX(-90);
+	objects.push_back(cullPlane);
+
+	cullPlane = std::make_shared<CullPlane>(Vec3<float>(0, 50, 100), dynamic_cast<PhysicsCam&>(*mainCam), -1);
+	cullPlane->SetScaleX(600);
+	cullPlane->SetScaleZ(200);
+	cullPlane->SetOrientationX(90);
+	cullPlane->SetRenderable(false);
+	objects.push_back(cullPlane);
+
+
+	//Only turn on the second cull plane when pass through this trigger
+	std::shared_ptr<DisplayableObject> revCullplaneTrigger = std::make_shared<CullPlaneSwitch>(Vec3<float>(0, 60.5, 538), "trigger", dynamic_cast<CullPlane&>(*cullPlane));
+	revCullplaneTrigger->SetScaleX(50);
+	revCullplaneTrigger->SetScaleZ(1);
+	revCullplaneTrigger->SetScaleY(50);
+	revCullplaneTrigger->SetCollidable(true);
+	revCullplaneTrigger->SetRenderable(false);
+	revCullplaneTrigger->SetIsTrigger(true);
+	objects.push_back(revCullplaneTrigger);
 
 	//Ground and roof
 	//Ground grass outside
@@ -55,8 +85,8 @@ DungeonScene::DungeonScene()
 	objects.push_back(floorGround);
 
 	//roof low
-	std::shared_ptr<DisplayableObject> roof = std::make_shared<PlaneObj>(Vec3<float>(0, 125, 332.5), groundTex, "roof", planeRes, 40, 16.6);
-	roof->SetScaleX(1000);
+	std::shared_ptr<DisplayableObject> roof = std::make_shared<PlaneObj>(Vec3<float>(0, 125, 332.5), groundTex, "roof", planeRes, 26, 16.6);
+	roof->SetScaleX(650);
 	roof->SetScaleZ(415);
 	roof->SetOrientationZ(180);
 	objects.push_back(roof);
@@ -68,13 +98,11 @@ DungeonScene::DungeonScene()
 	roof->SetOrientationZ(180);
 	objects.push_back(roof);
 
-	//Outer Walls
-
-
+//Outer Walls
 
 	//Outer Wall R
-	std::shared_ptr<DisplayableObject> outerWallR = std::make_shared<Cube>(Vec3<float>(-250, 75, 130), "wall", cobbleTex, 20, 5);
-	outerWallR->SetScaleX(475);
+	std::shared_ptr<DisplayableObject> outerWallR = std::make_shared<Cube>(Vec3<float>(-170, 75, 130), "wall", cobbleTex, 13.3, 5);
+	outerWallR->SetScaleX(315);
 	outerWallR->SetScaleZ(10);
 	outerWallR->SetScaleY(100);
 	outerWallR->SetCollidable(true);
@@ -96,8 +124,8 @@ DungeonScene::DungeonScene()
 
 
 	//Outer Wall L
-	std::shared_ptr<DisplayableObject> outerWallL = std::make_shared<Cube>(Vec3<float>(250, 75, 130), "wall", cobbleTex, 20, 5);
-	outerWallL->SetScaleX(475);
+	std::shared_ptr<DisplayableObject> outerWallL = std::make_shared<Cube>(Vec3<float>(170, 75, 130), "wall", cobbleTex, 13.3, 5);
+	outerWallL->SetScaleX(315);
 	outerWallL->SetScaleZ(10);
 	outerWallL->SetScaleY(100);
 	outerWallL->SetCollidable(true);
@@ -119,7 +147,34 @@ DungeonScene::DungeonScene()
 
 
 
-	//HallWay
+
+	//Bushes 
+
+	std::shared_ptr<DisplayableObject> bush = std::make_shared<Cube>(Vec3<float>(0, 60, -90), "bush", bushTex,40, 2);
+	bush->SetScaleX(400);
+	bush->SetScaleZ(10);
+	bush->SetScaleY(20);
+	bush->SetCollidable(true);
+	objects.push_back(bush);
+
+	bush = std::make_shared<Cube>(Vec3<float>(200, 60, 14), "bush", bushTex, 22, 2);
+	bush->SetScaleX(220);
+	bush->SetScaleZ(10);
+	bush->SetScaleY(20);
+	bush->SetOrientationY(90);
+	bush->SetCollidable(true);
+	objects.push_back(bush);
+
+	bush = std::make_shared<Cube>(Vec3<float>(-200, 60, 14), "bush", bushTex, 22, 2);
+	bush->SetScaleX(220);
+	bush->SetScaleZ(10);
+	bush->SetScaleY(20);
+	bush->SetOrientationY(90);
+	bush->SetCollidable(true);
+	objects.push_back(bush);
+
+
+//HallWay
 
 	//left side hallway
 	std::shared_ptr<DisplayableObject> wall = std::make_shared<Cube>(Vec3<float>(60, 75, 171), "wall", cobbleTex, 3.1, 5);
@@ -336,7 +391,17 @@ DungeonScene::DungeonScene()
 	platform->SetCollidable(true);
 	objects.push_back(platform);
 
+	platform = std::make_shared<Cube>(Vec3<float>(-100, 80, 1120), "wall", mossRockTex, 2, 5.4);
+	platform->SetScale(30);
+	platform->SetScaleY(80);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
 
+	platform = std::make_shared<Cube>(Vec3<float>(-30, 80, 1120), "wall", mossRockTex, 2, 5.4);
+	platform->SetScale(30);
+	platform->SetScaleY(80);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
 
 	//Walls
 	wall = std::make_shared<Cube>(Vec3<float>(275, 75, 1065), "wall", cobbleTex, 14.5, 5);
@@ -404,6 +469,12 @@ DungeonScene::~DungeonScene()
 void DungeonScene::Update(long tCurrent)
 {
 	Scene::Update(tCurrent);
+
+	if (mainCam->GetEyePos().y  < 0)
+	{
+		mainCam->SetEyePos(Vec3<float>(0, 100, -50));
+		mainCam->SetViewDir(Vec3<float>(0, 0, 1));
+	}
 
 	if (InputManager::Pressed(InputManager::ESC))
 		SceneManager::Exit();

@@ -10,10 +10,8 @@ public:
 	//Uniquley assigned per object ID
 	const unsigned int ID;
 
-
 	DisplayableObject(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag);
 	virtual ~DisplayableObject();
-
 
 
 	//Calls your render function and handles matrix translations needed to draw at the correct position, scale and orientation. 
@@ -187,6 +185,10 @@ public:
 	inline void SetCollidable(bool b)
 	{
 		collidable = b;
+	}
+	inline void SetIsTrigger(bool b)
+	{
+		bBox.SetTrigger(b);
 	}
 	inline void SetColliderRenderer(bool b)
 	{

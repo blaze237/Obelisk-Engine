@@ -15,6 +15,11 @@ public:
 	virtual void CheckMovement();
 	void RegisterParent(std::shared_ptr<DisplayableObject> p);
 
+	virtual inline void SetEyePos(Vec3<float> v)
+	{
+		parent->SetPos(v);
+	}
+
 	virtual void OnCollide(std::string tag)
 	{
 	}

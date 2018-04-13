@@ -111,6 +111,12 @@
     <ClCompile Include="Plane.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="CullPlane.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="CullPlaneSwitch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Colour.h">
@@ -190,6 +196,12 @@
     </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="CullPlane.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="CullPlaneSwitch.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

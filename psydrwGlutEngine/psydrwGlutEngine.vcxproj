@@ -132,6 +132,8 @@
     <ClCompile Include="BoxFace.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="CullPlane.cpp" />
+    <ClCompile Include="CullPlaneSwitch.cpp" />
     <ClCompile Include="DisplayableObject.cpp" />
     <ClCompile Include="DungeonScene.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
@@ -158,6 +160,8 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colour.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="CullPlane.h" />
+    <ClInclude Include="CullPlaneSwitch.h" />
     <ClInclude Include="DisplayableObject.h" />
     <ClInclude Include="DungeonScene.h" />
     <ClInclude Include="FPSCamera.h" />

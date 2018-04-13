@@ -62,12 +62,18 @@ public:
 	{
 		return FOV;
 	}
-	inline void SetEyePos(Vec3<float> v) {
+	virtual inline void SetEyePos(Vec3<float> v)
+	{
 		eyePos = v;
+	}
+	inline void SetViewDir(Vec3<float> v)
+	{
+		viewDir = v;
 	}
 	inline void SetFOV(float fov) {
 		FOV = fov;
 	}
+
 
 	std::vector<Plane> GetFrustum();
 
@@ -101,7 +107,7 @@ protected:
 	//Frustrum paramaters
 	float FOV = 45;
 	float hNear, wNear, hFar, wFar, ratio;
-	float farDist = 1000;
+	float farDist = 1300;
 	float nearDist = 1;
 	//Position in space the camera is looking at
 	Vec3<float> viewDir;
