@@ -7,6 +7,7 @@
 FPSCamera::FPSCamera(Vec3<float> eyePos, Vec3<float> viewDir)
 	:Camera(eyePos, viewDir), mousePos(SceneManager::GetScreenW() / 2, SceneManager::GetScreenH() / 2)
 {
+	SceneManager::SetCursorEnabled(false);
 }
 
 

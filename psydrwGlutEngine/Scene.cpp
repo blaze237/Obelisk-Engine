@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <functional>
 #include "Plane.h"
+
+#define ALLIGNED_COLLISIONS
 Scene::Scene()
 {
 }
@@ -84,6 +86,10 @@ void Scene::Render()
 		}
 		o->RenderObject();
 	}
+
+
+	//TODO
+		//Set flag for each light to say if it is within the frustum or not. Then get 8 closest in frustum
 
 	//Render the lights
 	if (lights.size() > 8)
@@ -173,6 +179,13 @@ void Scene::PhysicsUpdate()
 			ApplyVelocity(object, object->GetPos(), object->GetVelocity(), Vec3<float>(object->GetVelocity().x, 0, 0));
 		if (object->GetVelocity().z != 0)
 			ApplyVelocity(object,object->GetPos(), object->GetVelocity(), Vec3<float>(0, 0, object->GetVelocity().z));
+
+
+
+		//For non rotated boxes, we can skip checking for rot vel
+		#ifdef ALLIGNED_COLLISIONS
+		break;
+		#endif // ALLIGNED_COLLISIONS
 
 	//Apply rotational velocity in each direction if doing so wont cause a collision
 		if (object->GetRotVelocity().x != 0)
@@ -421,6 +434,13 @@ bool Scene::CheckCollision(Vec3<float> posOffset, Vec3<float> rotOffset, Boundin
 				return true;
 			}
 		}
+
+		//For non rotated boxes, we can skip checking for the other object for performance
+		#ifdef ALLIGNED_COLLISIONS
+		break;
+		#endif // ALLIGNED_COLLISIONS
+
+
 		//Now need to check other way round for next loop iteration
 		faces = obj1.GetFaces(indicies1);
 		indicies = indicies2;

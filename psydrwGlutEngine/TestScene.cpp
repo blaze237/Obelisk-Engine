@@ -41,7 +41,7 @@ TestScene::TestScene()
 	t->SetScale(10);
 	objects.push_back(t);
 
-	/*std::shared_ptr<DisplayableObject> t3 = std::make_shared<TestObject>(Vec3<float>(0, 0, -100), Texture2D("../textures/stone.jpg"));
+	std::shared_ptr<DisplayableObject> t3 = std::make_shared<TestObject>(Vec3<float>(0, 0, -100), Texture2D("../textures/stone.jpg"));
 	t3->SetScale(10);
 	t3->SetScaleX(500);
 	t3->SetScaleY(200);
@@ -55,7 +55,7 @@ TestScene::TestScene()
 	objects.push_back(floor);
 
 
-	*/
+	
 	for (int i = 0; i < 200; i++)
 	{
 		std::shared_ptr<DisplayableObject> t3 = std::make_shared<TestObject>(Vec3<float>(-10*i, 10*i, -50), Texture2D("../textures/stone.jpg"));
@@ -64,10 +64,6 @@ TestScene::TestScene()
 
 	}
 
-	//std::shared_ptr<DisplayableObject> t2 = std::make_shared<TestObject2>(Vec3<float>(0, 60, -50), nullptr);
-	//t2->SetScale(1);
-	////t2->SetScaleY(30);
-	//objects.push_back(std::move(t2));
 
 
 //	 std::shared_ptr<Spotlight> l = std::make_shared<Spotlight>(Vec3<float>(0, 10, 25), Colour(0.2, 0, 0), Colour(0.9, 0, 0), Colour(0.9, 0, 0), Vec3<float>(0, 0, -2));

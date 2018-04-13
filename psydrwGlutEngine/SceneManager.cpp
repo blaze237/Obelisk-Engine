@@ -34,18 +34,22 @@ SceneManager::SceneManager(int argc, char **argv, const char* title)
 	glutInitWindowSize(screenW, screenH);
 	glutCreateWindow(title);
 
-	//Place cursor in center of window
-	glutWarpPointer(screenW / 2, screenH / 2);
+	Init();
+	
+	
+}
 
-	//Disable the cursor
-	glutSetCursor(GLUT_CURSOR_NONE);
-
+void SceneManager::Init()
+{
 	//Set background colour
 	Colour bgCol(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearColor(bgCol.r, bgCol.g, bgCol.b, bgCol.a);
 
 	float vAmbientLightBright[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, vAmbientLightBright);
+
+	//Place cursor in center of window
+	glutWarpPointer(screenW / 2, screenH / 2);
 
 	//Enable correct z ordering of object faces. Without this faces must be consturcted in the order we wish them to layer.
 	//With this, opengl handles layering for us by using the components x,y,z values
@@ -77,7 +81,7 @@ SceneManager::SceneManager(int argc, char **argv, const char* title)
 	glEnable(GL_NORMALIZE);
 
 	//Register the render function with freeglut. We actualy manage all rendering manualy but freeglut requires us to register a render method in order to function
-	glutDisplayFunc(Render);
+	glutDisplayFunc(NullFunct);
 
 	//Check and handle any errors
 	HandleGLError();
@@ -94,21 +98,7 @@ SceneManager::SceneManager(int argc, char **argv, const char* title)
 	glutMouseWheelFunc(InputManager::MouseWheelMoved);
 	glutMotionFunc(InputManager::MouseDrag);
 	glutPassiveMotionFunc(InputManager::MouseMoved);
-	
-	
-	//glutFullScreen();
-
-	GLfloat fogColor[4] = { 0.0f,0.0f,0.0f,1.0f };
-
-	glFogi(GL_FOG_MODE, GL_EXP);
-	glFogfv(GL_FOG_COLOR, fogColor);
-	glFogf(GL_FOG_DENSITY, 0.007f);
-	glHint(GL_FOG_HINT, GL_NICEST);
-	glFogf(GL_FOG_START, 0); // Fog Start Depth 
-	glFogf(GL_FOG_END, 700.0f); // Fog End Depth
-	glEnable(GL_FOG);
 }
-
 
 SceneManager::~SceneManager()
 {
@@ -155,16 +145,16 @@ void SceneManager::MainLoop()
 	glutMainLoopEvent();
 
 	//Run the game indefintely till the window is closed via glut
-	while (!quit) 
+	while (!quit)
 	{
 		//Get start time for this frame
 		long fStart = glutGet(GLUT_ELAPSED_TIME);
 		//Determine what click we should be at by this time
 		long targetTick = ((int)(fStart - startingTime) * TICKS_PER_SECOND) / 1000;
 
-		
+
 		//Continualy update the game untill we reach the target tick
-		while (currentTick < targetTick) 
+		while (currentTick < targetTick)
 		{
 			Update(glutGet(GLUT_ELAPSED_TIME));
 			++currentTick;
@@ -183,9 +173,18 @@ void SceneManager::MainLoop()
 		}
 
 		//Max number of visualy different renderable frames is set by the tick rate, therefore we sleep untill the next tick to avoid waisting resources rendering identical intermediate frames
-		//std::this_thread::sleep_for(std::chrono::milliseconds(1000 / TICKS_PER_SECOND + fStart - glutGet(GLUT_ELAPSED_TIME)));
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000 / TICKS_PER_SECOND + fStart - glutGet(GLUT_ELAPSED_TIME)));
 	}
 
+	//Disable game mode if it is enabled
+	DisableGameMode();
+
+	//Close all windows
+	while (glutGetWindow())
+		glutDestroyWindow(glutGetWindow());
+	
+	//Have to call update so that glut can respond to the windows being closed and end the process.
+	Update(glutGet(GLUT_ELAPSED_TIME));
 }
 
 void SceneManager::Render()
@@ -217,6 +216,8 @@ void SceneManager::Update(long tCurrent)
 	//Tell the input manager to advance to polling for next tick. Must be last thing in update loop
 	InputManager::Update();
 }
+
+
 
 void SceneManager::HandleGLError()
 {

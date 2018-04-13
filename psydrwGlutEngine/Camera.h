@@ -74,7 +74,7 @@ public:
 	//Apply camera paramters to opengl matrix statck. Call after any changes to cam pos
 	virtual void SetCamMatrix() const;
 
-	//Overload to handle input etc. Default uses FPS controll scheme
+	//Overload to handle input etc. 
 	virtual void Update(long tCurrent);
 	//Can overload to provide easy way of resetting camera pos etc. 
 	virtual void Reset();
