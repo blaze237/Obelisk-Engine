@@ -25,10 +25,7 @@ void FPSCamera::Update(long tCurrent)
 		//Handle mouse input
 		CheckRotation();
 
-		//Move cursor back to center, without this mouse is able to leave the window
-		glutWarpPointer(SceneManager::GetScreenW() / 2, SceneManager::GetScreenH() / 2);
-		mousePos.x = SceneManager::GetScreenW() / 2;
-		mousePos.y = SceneManager::GetScreenH() / 2;
+		WarpPointer();
 
 		//Set the view in opengl
 		SetCamMatrix();
@@ -60,10 +57,11 @@ void FPSCamera::CheckRotation()
 {
 	//Get change in mouse position
 	Vec2<int> newPos = InputManager::GetMousePos();
+
+
 	int dx = (float)(mousePos.x - newPos.x);
 	int dy = (float)(mousePos.y - newPos.y);
 
-	//if(dx)
 	//Use change in position to alter the view direction of the camera
 	viewDir -= u * (sensitivity * dx);
 	viewDir += v * (sensitivity * dy);
@@ -79,4 +77,12 @@ void FPSCamera::CheckRotation()
 
 	//Obtain our new forward (n) co-ord. No need to normalise as allready done this to view dir
 	n = viewDir;
+}
+
+void FPSCamera::WarpPointer()
+{
+	//Move cursor back to center, without this mouse is able to leave the window
+	glutWarpPointer(SceneManager::GetScreenW() / 2, SceneManager::GetScreenH() / 2);
+	mousePos.x = SceneManager::GetScreenW() / 2;
+	mousePos.y = SceneManager::GetScreenH() / 2;
 }

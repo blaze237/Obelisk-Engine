@@ -73,7 +73,6 @@ void Scene::Render()
 	mainCam->SetCamMatrix();
 
 	RenderSky();
-
 	//Grab camera frustum
 	std::vector<Plane> frustum = mainCam->GetFrustum();
 	//Tell each object in the scene to render itself
@@ -116,6 +115,8 @@ void Scene::Render()
 		for (std::shared_ptr<Light>& l : lights)
 			l->Render(LIGHT_IDS[i++]);
 	}
+
+
 }
 
 void Scene::Update(long tCurrent)

@@ -214,7 +214,7 @@ protected:
 	float matDif[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 	float matSpec[4] = { 0, 0, 0, 1 };
 	float matEmis[4] = { 0, 0, 0, 1 };
-	int   matShin = 0;
+	int   matShin = 0; //Range 0->128
 
 	//Is this object currently colliding with something underneath it (determined by wether gravity can be applied without causing a collision)
 	bool grounded = false;

@@ -88,7 +88,7 @@ void PhysicsCam::CheckMovement()
 		float vComponent = sqrtf(movSpeed*movSpeed / 2);
 		curVel = u * vComponent + n * -vComponent;
 	}
-
+	
 
 	//Re-add back on parents initial velocity that has been discared 
 	curVel.y = startVel.y;
@@ -97,11 +97,6 @@ void PhysicsCam::CheckMovement()
 	if (InputManager::Pressed(inputJump) && parent->IsGrounded())
 		curVel.y += jumpSpeed;
 
-	//Remove velocity when no longer inputting
-	if (InputManager::Released(inputL) || InputManager::Released(inputR))
-		curVel.x = 0;
-	if (InputManager::Released(inputU) || InputManager::Released(inputD))
-		curVel.z = 0;
 
 	//Apply velocity to parent object
 	parent->SetVelocity(curVel);

@@ -7,6 +7,8 @@ class PhsyicsCamParent :
 	public DisplayableObject
 {
 public:
+
+
 	PhsyicsCamParent(Vec3<float> pos, Vec3<float> bBoxSize, std::string tag, PhysicsCam &cam);
 	virtual ~PhsyicsCamParent();
 

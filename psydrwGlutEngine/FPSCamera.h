@@ -13,8 +13,12 @@ public:
 
 
 protected:
+	//Check for and apply movement input
 	virtual void CheckMovement();
+	//Check for and apply rotation (mouse) input
 	void CheckRotation();
+	//Keep the mouse in the centre of the screen;
+	void WarpPointer();
 	char inputL = 'a';
 	char inputU = 'w';
 	char inputR = 'd';

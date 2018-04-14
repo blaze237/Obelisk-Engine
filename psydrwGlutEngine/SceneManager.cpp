@@ -233,12 +233,14 @@ void SceneManager::HandleGLError()
 
 void SceneManager::DrawScreenString(std::string s, Vec2<int> pos, Colour c)
 {
+
 	//Temporarily disable lighting when drawing string to prevent it interfering witht the colour
 	glDisable(GL_LIGHTING);
 
 	//Move drawing to origin
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	glLoadIdentity();
 
 	//Switch to screen cooridantes and move drawing to origin
@@ -259,6 +261,7 @@ void SceneManager::DrawScreenString(std::string s, Vec2<int> pos, Colour c)
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 
+	glPopAttrib();
 
 	glEnable(GL_LIGHTING);
 }

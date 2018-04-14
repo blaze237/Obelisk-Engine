@@ -115,6 +115,9 @@
       <Filter>Game Objects</Filter>
     </ClCompile>
     <ClCompile Include="CullPlaneSwitch.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Chest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -201,6 +204,9 @@
       <Filter>Game Objects</Filter>
     </ClInclude>
     <ClInclude Include="CullPlaneSwitch.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Chest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

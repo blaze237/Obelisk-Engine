@@ -6,6 +6,7 @@ const double PI = M_PI;
 
 namespace MathHelp
 {
+	//Clamp a numerical value between two bounds
 	template <class T>
 	T Clamp(T val, T lb, T ub)
 	{
@@ -30,6 +31,7 @@ namespace MathHelp
 	}
 
 
+	//Get the maximum value from a set of 3
 	template <class T>
 	T Max3(T i, T j, T k)
 	{
@@ -44,6 +46,15 @@ namespace MathHelp
 		return i;
 	}
 
+
+	//Clamp each axis of a vector between two bounds
+	template <class T>
+	void Clamp(Vec3<T>& v, T lb, T ub)
+	{
+		v.x = Clamp<T>(v.x, lb, ub);
+		v.y = Clamp<T>(v.y, lb, ub);
+		v.z = Clamp<T>(v.z, lb, ub);
+	}
 
 
 	template <class T>

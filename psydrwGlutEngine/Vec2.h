@@ -19,6 +19,19 @@ public:
 	}
 
 	/***OPERATORS ***/
+
+	//Equality operator
+	bool operator==(const Vec2 &p2) const
+	{
+		return this->x == p2.x && this->y == p2.y;
+	}
+
+	//Inequality operator
+	bool operator!=(const Vec2 &p2) const
+	{
+		return !(*this == p2);
+	}
+
 	//Addition operator
 	Vec2 operator+(const Vec2 &p2) const{
 		Vec2 tmp;

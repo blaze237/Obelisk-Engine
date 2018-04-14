@@ -6,7 +6,7 @@
 #include "SceneManager.h"
 #include "CullPlane.h"
 #include "CullPlaneSwitch.h"
-
+#include "Chest.h"
 
 #define planeRes  2
 
@@ -70,7 +70,7 @@ DungeonScene::DungeonScene()
 	revCullplaneTrigger->SetIsTrigger(true);
 	objects.push_back(revCullplaneTrigger);
 
-	//Ground and roof
+//Ground and roof
 	//Ground grass outside
 	std::shared_ptr<DisplayableObject> floorGrass = std::make_shared<PlaneObj>(Vec3<float>(0, 50, -25), grassTex, "floor", planeRes, 40, 12);
 	floorGrass->SetScaleX(1000);
@@ -144,7 +144,6 @@ DungeonScene::DungeonScene()
 	step->SetScaleY(20);
 	step->SetCollidable(true);
 	objects.push_back(step);
-
 
 
 
@@ -391,17 +390,78 @@ DungeonScene::DungeonScene()
 	platform->SetCollidable(true);
 	objects.push_back(platform);
 
-	platform = std::make_shared<Cube>(Vec3<float>(-100, 80, 1120), "wall", mossRockTex, 2, 5.4);
+	platform = std::make_shared<Cube>(Vec3<float>(-90, 80, 1120), "wall", mossRockTex, 2, 5.4);
 	platform->SetScale(30);
 	platform->SetScaleY(80);
 	platform->SetCollidable(true);
 	objects.push_back(platform);
 
-	platform = std::make_shared<Cube>(Vec3<float>(-30, 80, 1120), "wall", mossRockTex, 2, 5.4);
+	platform = std::make_shared<Cube>(Vec3<float>(-10, 80, 1120), "wall", mossRockTex, 2, 5.4);
 	platform->SetScale(30);
 	platform->SetScaleY(80);
 	platform->SetCollidable(true);
 	objects.push_back(platform);
+
+	platform = std::make_shared<Cube>(Vec3<float>(70, 70, 1120), "wall", mossRockTex, 2, 4.1);
+	platform->SetScale(30);
+	platform->SetScaleY(60);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
+
+	platform = std::make_shared<Cube>(Vec3<float>(140, 70, 1120), "wall", mossRockTex, 2, 5.4);
+	platform->SetScale(30);
+	platform->SetScaleY(80);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
+
+	platform = std::make_shared<Cube>(Vec3<float>(210, 80, 1120), "wall", mossRockTex, 2, 5.4);
+	platform->SetScale(30);
+	platform->SetScaleY(80);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
+
+	platform = std::make_shared<Cube>(Vec3<float>(210, 80, 1045), "wall", mossRockTex, 2, 5.4);
+	platform->SetScale(30);
+	platform->SetScaleY(80);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
+
+	platform = std::make_shared<Cube>(Vec3<float>(150, 70, 1000), "wall", mossRockTex, 2, 4.1);
+	platform->SetScale(30);
+	platform->SetScaleY(60);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
+
+	platform = std::make_shared<Cube>(Vec3<float>(90, 70, 1040), "wall", mossRockTex, 2, 4.1);
+	platform->SetScale(30);
+	platform->SetScaleY(60);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
+
+	platform = std::make_shared<Cube>(Vec3<float>(20, 60, 1000), "wall", mossRockTex, 4, 2.7);
+	platform->SetScaleX(60);
+	platform->SetScaleZ(30);
+	platform->SetScaleY(40);
+	platform->SetCollidable(true);
+	objects.push_back(platform);
+
+	std::shared_ptr<DisplayableObject> chest = std::make_shared<Chest>(Vec3<float>(7, 85, 1000), "wall", Texture2D("../textures/chest2.png"), 1, 1);
+	chest->SetScaleX(20);
+	chest->SetScaleZ(10);
+	chest->SetScaleY(10);
+	chest->SetOrientationY(-90);
+	chest->SetCollidable(true);
+	chest->SetIsTrigger(true);
+	objects.push_back(chest);
+
+	std::shared_ptr<DisplayableObject> chestCollider = std::make_shared<Cube>(Vec3<float>(7, 85, 1000), "wall", Texture2D("../textures/chest2.png"));
+	chestCollider->SetScaleX(20);
+	chestCollider->SetScaleZ(10);
+	chestCollider->SetScaleY(10);
+	chestCollider->SetOrientationY(-90);
+	chestCollider->SetCollidable(true);
+	chestCollider->SetRenderable(false);
+	objects.push_back(chestCollider);
 
 	//Walls
 	wall = std::make_shared<Cube>(Vec3<float>(275, 75, 1065), "wall", cobbleTex, 14.5, 5);
