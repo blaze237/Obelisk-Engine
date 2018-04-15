@@ -28,9 +28,6 @@
     <Filter Include="Game Objects\Prefabs">
       <UniqueIdentifier>{90feb5da-5853-46a8-938f-c08407e12e39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Levels\Testing">
-      <UniqueIdentifier>{41e73fff-b63b-4e16-9852-d5ddbf632934}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Interfaces">
       <UniqueIdentifier>{3f4edc16-de64-488f-8e56-3cb17c26e0d9}</UniqueIdentifier>
     </Filter>
@@ -62,18 +59,6 @@
     </ClCompile>
     <ClCompile Include="Spotlight.cpp">
       <Filter>Game Objects\Prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="TestObject.cpp">
-      <Filter>Levels\Testing</Filter>
-    </ClCompile>
-    <ClCompile Include="TestScene.cpp">
-      <Filter>Levels\Testing</Filter>
-    </ClCompile>
-    <ClCompile Include="TestObject2.cpp">
-      <Filter>Levels\Testing</Filter>
-    </ClCompile>
-    <ClCompile Include="TriggerTest.cpp">
-      <Filter>Levels\Testing</Filter>
     </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Engine\Util</Filter>
@@ -120,6 +105,9 @@
     <ClCompile Include="Chest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ShadowPlane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Colour.h">
@@ -151,18 +139,6 @@
     </ClInclude>
     <ClInclude Include="Spotlight.h">
       <Filter>Game Objects\Prefabs</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject2.h">
-      <Filter>Levels\Testing</Filter>
-    </ClInclude>
-    <ClInclude Include="TriggerTest.h">
-      <Filter>Levels\Testing</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject.h">
-      <Filter>Levels\Testing</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScene.h">
-      <Filter>Levels\Testing</Filter>
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
       <Filter>Engine\Util</Filter>
@@ -207,6 +183,9 @@
       <Filter>Game Objects</Filter>
     </ClInclude>
     <ClInclude Include="Chest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowPlane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -147,13 +147,10 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ShadowPlane.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Spotlight.cpp" />
-    <ClCompile Include="TestObject.cpp" />
-    <ClCompile Include="TestObject2.cpp" />
-    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Texture2D.cpp" />
-    <ClCompile Include="TriggerTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoundingBox.h" />
@@ -176,13 +173,10 @@
     <ClInclude Include="PlaneObj.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ShadowPlane.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Spotlight.h" />
-    <ClInclude Include="TestObject.h" />
-    <ClInclude Include="TestObject2.h" />
-    <ClInclude Include="TestScene.h" />
     <ClInclude Include="Texture2D.h" />
-    <ClInclude Include="TriggerTest.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
   </ItemGroup>

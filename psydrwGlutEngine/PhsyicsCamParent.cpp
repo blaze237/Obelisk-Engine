@@ -18,6 +18,7 @@ PhsyicsCamParent::~PhsyicsCamParent()
 {
 }
 
+
 void PhsyicsCamParent::OnCollide(std::string tag)
 {
 	cam.OnCollide(tag);

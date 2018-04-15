@@ -51,7 +51,7 @@ void Chest::Update(long tCurrent)
 	if (playAnim && dt >= ANIM_RATE)
 	{
 		if (LidAngle < LID_ANGLE_MAX)
-			LidAngle++;
+			++LidAngle;
 		
 		else
 			playAnim = false;

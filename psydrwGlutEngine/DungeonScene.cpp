@@ -7,7 +7,7 @@
 #include "CullPlane.h"
 #include "CullPlaneSwitch.h"
 #include "Chest.h"
-
+#include "ShadowPlane.h"
 #define planeRes  2
 
 
@@ -23,6 +23,9 @@ DungeonScene::DungeonScene()
 
 	PhysicsCam& d = dynamic_cast<PhysicsCam&>(*mainCam);
 	dynamic_cast<PhysicsCam&>(*mainCam).RegisterParent(camParent);
+
+
+	
 
 	//Set up skybox
 	std::vector<Texture2D> sBoxTs;
@@ -97,6 +100,8 @@ DungeonScene::DungeonScene()
 	roof->SetScaleZ(1000);
 	roof->SetOrientationZ(180);
 	objects.push_back(roof);
+
+
 
 //Outer Walls
 
@@ -519,6 +524,16 @@ DungeonScene::DungeonScene()
 	wall->SetScaleZ(10);
 	wall->SetScaleY(100);
 	objects.push_back(wall);
+
+
+
+	std::shared_ptr<DisplayableObject> shad = std::make_shared<ShadowPlane>(Vec3<float>(0, 52, -50), Texture2D("../textures/shadow.png"), "floor", dynamic_cast<DisplayableObject&>(*camParent), 10);
+	shad->SetScaleX(10);
+	shad->SetScaleZ(10);
+	objects.push_back(shad);
+
+
+
 }
 
 
