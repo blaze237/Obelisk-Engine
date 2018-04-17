@@ -8,6 +8,10 @@
 #include "CullPlaneSwitch.h"
 #include "Chest.h"
 #include "ShadowPlane.h"
+#include "AllignedSprite.h"
+#include "Cylinder.h"
+#include "Cone.h"
+
 #define planeRes  2
 
 
@@ -24,8 +28,14 @@ DungeonScene::DungeonScene()
 	PhysicsCam& d = dynamic_cast<PhysicsCam&>(*mainCam);
 	dynamic_cast<PhysicsCam&>(*mainCam).RegisterParent(camParent);
 
+	std::shared_ptr<DisplayableObject> cyl = std::make_shared<Cone>(Vec3<float>(0, 50, 10), "cyl", Texture2D("../textures/wood.png"));
+	cyl->SetScale(20);
+	cyl->SetScaleY(40);
 
+	objects.push_back(cyl);
 	
+
+
 
 	//Set up skybox
 	std::vector<Texture2D> sBoxTs;
@@ -527,12 +537,17 @@ DungeonScene::DungeonScene()
 
 
 
+
+	std::shared_ptr<DisplayableObject> sprite = std::make_shared<AllignedSprite>(Vec3<float>(0, 110, 10), Texture2D("../textures/flameSprites.png"), "sprite", dynamic_cast<Camera&>(*mainCam), 25, 256, 40);
+	sprite->SetScaleX(50);
+	sprite->SetScaleZ(50);
+	sprite->SetOrientationX(-90);
+	objects.push_back(sprite);
+
 	std::shared_ptr<DisplayableObject> shad = std::make_shared<ShadowPlane>(Vec3<float>(0, 52, -50), Texture2D("../textures/shadow.png"), "floor", dynamic_cast<DisplayableObject&>(*camParent), 10);
 	shad->SetScaleX(10);
 	shad->SetScaleZ(10);
 	objects.push_back(shad);
-
-
 
 }
 

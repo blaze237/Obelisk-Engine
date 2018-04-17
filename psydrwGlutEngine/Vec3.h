@@ -169,6 +169,8 @@ public:
 		return (x * v2.x) + (y * v2.y) + (z * v2.z);
 	}
 
+
+
 	/***GETTERS AND SETTERS ***/
 	inline T getX() const
 	{

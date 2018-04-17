@@ -26,6 +26,8 @@ int main(int argc, char **argv)
 	//Set the scene to initialy run
 	sm.SetScene(0);
 
+
+
 	//Start the engine
 	sm.Start();
 	

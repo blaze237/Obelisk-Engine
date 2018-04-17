@@ -15,6 +15,7 @@ public:
 private:
 	Vec3<float> point;
 	Vec3<float> normal;
+	//From plane equation (Ax + By + Cz + D = 0)
 	float D;
 };
 

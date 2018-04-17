@@ -6,6 +6,7 @@ const double PI = M_PI;
 
 namespace MathHelp
 {
+
 	//Clamp a numerical value between two bounds
 	template <class T>
 	T Clamp(T val, T lb, T ub)

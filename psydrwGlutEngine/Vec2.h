@@ -131,6 +131,12 @@ public:
 		return (x * v2.x) + (y * v2.y);
 	}
 
+	//Calculate the determinant between two vectors
+	inline T Det(const Vec2<T> v2) const
+	{
+		return (x * v2.y) - (y * v2.x);
+	}
+
 	/***GETTERS AND SETTERS ***/
 	inline T getX() const
 	{
