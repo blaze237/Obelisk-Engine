@@ -4,7 +4,8 @@ class Spotlight :
 	public Light
 {
 public:
-	Spotlight(Vec3<float>pos, Colour ambient, Colour diffuse, Colour specular, Vec3<float> direction);
+	Spotlight(Vec3<float>pos, Colour ambient, Vec3<int> diffuse, Colour specular, Vec3<float> direction);
+	Spotlight(Vec3<float>pos, Colour ambient, Vec3<int> diffuse, Colour specular, Vec3<float> direction, float radius);
 	virtual ~Spotlight();
 
 	virtual void Render(GLenum lightID);
@@ -13,6 +14,8 @@ public:
 	{
 
 	}
+
+	
 
 	inline void SetDirection(Vec3<float> direction)
 	{
@@ -31,20 +34,8 @@ public:
 		exponent = exp;
 	}
 
-	inline void SetConstAttenuation(int v)
-	{
-		constAttenuation = v;
-	}
 
-	inline void SetLinearAttenuation(int v)
-	{
-		linearAttenuation = v;
-	}
 
-	inline void SetExpAttenuation(int v)
-	{
-		expAttenuation = v;
-	}
 
 private:
 	//Direction the spotlight is shining in
@@ -53,12 +44,7 @@ private:
 	int cuttOff = 45;
 	//Controlls the intensity of the light with angle, lower -> more uniform and more spread
 	int exponent = 25;
-	//Attenuation values
-	int constAttenuation = 1;
-	int linearAttenuation = 0;
-	int expAttenuation = 0;
 
 
-	void DebugRender();
 };
 

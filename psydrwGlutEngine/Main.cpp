@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 
 	//Create an instance of the engine
 	SceneManager sm(argc, argv, "Dungeon Demo");
-	SceneManager::EnableGameMode("2560x1440:32@120");
+	//SceneManager::EnableGameMode("2560x1440:32@120");
 	//Register your scenes
 	sm.AddScene(std::make_unique<DungeonScene>());
 	//sm.AddScene(std::make_unique<TestScene>());

@@ -26,7 +26,8 @@ public:
 	//Default empty update. Overide for logic/animations/phsyics etc
 	virtual void Update(long tCurrent);
 	//Collision handler. Default implemnation does nothing on collision.
-	virtual void OnCollide(std::string tag);
+	//Return value tells physics engine what to do with collision. If return TRUE, then the collision will be IGNORED when applying object velocity. In 99% of cases youll want to leave this returning false but is usefull for ignoring certain specific collision pairs
+	virtual bool OnCollide(std::string tag);
 	//Trigger collision handler. Default does nothing
 	virtual void OnTrigger(std::string tag);
 
@@ -52,15 +53,22 @@ public:
 	{
 		return rotVelocity;
 	}
+	//Is this object currently considered grounded by the physics system
 	inline bool IsGrounded() const
 	{
 		return grounded;
 	}
+	//Are back faces being culled for this object or not
+	inline bool IsBackfaceCull() const
+	{
+		return cullBackFaces;
+	}
+
 	inline int GetGroundID() const
 	{
 		return groundID;
 	}
-	inline const BoundingBox& GetBBox() const
+	inline const  virtual BoundingBox& GetBBox() const
 	{
 		return bBox;
 	}
@@ -198,6 +206,10 @@ public:
 	{
 		renderable = b;
 	}
+	inline void SetBackfaceCull(bool b)
+	{
+		cullBackFaces = b;
+	}
 
 
 protected:
@@ -208,6 +220,8 @@ protected:
 	Vec3<float> rotVelocity;
 	BoundingBox bBox;
 	bool renderCollider = false;
+	//Set to false to allow rendering of both front and back faces for this object.
+	bool cullBackFaces = true;
 
 	//Material properites for object
 	float matAmb[4] = { 0.2f, 0.2f, 0.2f, 1.0f };

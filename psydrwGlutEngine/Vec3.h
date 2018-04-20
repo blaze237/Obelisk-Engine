@@ -76,6 +76,17 @@ public:
 
 		return tmp;
 	}
+
+	//Elementwise vector multiplication operator
+	Vec3 operator*(const Vec3<T> &m) const
+	{
+		Vec3 tmp;
+		tmp.x = this->x * m.x;
+		tmp.y = this->y * m.y;
+		tmp.z = this->z * m.z;
+
+		return tmp;
+	}
 	//Addition assignment operator
 	Vec3& operator+=(const Vec3 &p2) 
 	{
@@ -145,6 +156,9 @@ public:
 	inline void Normalise()
 	{
 		T mag = getMagnitude();
+
+		if (mag == 0)
+			return;
 
 		x /= mag;
 		y /= mag;

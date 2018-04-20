@@ -45,7 +45,8 @@ void SceneManager::Init()
 	Colour bgCol(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearColor(bgCol.r, bgCol.g, bgCol.b, bgCol.a);
 
-	float vAmbientLightBright[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
+	float vAmbientLightBright[4] = { 0.05f, 0.05f, 0.05f, 1.0f };
+	//float vAmbientLightBright[4] = { 0, 0, 0, 1.0f };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, vAmbientLightBright);
 
 	//Place cursor in center of window
@@ -72,6 +73,7 @@ void SceneManager::Init()
 	// Turn off 2 sided lighting
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
 
+	//Turn on normal lighting
 	glEnable(GL_LIGHTING);
 
 	// Enable smooth shading from lighting
@@ -80,7 +82,7 @@ void SceneManager::Init()
 	// Enable automatic normalisation of normal vectors
 	glEnable(GL_NORMALIZE);
 
-	//Register the render function with freeglut. We actualy manage all rendering manualy but freeglut requires us to register a render method in order to function
+	//Register the render function with freeglut. We actualy manage all rendering manualy but freeglut requires us to register a method in order to function so use a dummy function
 	glutDisplayFunc(NullFunct);
 
 	//Check and handle any errors

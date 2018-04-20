@@ -2,8 +2,8 @@
 #include "SceneManager.h"
 #include "PhsyicsCamParent.h"
 
-PhysicsCam::PhysicsCam(Vec3<float> eyePos, Vec3<float> viewDir)
-	:FPSCamera(eyePos, viewDir)
+PhysicsCam::PhysicsCam(Vec3<float> eyePos, Vec3<float> viewDir,	Throwable& throwable)
+	:FPSCamera(eyePos, viewDir), throwable(throwable)
 {
 }
 
@@ -19,6 +19,19 @@ void PhysicsCam::Update(long tCurrent)
 
 	eyePos = parent->GetPos();
 	FPSCamera::Update(tCurrent);
+
+	//Check for attack input
+	if (InputManager::Pressed(InputManager::MOUSE_LEFT))
+		Fire();
+
+}
+
+void PhysicsCam::Fire()
+{
+	Vec3<float> speed = n * throwSpeed;
+	speed.y = MathHelp::Clamp(speed.y, 2.f, throwSpeed);;
+	PrintVector(speed);
+	throwable.Activate(speed, eyePos);
 }
 
 void PhysicsCam::CheckMovement()

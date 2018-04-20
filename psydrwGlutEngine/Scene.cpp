@@ -67,10 +67,30 @@ bool Scene::ObjectInFrustum(std::shared_ptr<DisplayableObject>& object, std::vec
 
 }
 
+bool LightInView(std::shared_ptr<Light>& light, std::vector<Plane>& frustum)
+{
+	float dist;
+	Vec3<float> pos = light->GetPos();
+
+
+	int k = 0;
+	for (Plane p : frustum)
+	{
+		dist = p.DistTo(pos);
+
+		if (dist < -200)
+			return false;
+
+	}
+
+	return true;
+}
+
 void Scene::Render()
 {
 	//Set up camera properites
 	mainCam->SetCamMatrix();
+
 
 	RenderSky();
 	//Grab camera frustum
@@ -86,9 +106,11 @@ void Scene::Render()
 		o->RenderObject();
 	}
 
+	//for (GLenum id : LIGHT_IDS)
+	//	glDisable(id);
 
 	//TODO
-		//Set flag for each light to say if it is within the frustum or not. Then get 8 closest in frustum
+	//	Set flag for each light to say if it is within the frustum or not. Then get 8 closest in frustum
 
 	//Render the lights
 	if (lights.size() > 8)
@@ -107,13 +129,20 @@ void Scene::Render()
 		});
 
 		for (int i = 0; i < 8; ++i)
-			lights[i]->Render(LIGHT_IDS[i]);
+		{
+			//if (LightInView(lights[i], frustum))
+				lights[i]->Render(LIGHT_IDS[i]);
+		}
 	}
 	else
 	{
 		int i = 0;
 		for (std::shared_ptr<Light>& l : lights)
-			l->Render(LIGHT_IDS[i++]);
+		{
+			//if(LightInView(l, frustum))
+				l->Render(LIGHT_IDS[i++]);
+
+		}
 	}
 
 
@@ -147,7 +176,7 @@ void Scene::PhysicsUpdate()
 		//Non kinematic objects handle their own position and velocity logic
 		if (!object->IsKinematic())
 			continue;
-		
+
 		//Apply gravity to y velocity (if y velocity is currently less than gravity)
 		if (object->GetVelocity().y > -gravity)
 			object->SetVelocityY((object->GetVelocity().y - gravity / 10.f) < -gravity ? -gravity : object->GetVelocity().y - gravity / 10.f);
@@ -166,15 +195,19 @@ void Scene::PhysicsUpdate()
 		//Apply friction to grounded objects
 		if (object->IsGrounded())
 		{
+			float k = abs(object->GetVelocity().x) / abs(object->GetVelocity().z);
+			float fricX = friction * (k / (k + 1.f));
+			float fricZ = friction * (1 / (k + 1.f));
+
 			if (object->GetVelocity().x > 0)
-				object->SetVelocityX((object->GetVelocity().x - friction) < 0 ? 0 : object->GetVelocity().x - friction);
+				object->SetVelocityX((object->GetVelocity().x - fricX) < 0 ? 0 : object->GetVelocity().x - fricX);
 			else if (object->GetVelocity().x < 0)
-				object->SetVelocityX((object->GetVelocity().x + friction) > 0 ? 0 : object->GetVelocity().x + friction);
+				object->SetVelocityX((object->GetVelocity().x + fricX) > 0 ? 0 : object->GetVelocity().x + fricX);
 
 			if (object->GetVelocity().z > 0)
-				object->SetVelocityZ((object->GetVelocity().z - friction) < 0 ? 0 : object->GetVelocity().z - friction);
+				object->SetVelocityZ((object->GetVelocity().z - fricZ) < 0 ? 0 : object->GetVelocity().z - fricZ);
 			else if (object->GetVelocity().z < 0)
-				object->SetVelocityZ((object->GetVelocity().z + friction) > 0 ? 0 : object->GetVelocity().z + friction);
+				object->SetVelocityZ((object->GetVelocity().z + fricZ) > 0 ? 0 : object->GetVelocity().z + fricZ);
 		}
 
 
@@ -189,7 +222,7 @@ void Scene::PhysicsUpdate()
 
 		//For non rotated boxes, we can skip checking for rot vel
 		#ifdef ALLIGNED_COLLISIONS
-		break;
+			continue;
 		#endif // ALLIGNED_COLLISIONS
 
 	//Apply rotational velocity in each direction if doing so wont cause a collision
@@ -240,11 +273,10 @@ std::pair <int, bool>  Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>& 
 				{
 					//Let the object know a collision has occured and with what
 					if (counter == 0)
-						object->OnCollide(objects[i]->TAG);
-					collision = true;
+						collision = !object->OnCollide(objects[i]->TAG);
 					firstColID = objects[i]->ID;
 					//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
-					if (!object->IsMultiCollisionMode())
+					if (!object->IsMultiCollisionMode() && collision)
 						break;
 				}
 				//Handle possible trigger configurations
@@ -335,10 +367,9 @@ bool Scene::ApplyRotVelocity(std::shared_ptr<DisplayableObject>& object, Vec3<fl
 				if (!objects[i]->GetBBox().IsTrigger() && !object->GetBBox().IsTrigger())
 				{
 					//Let the object know a collision has occured and with what
-					object->OnCollide(objects[i]->TAG);
-					collision = true;
+					collision = !object->OnCollide(objects[i]->TAG);
 					//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
-					if (!object->IsMultiCollisionMode())
+					if (!object->IsMultiCollisionMode() && collision)
 						break;
 				}
 				//Handle possible trigger configurations

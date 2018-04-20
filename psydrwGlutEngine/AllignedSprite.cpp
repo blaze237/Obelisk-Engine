@@ -44,7 +44,7 @@ void AllignedSprite::Render()
 	glBegin(GL_QUADS);
 
 
-	glNormal3f(0, 1, 0);
+	glNormal3f(0, -1, 0);
 	//Top left
 	glTexCoord2f(frameXStart, 1);
 	glVertex3f(-0.5, 0, 0.5);
@@ -81,6 +81,7 @@ void AllignedSprite::AllignToCam()
 	//Get the sprites current normal in world space
 	Vec2<float> curNorm = CalcNormal();
 
+
 	//If allready alligned, do nothing
 	if (camNorm == curNorm)
 		return;
@@ -88,6 +89,11 @@ void AllignedSprite::AllignToCam()
 	//Use the dot product and determinent to get the sine and cosine of angle in y between our current normal and desired one (-ve cam view dir)
 	float dot = curNorm.DotProd(camNorm);
 	float det = curNorm.Det(camNorm);
+
+	//If the plane and cam are perpendicular then cannot align so break out
+	if (dot == 0 && det == 0)
+		return;
+
 	//Get the angle
 	float angle = MathHelp::ToDegrees(atan2(det, dot));
 	//Rotate by this angle to align the normal
@@ -107,16 +113,22 @@ Vec2<float> AllignedSprite::CalcNormal()
 
 
 	//Apply the sprites rotation so points are alligned correctly in local space
-	A = MathHelp::RotatePoint(A, orientation);
-	B = MathHelp::RotatePoint(B, orientation);
-	C = MathHelp::RotatePoint(C, orientation);
+	if (orientation.x != 0 || orientation.y != 0 || orientation.z != 0)
+	{
+		A = MathHelp::RotatePoint(A, orientation);
+		B = MathHelp::RotatePoint(B, orientation);
+		C = MathHelp::RotatePoint(C, orientation);
+	}
 
 	//Apply sprite translation to get points in correct position in world space
 	A = A + pos;
 	B = B + pos;
 	C = C + pos;
 
+	
+
 	Vec3<float> norm = (B - A).CrossProd(C - A);
+
 	norm.Normalise();
 	//We only care about the component of the normal within the x-z plane, so just extract those parts
 	Vec2<float> norm2D(norm.x, norm.z);
@@ -124,4 +136,3 @@ Vec2<float> AllignedSprite::CalcNormal()
 	
 	return norm2D;
 }
-

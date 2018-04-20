@@ -24,9 +24,15 @@ void DisplayableObject::RenderObject()
 	if (!renderable)
 		return;
 
+	//Each object works on its own matrix and attribute stack
 	glPushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	
+
+	//Disable back face culling if needed
+	if(!cullBackFaces)
+		glDisable(GL_CULL_FACE);
+
+	//Set material properites
 	glMaterialfv(GL_FRONT, GL_AMBIENT, matAmb);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, matDif);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
@@ -49,6 +55,9 @@ void DisplayableObject::RenderObject()
 	//Draw the object
 	Render();
 
+	//Re-enable back face culling
+	if(!cullBackFaces)
+		glEnable(GL_CULL_FACE);
 
 
 	glPopAttrib();
@@ -59,8 +68,9 @@ void DisplayableObject::Update(long tCurrent)
 {
 }
 
-void DisplayableObject::OnCollide(std::string tag)
+bool DisplayableObject::OnCollide(std::string tag)
 {
+	return false;
 }
 
 void DisplayableObject::OnTrigger(std::string tag)

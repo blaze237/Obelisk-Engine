@@ -147,6 +147,7 @@
     <ClCompile Include="PhysicsCam.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PlaneObj.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -154,6 +155,8 @@
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Spotlight.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="Throwable.cpp" />
+    <ClCompile Include="Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllignedSprite.h" />
@@ -177,12 +180,15 @@
     <ClInclude Include="PhysicsCam.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="PlaneObj.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ShadowPlane.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Spotlight.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Throwable.h" />
+    <ClInclude Include="Torch.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
   </ItemGroup>

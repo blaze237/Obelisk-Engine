@@ -64,6 +64,7 @@ public:
 
 public:
 	float width, height, depth;
+	//Relative offset to apply to bbox world position. Scales with parent scale
 	Vec3<float> offset;
 	//Keeps a reference to parent object position so that can use it to determine box wordlspace bounds at any given point.
 	const Vec3<float>& parentPos;

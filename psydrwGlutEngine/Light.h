@@ -5,7 +5,7 @@
 class Light
 {
 public:
-	Light(Vec3<float> position, Colour amb, Colour dif, Colour spec, bool directional);
+	Light(Vec3<float> position, Colour amb, Vec3<int> dif, Colour spec, bool directional);
 	virtual ~Light();
 
 	//Use this function for actualy registering the light with opengl.
@@ -15,6 +15,10 @@ public:
 	//Hanlde any movement etc
 	virtual void Update(long tCurrent) = 0;
 
+	inline bool IsPositional() const
+	{
+		return pos[3] == 1.0f ? true : false;
+	}
 
 	//Setter functions, wrap arrays with Vec3's and Colour's to make it nicer to use
 	inline void SetPos(Vec3<float> position)
@@ -53,11 +57,28 @@ public:
 		spec[3] = specular.a;
 	}
 
+	inline virtual void SetRadius(float r)
+	{
+		radius = r;
+	}
+
+	inline float GetRadius() const
+	{
+		return radius;
+	}
+
+
+
+
 
 protected:
 	float pos[4];
-	float amb[4];
-	float dif[4];
-	float spec[4];
+	GLfloat amb[4];
+	GLfloat dif[4];
+	GLfloat spec[4];
+	//Radius of the lights influence. Used to set attenuation
+	float radius = 5;
+
+	void DebugRender();
 };
 

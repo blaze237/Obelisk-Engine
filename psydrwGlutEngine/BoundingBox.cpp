@@ -70,7 +70,8 @@ void BoundingBox::Render() const
 	glEnd();
 
 	glPopAttrib();
-	glPopMatrix();}
+	glPopMatrix();
+}
 
 std::vector<Vec3<float>> BoundingBox::GetIndicies() const
 {
@@ -107,6 +108,7 @@ std::vector<Vec3<float>> BoundingBox::GetIndicies() const
 		}
 
 		//Apply parent translation to the indicies to convert positions into world
+		Vec3<float> offset = this->offset * parentScale;
 		ind[0] = offset + parentPos + ind[0];
 		ind[1] = offset + parentPos + ind[1];
 		ind[2] = offset + parentPos + ind[2];

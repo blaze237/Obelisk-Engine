@@ -121,6 +121,9 @@ public:
 	{
 		double mag = getMagnitude();
 
+		if (mag == 0)
+			return;
+
 		x /= mag;
 		y /= mag;
 	}
@@ -164,3 +167,8 @@ public:
 
 };
 
+template<class T>
+void PrintVector(Vec2<T>v)
+{
+	std::cout << "X: " << v.x << " Y: " << v.y << std::endl;
+}
