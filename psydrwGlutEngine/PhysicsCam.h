@@ -46,7 +46,7 @@ private:
 	//Throwable projectile object reference. Used to enable and disable the object and set its velocity
 	Throwable& throwable;
 	//What velocity to give to throwables in the direction of cam view dir
-	float throwSpeed = 5;
+	float throwSpeed = 14;
 
 	bool sprint = false;
 	std::shared_ptr<DisplayableObject> parent;

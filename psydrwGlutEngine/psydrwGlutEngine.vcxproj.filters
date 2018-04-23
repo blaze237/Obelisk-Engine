@@ -124,6 +124,15 @@
       <Filter>Game Objects\Prefabs</Filter>
     </ClCompile>
     <ClCompile Include="Throwable.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Target.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -222,6 +231,15 @@
       <Filter>Game Objects\Prefabs</Filter>
     </ClInclude>
     <ClInclude Include="Throwable.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Target.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Game Objects\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,6 +14,7 @@ Scene::~Scene()
 {
 }
 
+//Check if a bounding box intersects the frustum
 bool Scene::ObjectInFrustumBBox(std::shared_ptr<DisplayableObject>& object, std::vector<Plane>& frustum)
 {
 	float dist = 0;
@@ -45,7 +46,7 @@ bool Scene::ObjectInFrustumBBox(std::shared_ptr<DisplayableObject>& object, std:
 	return inFrustum;
 }
 
-//We dont distinguish between frustum in and intersection. Just treat as being in the frustrum.
+//Check if a bounding sphere intersects the frustum
 bool Scene::ObjectInFrustum(std::shared_ptr<DisplayableObject>& object, std::vector<Plane>& frustum)
 {
 	float dist;
@@ -106,6 +107,7 @@ void Scene::Render()
 		o->RenderObject();
 	}
 
+//Disabled for now. Used in frustrum culling of lights, but this needs work as is too agressive atm
 	//for (GLenum id : LIGHT_IDS)
 	//	glDisable(id);
 
@@ -177,8 +179,8 @@ void Scene::PhysicsUpdate()
 		if (!object->IsKinematic())
 			continue;
 
-		//Apply gravity to y velocity (if y velocity is currently less than gravity)
-		if (object->GetVelocity().y > -gravity)
+		//Apply gravity to y velocity (if y velocity is currently less than gravity and the object is subject to gravity)
+		if (object->GetVelocity().y > -gravity && !object->IsWeightless())
 			object->SetVelocityY((object->GetVelocity().y - gravity / 10.f) < -gravity ? -gravity : object->GetVelocity().y - gravity / 10.f);
 
 	
@@ -273,7 +275,10 @@ std::pair <int, bool>  Scene::ApplyVelocity(std::shared_ptr<DisplayableObject>& 
 				{
 					//Let the object know a collision has occured and with what
 					if (counter == 0)
+					{
 						collision = !object->OnCollide(objects[i]->TAG);
+						objects[i]->OnCollide(object->TAG);
+					}
 					firstColID = objects[i]->ID;
 					//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
 					if (!object->IsMultiCollisionMode() && collision)
@@ -368,6 +373,8 @@ bool Scene::ApplyRotVelocity(std::shared_ptr<DisplayableObject>& object, Vec3<fl
 				{
 					//Let the object know a collision has occured and with what
 					collision = !object->OnCollide(objects[i]->TAG);
+					objects[i]->OnCollide(object->TAG);
+
 					//only care about a collision not all for movement handling, but can get all for logic updates if the object being tested wishes to.
 					if (!object->IsMultiCollisionMode() && collision)
 						break;

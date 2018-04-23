@@ -12,43 +12,63 @@ c:\users\daniel\obelisk-engine\psydrwglutengine\torch.h(10): warning C4305: 'arg
 c:\users\daniel\obelisk-engine\psydrwglutengine\torch.h(11): warning C4305: 'argument': truncation from 'double' to 'float'
 c:\users\daniel\obelisk-engine\psydrwglutengine\torch.h(50): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\users\daniel\obelisk-engine\psydrwglutengine\pointlight.h(35): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(129): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(130): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(131): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(152): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(153): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(154): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(608): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(616): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(626): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(634): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(689): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(697): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(705): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(714): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(723): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(732): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(741): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(751): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(760): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(25): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(166): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(167): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(168): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(189): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(190): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(191): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(649): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(650): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(651): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(652): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(660): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(661): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(662): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(663): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(671): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(672): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(673): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(674): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(682): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(687): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(719): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(727): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(737): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(745): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(800): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(808): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(816): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(825): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(834): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(843): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(852): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(862): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(871): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\daniel\obelisk-engine\psydrwglutengine\mathhelp.h(32): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
   c:\users\daniel\obelisk-engine\psydrwglutengine\camera.h(95): note: see reference to function template instantiation 'T MathHelp::ToRadians<float>(T)' being compiled
           with
           [
               T=float
           ]
 c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1849): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1913): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D&,const char(&)[6],int,int,int>(Vec3<float> &&,Texture2D &,const char (&)[6],int &&,int &&,int &&)' being compiled
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1913): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D,const char(&)[6],_Ty2&,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],_Ty2 &,int &&)' being compiled
           with
           [
-              _Ty=PlaneObj
+              _Ty=ShadowPlane,
+              _Ty2=DisplayableObject
           ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1914): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D&,const char(&)[6],int,int,int>(Vec3<float> &&,Texture2D &,const char (&)[6],int &&,int &&,int &&)' being compiled
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1914): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D,const char(&)[6],_Ty2&,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],_Ty2 &,int &&)' being compiled
           with
           [
-              _Ty=PlaneObj
+              _Ty=ShadowPlane,
+              _Ty2=DisplayableObject
           ]
-  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(91): note: see reference to function template instantiation 'std::shared_ptr<PlaneObj> std::make_shared<PlaneObj,Vec3<float>,Texture2D&,const char(&)[6],int,int,int>(Vec3<float> &&,Texture2D &,const char (&)[6],int &&,int &&,int &&)' being compiled
+  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(91): note: see reference to function template instantiation 'std::shared_ptr<ShadowPlane> std::make_shared<ShadowPlane,Vec3<float>,Texture2D,const char(&)[6],_Ty2&,int>(Vec3<float> &&,Texture2D &&,const char (&)[6],_Ty2 &,int &&)' being compiled
+          with
+          [
+              _Ty2=DisplayableObject
+          ]
 c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1849): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.12.25827\include\memory(1913): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Vec3<float>,Texture2D&,const char(&)[5],int,int,double>(Vec3<float> &&,Texture2D &,const char (&)[5],int &&,int &&,double &&)' being compiled
           with
@@ -60,5 +80,5 @@ c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.1
           [
               _Ty=PlaneObj
           ]
-  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(104): note: see reference to function template instantiation 'std::shared_ptr<PlaneObj> std::make_shared<PlaneObj,Vec3<float>,Texture2D&,const char(&)[5],int,int,double>(Vec3<float> &&,Texture2D &,const char (&)[5],int &&,int &&,double &&)' being compiled
+  c:\users\daniel\obelisk-engine\psydrwglutengine\dungeonscene.cpp(139): note: see reference to function template instantiation 'std::shared_ptr<PlaneObj> std::make_shared<PlaneObj,Vec3<float>,Texture2D&,const char(&)[5],int,int,double>(Vec3<float> &&,Texture2D &,const char (&)[5],int &&,int &&,double &&)' being compiled
   psydrwGlutEngine.vcxproj -> C:\Users\Daniel\Obelisk-Engine\Debug\psydrwGlutEngine.exe

@@ -34,7 +34,7 @@ void Cylinder::Render()
 	glBindTexture(GL_TEXTURE_2D, texture.getID());
 
 	//Going to loop around the rim of cyldiner of height 1, radius 0.5 and angular some resolution
-	float res = resolution *M_PI;
+	float res = resolution * M_PI;
 	float x = 0.5;
 	float z = 0.f;         
 	float theta = 2 * M_PI;             

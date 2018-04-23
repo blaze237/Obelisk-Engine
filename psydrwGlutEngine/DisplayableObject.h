@@ -92,6 +92,10 @@ public:
 	{
 		return renderable;
 	}
+	inline bool IsWeightless() const
+	{
+		return weightless;
+	}
 
 	//Setters
 	inline void SetPos(const Vec3<float>& p)
@@ -210,7 +214,10 @@ public:
 	{
 		cullBackFaces = b;
 	}
-
+	inline void SetWeightless(bool b)
+	{
+		weightless = b;
+	}
 
 protected:
 	Vec3<float> pos;
@@ -243,7 +250,8 @@ protected:
 	bool collidable = false;
 	//Should this object be rendered
 	bool renderable = true;
-
+	//If this object is kinematic, should it be subject to gravity or not
+	bool weightless = false;
 
 	static unsigned int nextID;
 };

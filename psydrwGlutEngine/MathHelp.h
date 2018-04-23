@@ -6,6 +6,13 @@ const double PI = M_PI;
 
 namespace MathHelp
 {
+	//Get the sign (+.- or 0) of a value
+	template <class T>
+	int Sgn(T x)
+	{
+		return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
+	}
+
 
 	//Clamp a numerical value between two bounds
 	template <class T>

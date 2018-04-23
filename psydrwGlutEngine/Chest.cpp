@@ -41,7 +41,7 @@ void Chest::Render()
 
 void Chest::OnTrigger(std::string tag)
 {
-	if(!playAnim && LidAngle != LID_ANGLE_MAX)
+	if(!playAnim && LidAngle != LID_ANGLE_MAX && !tag.compare("Cam"))
 		playAnim = true;
 }
 

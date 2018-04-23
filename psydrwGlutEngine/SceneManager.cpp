@@ -41,13 +41,9 @@ SceneManager::SceneManager(int argc, char **argv, const char* title)
 
 void SceneManager::Init()
 {
-	//Set background colour
+	//Set default background colour
 	Colour bgCol(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearColor(bgCol.r, bgCol.g, bgCol.b, bgCol.a);
-
-	float vAmbientLightBright[4] = { 0.05f, 0.05f, 0.05f, 1.0f };
-	//float vAmbientLightBright[4] = { 0, 0, 0, 1.0f };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, vAmbientLightBright);
 
 	//Place cursor in center of window
 	glutWarpPointer(screenW / 2, screenH / 2);
@@ -137,6 +133,7 @@ void SceneManager::Reshape(int w, int h)
 	screenW = w;
 	screenH = h;
 
+	//Tell the scene to handle the reshape event
 	scenes[currentSceneIndex]->HandleReshape(w, h);
 }
 

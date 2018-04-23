@@ -21,6 +21,7 @@ int main(int argc, char **argv)
 	SceneManager sm(argc, argv, "Dungeon Demo");
 	//SceneManager::EnableGameMode("2560x1440:32@120");
 	//Register your scenes
+	//SCenes must be created after engine init for texture library to function 
 	sm.AddScene(std::make_unique<DungeonScene>());
 	//sm.AddScene(std::make_unique<TestScene>());
 	//Set the scene to initialy run

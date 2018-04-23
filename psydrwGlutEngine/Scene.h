@@ -116,6 +116,19 @@ private:
 	//Determine if a point is in front of or behind a plane (defined by a point on the plane and the planes normal). Used for collision checking
 	bool HalfSpaceTest(Vec3<float> normal, Vec3<float> planePoint, Vec3<float> point);
 
+
+
+
+protected:
+	std::vector<std::shared_ptr<DisplayableObject>> objects;
+	std::vector<std::shared_ptr<Light>> lights;
+
+	//The main view cam for the scene
+	std::unique_ptr<Camera> mainCam;
+
+	//The current skybox object for this scene
+	std::unique_ptr<SkyBox> skyBox;
+
 	//Global Gravity
 	float gravity = 0.8f;
 	//Global Friction
@@ -130,18 +143,6 @@ private:
 	int RecursiveCollisionsLimit = 1;
 	//Wether to use recursive collisions for collisions resulting from y velocity. Largley uneeded due to the fact that gravity is allready increasingly applied anyway
 	bool RecursiveCollisionsForY = false;
-
-
-protected:
-	std::vector<std::shared_ptr<DisplayableObject>> objects;
-	std::vector<std::shared_ptr<Light>> lights;
-
-	//The main view cam for the scene
-	std::unique_ptr<Camera> mainCam;
-
-	//The current skybox object for this scene
-	std::unique_ptr<SkyBox> skyBox;
-
 	
 };
 

@@ -28,9 +28,10 @@ void PhysicsCam::Update(long tCurrent)
 
 void PhysicsCam::Fire()
 {
+	//Give the throwable velocity in direction of viewing
 	Vec3<float> speed = n * throwSpeed;
-	speed.y = MathHelp::Clamp(speed.y, 2.f, throwSpeed);;
-	PrintVector(speed);
+	//Clamp y velocity, makes it easier to throw 
+	//speed.y = MathHelp::Clamp(speed.y, 1.f, throwSpeed);;
 	throwable.Activate(speed, eyePos);
 }
 

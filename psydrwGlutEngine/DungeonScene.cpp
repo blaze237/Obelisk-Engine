@@ -15,66 +15,61 @@
 #include "Spotlight.h"
 #include "PointLight.h"
 #include "Throwable.h"
-
+#include "Target.h"
+#include "Bat.h"
 #define planeRes  20
 
 
 DungeonScene::DungeonScene()
+	:cobbleTex("../textures/stone.jpg"), grassTex("../textures/grass.jpg"), groundTex("../textures/groundStone.jpg"), mossRockTex("../textures/mossDark.jpg"), bushTex("../textures/bush.png"), flameSprites("../textures/flameSprites.png")
 {
+	//Set up fog for the scene
 	SceneManager::SetFogParams(Colour(0, 0, 0, 1), GL_EXP2, GL_NICEST, 0.003f, 0, 700);
 	SceneManager::SetFog(true);
 
+	//Set ambient lighting for the scene
+	float vAmbientLightBright[4] = { 0.05f, 0.05f, 0.05f, 1.0f };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, vAmbientLightBright);
 
+	//Create the throwable object the player can launch
 	std::shared_ptr<DisplayableObject> throwable = std::make_shared<Throwable>(Vec3<float>(0,0,0), Texture2D("../textures/wood.png"));
-	throwable->SetScale(4);
+	throwable->SetScale(3);
 	objects.push_back(throwable);
 
-	//Set scene cam
+	//Create scene cam and player object
 	mainCam = std::make_unique<PhysicsCam>(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 1), dynamic_cast<Throwable&>(*throwable));
 	std::shared_ptr<DisplayableObject> camParent = std::make_shared<PhsyicsCamParent>(Vec3<float>(0, 100, -78), Vec3<float>(5, 15, 5), "Cam", dynamic_cast<PhysicsCam&>(*mainCam));
 	objects.push_back(camParent);
-
 	PhysicsCam& d = dynamic_cast<PhysicsCam&>(*mainCam);
 	dynamic_cast<PhysicsCam&>(*mainCam).RegisterParent(camParent);
 
 
-
 	//Set up skybox
 	std::vector<Texture2D> sBoxTs;
-	sBoxTs.push_back(Texture2D("../textures/skybox/left.png"));
-	sBoxTs.push_back(Texture2D("../textures/skybox/right.png"));
-	sBoxTs.push_back(Texture2D("../textures/skybox/front.png"));
-	sBoxTs.push_back(Texture2D("../textures/skybox/back.png"));
-	sBoxTs.push_back(Texture2D("../textures/skybox/down.png"));
-	sBoxTs.push_back(Texture2D("../textures/skybox/up.png"));
-
+	sBoxTs.push_back(Texture2D("../textures/nightSky/left.png"));
+	sBoxTs.push_back(Texture2D("../textures/nightSky/right.png"));
+	sBoxTs.push_back(Texture2D("../textures/nightSky/front.png"));
+	sBoxTs.push_back(Texture2D("../textures/nightSky/back.png"));
+	sBoxTs.push_back(Texture2D("../textures/nightSky/down.png"));
+	sBoxTs.push_back(Texture2D("../textures/nightSky/up.png"));
 	skyBox = std::make_unique<SkyBox>(sBoxTs);
 	skyBox->SetScale(mainCam->GetFarDist() / 2);
 
 
-	//Define shared textures
-	Texture2D cobbleTex("../textures/stone.jpg");
-	Texture2D grassTex("../textures/grass.jpg");
-	Texture2D groundTex("../textures/groundStone.jpg");
-	Texture2D mossRockTex("../textures/mossDark.jpg");
-	Texture2D bushTex("../textures/bush.png");
-	Texture2D flameSprites("../textures/flameSprites.png");
-
-
+//Use two black cull planes to hide camera culling by blending into black fog
 	//Cull plane 1
 	std::shared_ptr<DisplayableObject> cullPlane = std::make_shared<CullPlane>(Vec3<float>(0, 50, 100), dynamic_cast<PhysicsCam&>(*mainCam));
 	cullPlane->SetScaleX(600);
 	cullPlane->SetScaleZ(200);
 	cullPlane->SetOrientationX(-90);
 	objects.push_back(cullPlane);
-
+	//Cull plane 2
 	cullPlane = std::make_shared<CullPlane>(Vec3<float>(0, 50, 100), dynamic_cast<PhysicsCam&>(*mainCam), -1);
 	cullPlane->SetScaleX(600);
 	cullPlane->SetScaleZ(200);
 	cullPlane->SetOrientationX(90);
 	cullPlane->SetRenderable(false);
 	objects.push_back(cullPlane);
-
 
 	//Only turn on the second cull plane when pass through this trigger
 	std::shared_ptr<DisplayableObject> revCullplaneTrigger = std::make_shared<CullPlaneSwitch>(Vec3<float>(0, 60.5, 538), "trigger", dynamic_cast<CullPlane&>(*cullPlane));
@@ -86,7 +81,47 @@ DungeonScene::DungeonScene()
 	revCullplaneTrigger->SetIsTrigger(true);
 	objects.push_back(revCullplaneTrigger);
 
-//Ground and roof
+	//Create the static objects for the scene
+	CreateSceneGeometry();
+
+	//Create the lightsources for the scene. Created last(ish) to ensure alpha blending works properly against other scene objects
+	CreateLights();
+
+	//Player shadow object. Must be last thing rendered for proper alpha blending
+	std::shared_ptr<DisplayableObject> shad = std::make_shared<ShadowPlane>(Vec3<float>(0, 52, -50), Texture2D("../textures/shadow.png"), "floor", dynamic_cast<DisplayableObject&>(*camParent), 10);
+	shad->SetScaleX(10);
+	shad->SetScaleZ(10);
+	objects.push_back(shad);
+}
+
+
+DungeonScene::~DungeonScene()
+{
+}
+
+void DungeonScene::Update(long tCurrent)
+{
+	Scene::Update(tCurrent);
+
+	if (mainCam->GetEyePos().y  < 0)
+	{
+		mainCam->SetEyePos(Vec3<float>(0, 100, -50));
+		mainCam->SetViewDir(Vec3<float>(0, 0, 1));
+	}
+
+	if (InputManager::Pressed(InputManager::ESC))
+		SceneManager::Exit();
+}
+
+void DungeonScene::Render()
+{
+	Scene::Render();
+	SceneManager::DrawScreenString("Score: " + std::to_string(score), Vec2<int>(SceneManager::GetScreenW() - 100, SceneManager::GetScreenH() - 30));
+}
+
+void DungeonScene::CreateSceneGeometry()
+{
+	//Ground and roof
 	//Ground grass outside
 	std::shared_ptr<DisplayableObject> floorGrass = std::make_shared<PlaneObj>(Vec3<float>(0, 50, -25), grassTex, "floor", planeRes, 40, 12);
 	floorGrass->SetScaleX(1000);
@@ -116,7 +151,9 @@ DungeonScene::DungeonScene()
 
 
 
-//Outer Walls
+
+
+	//Outer Walls
 
 	//Outer Wall R
 	std::shared_ptr<DisplayableObject> outerWallR = std::make_shared<Cube>(Vec3<float>(-170, 75, 130), "wall", cobbleTex, 13.3, 5);
@@ -165,8 +202,8 @@ DungeonScene::DungeonScene()
 
 
 
-//Bushes 
-	std::shared_ptr<DisplayableObject> bush = std::make_shared<Cube>(Vec3<float>(0, 60, -90), "bush", bushTex,40, 2);
+	//Bushes 
+	std::shared_ptr<DisplayableObject> bush = std::make_shared<Cube>(Vec3<float>(0, 60, -90), "bush", bushTex, 40, 2);
 	bush->SetScaleX(400);
 	bush->SetScaleZ(10);
 	bush->SetScaleY(20);
@@ -190,9 +227,9 @@ DungeonScene::DungeonScene()
 	objects.push_back(bush);
 
 
-//HallWay
+	//HallWay
 
-//left side hallway
+	//left side hallway
 	std::shared_ptr<DisplayableObject> wall = std::make_shared<Cube>(Vec3<float>(60, 75, 171), "wall", cobbleTex, 3.1, 5);
 	wall->SetScaleX(90);
 	wall->SetScaleZ(10);
@@ -217,7 +254,7 @@ DungeonScene::DungeonScene()
 	wall->SetOrientationY(90);
 	objects.push_back(wall);
 
-//right side hallway
+	//right side hallway
 	wall = std::make_shared<Cube>(Vec3<float>(-60, 75, 171), "wall", cobbleTex, 3.1, 5);
 	wall->SetScaleX(90);
 	wall->SetScaleZ(10);
@@ -243,9 +280,9 @@ DungeonScene::DungeonScene()
 	objects.push_back(wall);
 
 
-//left room
+	//left room
 
-//Walls
+	//Walls
 	wall = std::make_shared<Cube>(Vec3<float>(206, 75, 325), "wall", cobbleTex, 12.4, 5);
 	wall->SetScaleX(300);
 	wall->SetScaleZ(10);
@@ -263,18 +300,33 @@ DungeonScene::DungeonScene()
 
 
 //Targets
-	std::shared_ptr<DisplayableObject> target = std::make_shared<PlaneObj>(Vec3<float>(319, 75, 225), Texture2D("../textures/target.png"), "TARGET", planeRes, 1);
+	std::shared_ptr<DisplayableObject> target = std::make_shared<Target>(Vec3<float>(319, 75, 225), Texture2D("../textures/target.png"), score);
 	target->SetScaleX(30);
 	target->SetScaleZ(30);
-	target->SetScaleY(8);
+	target->SetScaleY(15);
 	target->SetOrientationZ(90);
 	target->SetCollidable(true);
-	target->SetColliderRenderer(true);
 	objects.push_back(target);
 
-//right room
+	target = std::make_shared<Target>(Vec3<float>(319, 75, 175), Texture2D("../textures/target.png"), score, 2);
+	target->SetScaleX(20);
+	target->SetScaleZ(20);
+	target->SetScaleY(15);
+	target->SetOrientationZ(90);
+	target->SetCollidable(true);
+	objects.push_back(target);
 
-//Walls
+	target = std::make_shared<Target>(Vec3<float>(319, 75, 275), Texture2D("../textures/target.png"), score, 2);
+	target->SetScaleX(20);
+	target->SetScaleZ(20);
+	target->SetScaleY(15);
+	target->SetOrientationZ(90);
+	target->SetCollidable(true);
+	objects.push_back(target);
+
+	//right room
+
+	//Walls
 	wall = std::make_shared<Cube>(Vec3<float>(-206, 75, 325), "wall", cobbleTex, 12.4, 5);
 	wall->SetScaleX(300);
 	wall->SetScaleZ(10);
@@ -290,10 +342,10 @@ DungeonScene::DungeonScene()
 	wall->SetOrientationY(90);
 	objects.push_back(wall);
 
-//Attrium 
+	//Attrium 
 
-//Pillars
-	std::shared_ptr<DisplayableObject> pillar = std::make_shared<Cylinder>(Vec3<float>(-195, 40, 605), "pillar", mossRockTex , 4, 15);
+	//Pillars
+	std::shared_ptr<DisplayableObject> pillar = std::make_shared<Cylinder>(Vec3<float>(-195, 40, 605), "pillar", mossRockTex, 4, 15);
 	pillar->SetScale(25);
 	pillar->SetScaleY(200);
 	pillar->SetCollidable(true);
@@ -330,7 +382,7 @@ DungeonScene::DungeonScene()
 	pillar->SetCollidable(true);
 	objects.push_back(pillar);
 
-//Walls
+	//Walls
 	wall = std::make_shared<Cube>(Vec3<float>(-145, 75, 535), "wall", cobbleTex, 10.3, 5);
 	wall->SetScaleX(250);
 	wall->SetScaleZ(10);
@@ -425,9 +477,9 @@ DungeonScene::DungeonScene()
 	wall->SetScaleY(100);
 	objects.push_back(wall);
 
-//Platforming room
+	//Platforming room
 
-//Platforms
+	//Platforms
 	std::shared_ptr<DisplayableObject> platform = std::make_shared<Cube>(Vec3<float>(-170, 50, 970), "PLATFORM", mossRockTex, 3, 2);
 	platform->SetScale(30);
 	platform->SetScaleY(20);
@@ -507,7 +559,7 @@ DungeonScene::DungeonScene()
 	platform->SetCollidable(true);
 	objects.push_back(platform);
 
-//Treasure chest
+	//Treasure chest
 	std::shared_ptr<DisplayableObject> chest = std::make_shared<Chest>(Vec3<float>(7, 85, 1000), "treasure", Texture2D("../textures/chest2.png"), 1, 1);
 	chest->SetScaleX(20);
 	chest->SetScaleZ(10);
@@ -526,7 +578,7 @@ DungeonScene::DungeonScene()
 	chestCollider->SetRenderable(false);
 	objects.push_back(chestCollider);
 
-//Walls
+	//Walls
 	wall = std::make_shared<Cube>(Vec3<float>(275, 75, 1065), "wall", cobbleTex, 14.5, 5);
 	wall->SetScaleX(350);
 	wall->SetScaleZ(10);
@@ -583,8 +635,67 @@ DungeonScene::DungeonScene()
 	wall->SetScaleY(100);
 	objects.push_back(wall);
 
+//Bats
+	//Velocities for the bat to use for animation
+	std::vector<Vec3<float>> batVelocities;
+	batVelocities.push_back(Vec3<float>(0, 0, 0));
 
-//Torches. Drawn near end for proper alpha blending
+	//Static bat for demonstration purposes
+	std::shared_ptr<DisplayableObject> bat = std::make_shared<Bat>(Vec3<float>(-150, 55, 570), batVelocities, 5000);
+	bat->SetScale(2.5);
+	objects.push_back(bat);
+
+	batVelocities.clear();
+	batVelocities.push_back(Vec3<float>(0, 0.025, 0.25));
+	batVelocities.push_back(Vec3<float>(0.25, 0.025, 0));
+	batVelocities.push_back(Vec3<float>(0, -0.025, -0.25));
+	batVelocities.push_back(Vec3<float>(-0.25, -0.025, 0));
+
+	//Moving bat 1
+	bat = std::make_shared<Bat>(Vec3<float>(-150, 65, 600), batVelocities, 9500);
+	bat->SetScale(2.5);
+	objects.push_back(bat);
+
+	batVelocities.clear();
+	batVelocities.push_back(Vec3<float>(0, 0.025, 0.25));
+	batVelocities.push_back(Vec3<float>(-0.25, 0.025, 0));
+	batVelocities.push_back(Vec3<float>(0, -0.025, -0.25));
+	batVelocities.push_back(Vec3<float>(0.25, -0.025, 0));
+
+	//Moving bat 2
+	bat = std::make_shared<Bat>(Vec3<float>(150, 65, 600), batVelocities, 9500);
+	bat->SetScale(2.5);
+	objects.push_back(bat);
+
+	batVelocities.clear();
+	batVelocities.push_back(Vec3<float>(0, 0.025, 0.25));
+	batVelocities.push_back(Vec3<float>(-0.25, 0.025, 0));
+	batVelocities.push_back(Vec3<float>(0, -0.025, -0.25));
+	batVelocities.push_back(Vec3<float>(0.25, -0.025, 0));
+
+	//Moving bat 3
+	bat = std::make_shared<Bat>(Vec3<float>(150, 65, 600), batVelocities, 9500);
+	bat->SetScale(2.5);
+	objects.push_back(bat);
+
+	batVelocities.clear();
+	batVelocities.push_back(Vec3<float>(0, 0.24, 0.1));
+	batVelocities.push_back(Vec3<float>(-0.25, 0, 0));
+	batVelocities.push_back(Vec3<float>(0.25, 0, 0 ));
+	batVelocities.push_back(Vec3<float>(0.25, 0, 0));
+	batVelocities.push_back(Vec3<float>(-0.25, 0, 0));
+	batVelocities.push_back(Vec3<float>(0, -0.22, -0.10));
+
+
+	//Moving bat 4
+	bat = std::make_shared<Bat>(Vec3<float>(0, 65, 800), batVelocities, 5000);
+	bat->SetScale(2.5);
+	objects.push_back(bat);
+}
+
+void DungeonScene::CreateLights()
+{
+	//Torches. Drawn near end for proper alpha blending
 
 	//Right main hall
 	std::shared_ptr<DisplayableObject> torch = std::make_shared<Torch>(Vec3<float>(-53, 64, 300), Texture2D("../textures/wood.png"), flameSprites, "torch", dynamic_cast<Camera&>(*mainCam), 25, 256, 40, Vec3<float>(0, 0, -30), 2);
@@ -659,7 +770,7 @@ DungeonScene::DungeonScene()
 
 
 
-//Atrium
+	//Atrium
 	//Left pillars
 	torch = std::make_shared<Torch>(Vec3<float>(-181, 74, 605), Texture2D("../textures/wood.png"), flameSprites, "torch", dynamic_cast<Camera&>(*mainCam), 25, 256, 40, Vec3<float>(0, 0, -30), 2);
 	torch->SetScaleX(6);
@@ -710,7 +821,7 @@ DungeonScene::DungeonScene()
 	light = std::make_shared<PointLight>(Vec3<float>(170, 80, 805), Colour(0.901f, 0.678f, 0.078f, 1.0f), Vec3<int>(90, 68, 8), Colour(1.0f, 1.0f, 1.0f, 1.0f));
 	lights.push_back(std::move(light));
 
-//Platforming room
+	//Platforming room
 	torch = std::make_shared<Torch>(Vec3<float>(0, 127, 1220), mossRockTex, flameSprites, "torch", dynamic_cast<Camera&>(*mainCam), 25, 256, 40, Vec3<float>(-30, 0, 0), 2, Vec3<float>(0, 1.15, 0.1));
 	torch->SetScaleX(20);
 	torch->SetScaleZ(20);
@@ -729,7 +840,7 @@ DungeonScene::DungeonScene()
 	light->SetRadius(12);
 	lights.push_back(std::move(light));
 
-	torch = std::make_shared<Torch>(Vec3<float>(265, 127, 1050), mossRockTex, flameSprites, "torch", dynamic_cast<Camera&>(*mainCam), 25, 256, 40, Vec3<float>(0, 0, 30), 2, Vec3<float>(0.1, 1.15,0 ));
+	torch = std::make_shared<Torch>(Vec3<float>(265, 127, 1050), mossRockTex, flameSprites, "torch", dynamic_cast<Camera&>(*mainCam), 25, 256, 40, Vec3<float>(0, 0, 30), 2, Vec3<float>(0.1, 1.15, 0));
 	torch->SetScaleX(20);
 	torch->SetScaleZ(20);
 	torch->SetScaleY(40);
@@ -747,7 +858,7 @@ DungeonScene::DungeonScene()
 	light->SetRadius(12);
 	lights.push_back(std::move(light));
 
-//Outdoor fire challices
+	//Outdoor fire challices
 	torch = std::make_shared<Torch>(Vec3<float>(-60, 52, 10), mossRockTex, flameSprites, "torch", dynamic_cast<Camera&>(*mainCam), 25, 256, 40, Vec3<float>(0, 0, 0), 2, Vec3<float>(0, 1.15, 0));
 	torch->SetScaleX(20);
 	torch->SetScaleZ(20);
@@ -767,29 +878,8 @@ DungeonScene::DungeonScene()
 	lights.push_back(std::move(light));
 
 
-//Player shadow. Must be last thing rendered for proper alpha blending
-	std::shared_ptr<DisplayableObject> shad = std::make_shared<ShadowPlane>(Vec3<float>(0, 52, -50), Texture2D("../textures/shadow.png"), "floor", dynamic_cast<DisplayableObject&>(*camParent), 10);
-	shad->SetScaleX(10);
-	shad->SetScaleZ(10);
-	objects.push_back(shad);
-
 }
 
-
-DungeonScene::~DungeonScene()
+void DungeonScene::CreatePlayer()
 {
-}
-
-void DungeonScene::Update(long tCurrent)
-{
-	Scene::Update(tCurrent);
-
-	if (mainCam->GetEyePos().y  < 0)
-	{
-		mainCam->SetEyePos(Vec3<float>(0, 100, -50));
-		mainCam->SetViewDir(Vec3<float>(0, 0, 1));
-	}
-
-	if (InputManager::Pressed(InputManager::ESC))
-		SceneManager::Exit();
 }
