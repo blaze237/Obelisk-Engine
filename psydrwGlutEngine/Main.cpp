@@ -20,6 +20,7 @@ int main(int argc, char **argv)
 	//Create an instance of the engine
 	SceneManager sm(argc, argv, "Dungeon Demo");
 	//SceneManager::EnableGameMode("2560x1440:32@120");
+	SceneManager::EnableFullscreen();
 	//Register your scenes
 	//SCenes must be created after engine init for texture library to function 
 	sm.AddScene(std::make_unique<DungeonScene>());

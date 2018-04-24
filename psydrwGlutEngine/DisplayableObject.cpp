@@ -1,6 +1,6 @@
 #include "DisplayableObject.h"
 #include <iostream>
-
+#include "Vec2.h"
 unsigned int DisplayableObject::nextID = 0;
 
 
@@ -76,3 +76,4 @@ bool DisplayableObject::OnCollide(std::string tag)
 void DisplayableObject::OnTrigger(std::string tag)
 {
 }
+

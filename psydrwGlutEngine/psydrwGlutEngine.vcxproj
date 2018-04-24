@@ -162,6 +162,7 @@
     <ClCompile Include="ShadowPlane.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="Spider.cpp" />
     <ClCompile Include="Spotlight.cpp" />
     <ClCompile Include="Target.cpp" />
     <ClCompile Include="Texture2D.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="ShadowPlane.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Spider.h" />
     <ClInclude Include="Spotlight.h" />
     <ClInclude Include="Target.h" />
     <ClInclude Include="Texture2D.h" />

@@ -12,7 +12,7 @@ public:
 
 private:
 
-	//Allign the bat in y rotation only automaticaly based on its velocity
+	//Allign the bat in y such that the normal of its bbox's front face is parralell with the normalised velocity in the xz plane
 	void AllignBat();
 	void DrawWing(Texture2D& tex);
 	void DrawBody();

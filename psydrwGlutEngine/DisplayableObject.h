@@ -32,6 +32,7 @@ public:
 	virtual void OnTrigger(std::string tag);
 
 
+
 	//Getters
 	inline Vec3<float> GetPos() const
 	{

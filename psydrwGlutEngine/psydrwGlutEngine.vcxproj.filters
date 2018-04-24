@@ -133,6 +133,9 @@
       <Filter>Game Objects\Prefabs</Filter>
     </ClCompile>
     <ClCompile Include="Bat.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Spider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -240,6 +243,9 @@
       <Filter>Game Objects\Prefabs</Filter>
     </ClInclude>
     <ClInclude Include="Bat.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Spider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

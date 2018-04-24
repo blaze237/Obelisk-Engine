@@ -17,6 +17,9 @@
 #include "Throwable.h"
 #include "Target.h"
 #include "Bat.h"
+#include "Spider.h"
+#include "mmsystem.h"
+
 #define planeRes  20
 
 
@@ -43,6 +46,10 @@ DungeonScene::DungeonScene()
 	PhysicsCam& d = dynamic_cast<PhysicsCam&>(*mainCam);
 	dynamic_cast<PhysicsCam&>(*mainCam).RegisterParent(camParent);
 
+	//Start ambient sound playing in a loop
+	sndPlaySound("../sounds/ambient.wav", SND_LOOP | SND_ASYNC);
+
+	
 
 	//Set up skybox
 	std::vector<Texture2D> sBoxTs;
@@ -148,8 +155,6 @@ void DungeonScene::CreateSceneGeometry()
 	roof->SetScaleZ(1000);
 	roof->SetOrientationZ(180);
 	objects.push_back(roof);
-
-
 
 
 
@@ -341,6 +346,33 @@ void DungeonScene::CreateSceneGeometry()
 	wall->SetCollidable(true);
 	wall->SetOrientationY(90);
 	objects.push_back(wall);
+
+	std::vector<Vec3<float>> vels;
+	vels.push_back(Vec3<float>(0, 0, 0.1));
+	vels.push_back(Vec3<float>(0.1, 0, 0));
+	vels.push_back(Vec3<float>(0, 0, -0.1));
+	vels.push_back(Vec3<float>(0, 0, -0.05));
+	vels.push_back(Vec3<float>(-0.1, 0, 0));
+	vels.push_back(Vec3<float>(-0.1, 0, 0));
+	vels.push_back(Vec3<float>(0, 0, 0.05));
+	vels.push_back(Vec3<float>(0.1, 0, 0));
+
+	std::shared_ptr<DisplayableObject> spider = std::make_shared<Spider>(Vec3<float>(-180, 47, 215), vels, 8000);
+	spider->SetScale(7);
+	objects.push_back(spider);
+
+	vels.clear();
+	vels.push_back(Vec3<float>(-0.1, 0, 0));
+	vels.push_back(Vec3<float>(0, 0, -0.1));
+	vels.push_back(Vec3<float>(0.1, 0, 0));
+	vels.push_back(Vec3<float>(0, 0, 0.1));
+
+
+	spider = std::make_shared<Spider>(Vec3<float>(-180, 47, 285), vels, 10000);
+	spider->SetScale(7);
+
+	objects.push_back(spider);
+
 
 	//Attrium 
 

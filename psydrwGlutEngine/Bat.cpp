@@ -10,6 +10,7 @@ Bat::Bat(Vec3<float> pos, std::vector<Vec3<float>> velocities, long moveRate)
 	weightless = true;
 
 	velocity = velocities[0];
+	AllignBat();
 }
 
 
@@ -90,7 +91,6 @@ void Bat::Update(long tCurrent)
 		velocity = velocities[velIndex];
 
 		AllignBat();
-
 	}
 }
 
@@ -112,11 +112,11 @@ void Bat::AllignBat()
 	if (velDir == curNorm)
 		return;
 
-	//Use the dot product and determinent to get the sine and cosine of angle in y between our current normal and desired one (-ve cam view dir)
+	//Use the dot product and determinent to get the sine and cosine of angle in y between our current normal and desired one
 	float dot = curNorm.DotProd(velDir);
 	float det = curNorm.Det(velDir);
 
-	//If the plane and cam are perpendicular then cannot align so break out
+	//If the bats face and its velocity are perpendicular then cannot align so break out
 	if (dot == 0 && det == 0)
 		return;
 
